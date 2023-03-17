@@ -1,4 +1,5 @@
 .\" Copyright 1991, 1998  The Open Group
+.\" Portions copyright (c) 2000 Red Hat, Inc.
 .\" 
 .\" All Rights Reserved.
 .\" 
@@ -51,7 +52,9 @@ private font servers for specific sets of fonts.
 .SH "OPTIONS"
 .TP 8
 .B \-config configuration_file
-Specifies the configuration file the font server will use.
+Specifies the configuration file the font server will use.  If this
+parameter is not specified, the default file, \fI/etc/X11/fs/conf\fR,
+will be used.
 .TP 8
 .B \-ls listen-socket
 Specifies a file descriptor which is already set up to be used as the
@@ -62,6 +65,19 @@ additional connections.
 .B \-port tcp_port
 Specifies the TCP port number on which the server will listen for connections.
 The default port number is 7100.
+.TP 8
+.B \-daemon
+Instructs xfs to fork and go into the background automatically at
+startup  If this option is not specified, xfs will run as a regular
+process.
+.TP 8
+.B \-droppriv
+If specified, xfs will attempt to run as user and group \fIxfs\fR. This
+has been implemented for security reasons, as xfs may have undiscovered
+buffer overflows or other paths for possible exploit, both local and
+remote.  With this option, you may also wish to specify a port of "-1",
+which insures that xfs will not to use a TCP port at all, but instead only
+bind to the port "unix/:-1".
 .SH "SIGNALS"
 .TP 8
 .I SIGTERM

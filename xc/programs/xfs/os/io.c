@@ -456,7 +456,8 @@ FlushClient(
 		obuf = (unsigned char *) fsrealloc(oco->buf,
 					      notWritten + OutputBufferSize);
 		if (!obuf) {
-		    _FontTransClose(oc->trans_conn);
+		    if (oc->trans_conn)
+			_FontTransClose(oc->trans_conn);
 		    oc->trans_conn = NULL;
 		    MarkClientException(client);
 		    oco->count = 0;

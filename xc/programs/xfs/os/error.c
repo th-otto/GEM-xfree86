@@ -76,6 +76,7 @@ extern char *progname;
 
 Bool        UseSyslog;
 char        ErrorFile[PATH_MAX];
+int         log_open = 0;
 
 static void
 abort_server(void)
@@ -139,17 +140,15 @@ Error(char *str)
 void
 NoticeF(char *f, ...)
 {
-
-#ifdef USE_SYSLOG
-    if (UseSyslog) {
-	syslog(LOG_NOTICE, f, s0, s1, s2, s3, s4, s5, s6, s7, s8, s9);
-	return;
-    }
-#endif
-
     /* XXX should Notices just be ignored if not using syslog? */
     va_list args;
     va_start(args, f);
+#ifdef USE_SYSLOG
+    if (UseSyslog) {
+	vsyslog(LOG_NOTICE, f, args);
+	return;
+    }
+#endif
     fprintf(stderr, "%s notice: ", progname);
     vfprintf(stderr, f, args);
     va_end(args);
@@ -162,14 +161,14 @@ NoticeF(char *f, ...)
 void
 ErrorF(char * f, ...)
 {
+    va_list args;
+    va_start(args, f);
 #ifdef USE_SYSLOG
     if (UseSyslog) {
-	syslog(LOG_ERR, f, s0, s1, s2, s3, s4, s5, s6, s7, s8, s9);
+	vsyslog(LOG_NOTICE, f, args);
 	return;
     }
 #endif
-    va_list args;
-    va_start(args, f);
     fprintf(stderr, "%s error: ", progname);
     vfprintf(stderr, f, args);
     va_end(args);
