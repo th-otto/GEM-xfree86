@@ -35,11 +35,12 @@ from The Open Group.
 # include "dm_error.h"
 
 static struct display	*displays;
+static int no_xserver_started = 1;
 
 int
 AnyDisplaysLeft (void)
 {
-	return displays != (struct display *) 0;
+	return no_xserver_started || (displays != (struct display *) 0);
 }
 
 void
@@ -256,5 +257,8 @@ NewDisplay (char *name, char *class)
 #endif
     d->version = 1;		/* registered with The Open Group */
     displays = d;
+
+    no_xserver_started = 0;
+
     return d;
 }
