@@ -20,7 +20,7 @@ without express or implied warranty.
 
 #ifndef X_UNIX_PATH
 #ifdef hpux
-#define X_UNIX_PATH "/usr/spool/sockets/X11/"
+#define X_UNIX_PATH "/var/spool/sockets/X11/"
 #define OLD_UNIX_PATH "/tmp/.X11-unix/X"
 #else
 #define X_UNIX_PATH "/tmp/.X11-unix/X"

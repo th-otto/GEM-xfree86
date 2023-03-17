@@ -50,7 +50,7 @@ from the X Consortium.
 #endif
 
 #ifndef MAILBOX_DIRECTORY
-#define MAILBOX_DIRECTORY "/usr/spool/mail"
+#define MAILBOX_DIRECTORY "/var/mail"
 #endif
 
 typedef struct {			/* new fields for mailbox widget */

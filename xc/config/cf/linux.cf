@@ -412,7 +412,7 @@ XCOMM binutils:	(LinuxBinUtilsMajorVersion)
 #define StandardCppDefines	StandardDefines
 
 #define HasVarRun		YES
-#define VarDbDirectory		/var/state
+#define VarDbDirectory		/var/lib
 
 #ifndef XF86ExtraCardDrivers
 #define XF86ExtraCardDrivers	v4l

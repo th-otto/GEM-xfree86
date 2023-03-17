@@ -484,8 +484,8 @@ static int MakeDECnetConnection (phostname, iagent, retries,
 
 #ifndef CSDPS_UNIX_PATH
 #ifdef hpux
-#define CSDPS_UNIX_DIR      "/usr/spool/sockets/DPSNX"
-#define CSDPS_UNIX_PATH     "/usr/spool/sockets/DPSNX/"
+#define CSDPS_UNIX_DIR      "/var/spool/sockets/DPSNX"
+#define CSDPS_UNIX_PATH     "/var/spool/sockets/DPSNX/"
 #else
 #define CSDPS_UNIX_DIR      "/tmp/.DPSNX-unix"
 #define CSDPS_UNIX_PATH     "/tmp/.DPSNX-unix/AGENT"

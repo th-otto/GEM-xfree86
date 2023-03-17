@@ -203,30 +203,30 @@ static Sockettrans2dev Sockettrans2devtab[] = {
 #ifdef hpux
 
 #if defined(X11_t)
-#define UNIX_PATH "/usr/spool/sockets/X11/"
-#define UNIX_DIR "/usr/spool/sockets/X11"
+#define UNIX_PATH "/var/spool/sockets/X11/"
+#define UNIX_DIR "/var/spool/sockets/X11"
 #define OLD_UNIX_PATH "/tmp/.X11-unix/X"
 #endif /* X11_t */
 #if defined(XIM_t)
-#define UNIX_PATH "/usr/spool/sockets/XIM/"
-#define UNIX_DIR "/usr/spool/sockets/XIM"
+#define UNIX_PATH "/var/spool/sockets/XIM/"
+#define UNIX_DIR "/var/spool/sockets/XIM"
 #define OLD_UNIX_PATH "/tmp/.XIM-unix/XIM"
 #endif /* XIM_t */
 #if defined(FS_t) || defined(FONT_t)
-#define UNIX_PATH "/usr/spool/sockets/fontserv/"
-#define UNIX_DIR "/usr/spool/sockets/fontserv"
+#define UNIX_PATH "/var/spool/sockets/fontserv/"
+#define UNIX_DIR "/var/spool/sockets/fontserv"
 #endif /* FS_t || FONT_t */
 #if defined(ICE_t)
-#define UNIX_PATH "/usr/spool/sockets/ICE/"
-#define UNIX_DIR "/usr/spool/sockets/ICE"
+#define UNIX_PATH "/var/spool/sockets/ICE/"
+#define UNIX_DIR "/var/spool/sockets/ICE"
 #endif /* ICE_t */
 #if defined(TEST_t)
-#define UNIX_PATH "/usr/spool/sockets/xtrans_test/"
-#define UNIX_DIR "/usr/spool/sockets/xtrans_test"
+#define UNIX_PATH "/var/spool/sockets/xtrans_test/"
+#define UNIX_DIR "/var/spool/sockets/xtrans_test"
 #endif
 #if defined(LBXPROXY_t)
-#define UNIX_PATH "/usr/spool/sockets/X11/"
-#define UNIX_DIR  "/usr/spool/sockets/X11"
+#define UNIX_PATH "/var/spool/sockets/X11/"
+#define UNIX_DIR  "/var/spool/sockets/X11"
 #endif
 
 #else /* !hpux */

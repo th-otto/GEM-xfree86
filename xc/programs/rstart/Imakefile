@@ -39,7 +39,7 @@ OS=-DOS2
 CLIENTNAME=rstart.cmd
 #endif
 
-MYLIBDIR=$(LIBDIR)/rstart
+MYLIBDIR=/etc/X11/rstart
 ENVPREFIX=RSTART
 PACKAGEname=rstart
 
