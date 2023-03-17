@@ -92,11 +92,7 @@ XCOMM binutils:	(LinuxBinUtilsMajorVersion)
 #define BinUtilsMajorVersion	LinuxBinUtilsMajorVersion
 #endif
 
-#if (LinuxCLibMajorVersion >= 6 || LinuxDistribution == LinuxSuSE)
-#define LinuxLocaleDefines	/**/
-#else
 #define LinuxLocaleDefines	-DX_LOCALE
-#endif
 
 #if LinuxDistribution == LinuxDebian
 #define LinuxAdditionalIncludes	-I/usr/src/linux/include
@@ -112,10 +108,10 @@ XCOMM binutils:	(LinuxBinUtilsMajorVersion)
 #endif
 #endif
 
-#if LinuxCLibMajorVersion >= 6
+#if 1
 #define LinuxSourceDefines	-D_POSIX_C_SOURCE=199309L \
 				-D_POSIX_SOURCE -D_XOPEN_SOURCE \
-				-D_BSD_SOURCE -D_SVID_SOURCE \
+				-D_DEFAULT_SOURCE \
 				LinuxAdditionalIncludes LinuxGnuSourceDefines \
 				LinuxLocaleDefines
 #define XawI18nDefines		-DHAS_WCHAR_H -DHAS_WCTYPE_H -DNO_WIDEC_H
@@ -135,7 +131,7 @@ XCOMM binutils:	(LinuxBinUtilsMajorVersion)
 #endif
 #else
 #define LinuxSourceDefines	-D_POSIX_SOURCE -D_POSIX_C_SOURCE=2 \
-				-D_BSD_SOURCE -D_SVID_SOURCE \
+				-D_DEFAULT_SOURCE \
 				LinuxGnuSourceDefines LinuxLocaleDefines
 #define XawI18nDefines		-DUSE_XWCHAR_STRING -DUSE_XMBTOWC
 #ifndef HasLibCrypt
@@ -290,18 +286,18 @@ XCOMM binutils:	(LinuxBinUtilsMajorVersion)
 #if LinuxElfDefault
 #if UseElfFormat
 #ifndef CcCmd
-#define CcCmd			gcc
+#define CcCmd			gcc -m32
 #endif
 #ifndef AsCmd
-#define AsCmd			as
+#define AsCmd			as --32
 #endif
 #ifndef LdCmd
-#define LdCmd			ld
+#define LdCmd			ld -m elf_i386
 #endif
 #define AsmDefines		-D__ELF__
 #define CplusplusCmd		c++
 #ifndef LinuxUsesNcurses
-#if LinuxCLibMajorVersion >= 6 || (LinuxDistribution == LinuxSuSE)
+#if 1
 #define LinuxUsesNcurses	YES
 #else
 #define LinuxUsesNcurses	NO
@@ -339,10 +335,10 @@ XCOMM binutils:	(LinuxBinUtilsMajorVersion)
 #define HasSharedLibraries    NO
 #endif /* ia64Architecture */
 #ifdef i386Architecture
-#define CcCmd			gcc -b i486-linuxaout
-#define CplusplusCmd		g++ -b i486-linuxaout
-#define AsCmd			/usr/i486-linuxaout/bin/as
-#define LdCmd			/usr/i486-linuxaout/bin/ld -m i386linux
+#define CcCmd			gcc -m32
+#define CplusplusCmd		g++ -m32
+#define AsCmd			as --32
+#define LdCmd			ld -m i386linux
 #define AsmDefines		-DUSE_GAS -U__ELF__
 #endif /* i386Architecture */
 #ifdef Mc68020Architecture
@@ -400,7 +396,7 @@ XCOMM binutils:	(LinuxBinUtilsMajorVersion)
 /* Some Linux distributions have yacc, some don't. All have bison. */
 #define YaccCmd			bison -y
 #define LexCmd			flex -l
-#define LexLib			-lfl
+#define LexLib			
 #define PreProcessCmd		CcCmd -E
 #define PostIncDir		DefaultGccIncludeDir
 #define LdCombineFlags		-r

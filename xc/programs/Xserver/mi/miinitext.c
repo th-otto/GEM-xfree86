@@ -335,7 +335,9 @@ InitExtensions(argc, argv)
 #endif
 #ifdef XF86DRI
 #ifndef XPRINT	/* we don't want Glx in the Xprint server */
+#if 0
     XFree86DRIExtensionInit();
+#endif
 #endif
 #endif
 #ifdef GLXEXT

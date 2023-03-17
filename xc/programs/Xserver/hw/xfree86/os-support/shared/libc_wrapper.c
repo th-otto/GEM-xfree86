@@ -143,7 +143,6 @@ typedef struct dirent DIRENTRY;
 
 /* For xf86getpagesize() */
 #if defined(linux)
-#include <asm/page.h>
 #define HAS_SC_PAGESIZE
 #define HAS_GETPAGESIZE
 #elif defined(CSRG_BASED)

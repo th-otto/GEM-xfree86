@@ -174,7 +174,7 @@ char* GXregisters;
 int CYRIXcbufferAddress;      /* relative to video base */
 int CYRIXoffscreenAddress;
 int CYRIXcursorAddress;
-int CYRIXcbLineDelta;         /* DWORDS */
+extern int CYRIXcbLineDelta;         /* DWORDS */
 int CYRIXoffscreenSize;       /* bytes */
 
 int CYRIXbltBuf0Address;      /* relative to GXregisters */

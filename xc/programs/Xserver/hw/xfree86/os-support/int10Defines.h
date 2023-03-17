@@ -4,7 +4,7 @@
 #include <asm/vm86.h>
 
 #define CPU_R(type,name) \
-        (*((type *)&(((struct vm86_struct *)REG->cpuRegs)->regs.##name)))
+        (*((type *)&(((struct vm86_struct *)REG->cpuRegs)->regs.name)))
 #define CPU_RD(name) CPU_R(CARD32,name)
 #define CPU_RW(name) CPU_R(CARD16,name)
 #define CPU_RB(name) CPU_R(CARD8,name)

@@ -33,6 +33,8 @@
 #include <X11/X.h>
 #include <X11/extensions/XKB.h>
 
+#define    DEBUG_VAR_NOT_LOCAL
+
 #include "tokens.h"
 #include "xkbevd.h"
 

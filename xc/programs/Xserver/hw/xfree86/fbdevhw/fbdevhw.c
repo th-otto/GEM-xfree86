@@ -13,8 +13,7 @@
 
 #include "fbdevhw.h"
 #include "fbpriv.h"
-
-#include "asm/page.h"	/* #define for PAGE_* */
+#include <sys/user.h>
 
 #define DEBUG 0
 

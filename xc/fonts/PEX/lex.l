@@ -57,8 +57,10 @@ SOFTWARE.
 extern double atof(char *);
 #endif
 #endif
+int string(char	*str, int n);
 
 %}
+%option noinput nounput
 %%
 \'[^']*\' |
 \"[^"]*\"		return string(yytext, yyleng);
@@ -67,7 +69,7 @@ extern double atof(char *);
 
 [a-zA-Z][a-zA-Z0-9_.]*	{
 				int	token;
-				if (token = res_words(yytext))
+				if ((token = res_words(yytext)) != 0)
 					return token;
 				return string(yytext, yyleng);
 		 	}
@@ -147,4 +149,11 @@ int	n;
 	}
 	else
 		return 0;
+}
+
+int     yywrap (void);
+
+int     yywrap (void)
+{
+	return 1;
 }

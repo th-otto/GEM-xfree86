@@ -18,7 +18,6 @@ Copyright (c) 1995,1996  The XFree86 Project, Inc
 #define HAS_MMAP_ANON
 #include <sys/types.h>
 #include <sys/mman.h>
-#include <asm/page.h>   /* PAGE_SIZE */
 #define HAS_SC_PAGESIZE /* _SC_PAGESIZE may be an enum for Linux */
 #define HAS_GETPAGESIZE
 #endif /* linux */
@@ -648,7 +647,7 @@ XF86cleanup(int sig)
 {
     ScrPtr sp;
     int i;
-    static beenhere = 0;
+    static int beenhere = 0;
 
     if (beenhere)
 	_exit(3);

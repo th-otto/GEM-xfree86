@@ -569,6 +569,12 @@ XCOMM $XFree86: xc/config/cf/Imake.cf,v 3.53 2000/02/12 20:45:01 dawes Exp $
 #  endif
 #  undef __i386__
 # endif /* __i386__ */
+# ifdef __x86_64__
+#  ifndef i386Architecture
+#   define i386Architecture
+#  endif
+#  undef __x86_64__
+# endif /* __x86_64__ */
 # ifdef __alpha
 #  define AlphaArchitecture
 #  undef __alpha
