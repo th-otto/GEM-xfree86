@@ -748,6 +748,16 @@ XCOMM $XFree86: xc/config/cf/Imake.cf,v 3.53 2000/02/12 20:45:01 dawes Exp $
 #endif
 #endif /* QNX/Neutrino */
 
+#ifdef __MINT__   /* >>>>> EEKS >>>>> */
+# ifdef FreeMiNT
+#  undef FreeMiNT
+# endif
+# define MacroIncludeFile <FreeMiNT.cf>
+# define MacroFile FreeMiNT.cf
+# define mc68000Architecture
+# define MintArchitecture
+#endif   /* <<<<< EEKS <<<<< */
+
 #ifndef MacroIncludeFile
 XCOMM WARNING:  Imake.cf not configured; guessing at definitions!!!
 XCOMM This might mean that BOOTSTRAPCFLAGS was not set when building imake.

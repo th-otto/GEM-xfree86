@@ -192,6 +192,12 @@ in this Software without prior written authorization from The Open Group.
 #define imake_ccflags "-D__QNXNTO__"
 #endif
 
+/* >>>>> EEKS >>>>> */
+#ifdef __MINT__
+# define imake_ccflags "-D_GNU_SOURCE"
+#endif
+/* <<<<< EEKS <<<<< */
+
 #else /* not CCIMAKE */
 #ifndef MAKEDEPEND
 /*
@@ -302,6 +308,11 @@ in this Software without prior written authorization from The Open Group.
 #if defined (__QNX__)
 #define DEFAULT_CPP "/usr/X11R6/bin/cpp"
 #endif
+
+#ifdef __MINT__   /* >>>>> EEKS >>>>> */
+# define DEFAULT_CPP "/usr/bin/cpp"
+#endif   /* <<<<< EEKS <<<<< */
+
 /*
  * Step 5:  cpp_argv
  *     The following table contains the flags that should be passed
@@ -630,6 +641,21 @@ char *cpp_argv[ARGUMENTS] = {
 #endif
 #endif
 
+#ifdef __MINT__   /* >>>>> EEKS >>>>> */
+	"-traditional",
+	"-D__MINT__",
+# ifdef mc68000
+	"-Dmc68000",
+	"-D__mc68000__",
+	"-D__M68000__",
+# endif
+# ifdef atarist
+	"-Datarist",
+	"-D__atarist",
+	"-D__atarist__",
+# endif
+#endif   /* <<<<< EEKS <<<<< */
+
 };
 
 
@@ -695,7 +721,8 @@ char *cpp_argv[ARGUMENTS] = {
 # define DEFAULT_OS_MINOR_REV   "r %*d.%[0-9]"
 # define DEFAULT_OS_TEENY_REV   "v %[0-9]" 
 /* # define DEFAULT_OS_NAME        "srm %[^\n]" */ /* Not useful on ISC */
-#elif defined(__FreeBSD__) || defined(__OpenBSD__)
+
+#elif defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__MINT__) /* >>>>> EEKS <<<<< */
 /* BSD/OS too? */
 /* uname -r returns "x.y[.z]-mumble", e.g. "2.1.5-RELEASE" or "2.2-0801SNAP" */
 # define DEFAULT_OS_MAJOR_REV   "r %[0-9]"
@@ -1026,6 +1053,28 @@ struct symtab	predefs[] = {
 # ifdef PowerMAX_OS
 	{"PowerMAX_OS", "1"},
 # endif
+
+/* >>>>> EEKS >>>>> */
+#ifdef __MINT__
+	{"__MINT__", "1"},
+#endif
+#ifdef __mc68000__
+	{"__mc68000__", "1"},
+#endif
+#ifdef __M68000__
+	{"__M68000__", "1"},
+# endif
+#ifdef atarist
+	{"atarist", "1"},
+#endif
+#ifdef __atarist
+	{"__atarist", "1"},
+#endif
+#ifdef __atarist__
+	{"__atarist__", "1"},
+#endif
+/* <<<<< EEKS <<<<< */
+
 	/* add any additional symbols before this line */
 	{NULL, NULL}
 };

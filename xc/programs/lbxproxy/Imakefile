@@ -29,7 +29,7 @@ os/LibraryTargetName(os):	os
 
 di/LibraryTargetName(dilbx):	di
 
-#if !defined(LynxOSArchitecture) && !defined(QNX4Architecture)
+#if !defined(LynxOSArchitecture) && !defined(QNX4Architecture) && !defined(MintArchitecture)
 ServerTarget(lbxproxy,$(SUBDIRS),NullParameter,$(LBXLIBS),$(OTHERLIBS))
 #else
 ServerTarget(lbxproxy,$(SUBDIRS),di/main.o,$(LBXLIBS),$(OTHERLIBS))

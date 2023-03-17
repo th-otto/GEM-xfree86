@@ -179,6 +179,14 @@ static Bool IsPts = False;
 #endif
 #endif
 
+#ifdef __MINT__
+#define USE_SYSV_PGRP
+#define LCTLECH 0
+#include <sys/ioctl.h>
+#include <pty.h>
+#define ttyslot() 1
+#endif
+
 #ifdef __MVS__
 #define SVR4
 #define USE_POSIX_TERMIOS
@@ -1887,7 +1895,7 @@ main (int argc, char *argv[])
 	if (fcntl(screen->respond, F_SETFD, mode) == -1)
 		Error(1);
 	nbio_register(screen->respond);
-#elif defined(USE_SYSV_TERMIO) || defined(__MVS__)
+#elif defined(USE_SYSV_TERMIO) || defined(__MVS__) || defined(__MINT__)
 	if (0 > (mode = fcntl(screen->respond, F_GETFL, 0)))
 		Error(1);
 #ifdef O_NDELAY
@@ -1956,7 +1964,7 @@ base_name(char *name)
 static int
 get_pty (int *pty)
 {
-#if defined(__osf__) || (defined(__GLIBC__) && !defined(USE_USG_PTYS))
+#if defined(__MINT__) || defined(__osf__) || (defined(__GLIBC__) && !defined(USE_USG_PTYS))
 	int tty;
 	return (openpty(pty, &tty, ttydev, NULL, NULL));
 #elif (defined(SYSV) && defined(i386) && !defined(SVR4)) || defined(__QNXNTO__)

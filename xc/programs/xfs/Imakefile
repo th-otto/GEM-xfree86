@@ -45,7 +45,7 @@ $(DIFSLIB):	$(DIFSDIR)
 
 all:: config
 
-#if !defined(LynxOSArchitecture) && !defined(QNX4Architecture)
+#if !defined(LynxOSArchitecture) && !defined(QNX4Architecture) && !defined(MintArchitecture)
 ServerTarget(xfs,$(FSDIRS),NullParameter,$(FSLIBS),$(FSSYSLIBS) $(EXTRA_LIBRARIES))
 #else
 ServerTarget(xfs,$(FSDIRS),difs/main.o,$(FSLIBS),$(FSSYSLIBS) $(EXTRA_LIBRARIES))

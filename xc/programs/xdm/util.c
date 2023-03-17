@@ -214,8 +214,8 @@ CleanUpChild (void)
 #ifdef CSRG_BASED
 	setsid();
 #else
-#if defined(SYSV) || defined(SVR4) || defined(__GNU__)
-#if !(defined(SVR4) && defined(i386)) || defined(SCO325) || defined(__GNU__)
+#if defined(SYSV) || defined(SVR4) || defined(__GNU__) || defined(__MINT__)
+#if !(defined(SVR4) && defined(i386)) || defined(SCO325) || defined(__GNU__) || defined(__MINT__)
 	setpgrp ();
 #endif
 #else

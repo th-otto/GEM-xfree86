@@ -51,7 +51,7 @@ from the X Consortium.
 #ifndef macII
 #ifndef apollo
 #ifndef LOADSTUB
-#if !defined(linux) && !defined(AMOEBA)
+#if !defined(linux) && !defined (__MINT__) && !defined(AMOEBA)
 #include <nlist.h>
 #endif /* linux || AMOEBA */
 #endif /* LOADSTUB */
@@ -403,7 +403,13 @@ void GetLoadPoint( w, closure, call_data )
 }
 #else /* AMOEBA */
 
-#ifdef linux
+#if defined(linux) || defined(__MINT__)
+
+#if defined(__MINT__)
+#define LOADAVG_PATH "/kern/loadavg"
+#else
+#define LOADAVG_PATH "/proc/loadavg"
+#endif
 
 void InitLoadPoint()
 {
@@ -422,7 +428,7 @@ void GetLoadPoint( w, closure, call_data )
       if (fd < 0)
       {
               if (fd == -2 ||
-                  (fd = open("/proc/loadavg", O_RDONLY)) < 0)
+                  (fd = open(LOADAVG_PATH, O_RDONLY)) < 0)
               {
                       fd = -2;
                       *(double *)call_data = 0.0;
