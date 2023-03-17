@@ -1128,7 +1128,7 @@ send_failed (
     XdmcpHeader	header;
     ARRAY8	status;
 
-    sprintf (buf, "Session %ld failed for display %s: %s",
+    snprintf (buf, sizeof(buf), "Session %ld failed for display %s: %s",
 	     (long) sessionID, name, reason);
     Debug ("Send failed %ld %s\n", (long) sessionID, buf);
     status.length = strlen (buf);
