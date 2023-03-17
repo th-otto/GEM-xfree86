@@ -47,6 +47,7 @@
 #else
 #include <string.h>
 #endif
+#include <stdlib.h>
 
 #include "pswdict.h"
 #include "pswpriv.h"
@@ -1906,7 +1907,6 @@ static void AllocFailure()
 
 char *psw_malloc(s) int s; {
     char *temp;
-    extern char *malloc();
     if ((temp = malloc((unsigned) s)) == NULL)
         AllocFailure();
     return(temp);
@@ -1914,7 +1914,6 @@ char *psw_malloc(s) int s; {
 
 char *psw_calloc(n,s) int n,s; {
     char *temp;
-    extern char *calloc();
     if ((temp = calloc((unsigned) n, (unsigned) s)) == NULL)
         AllocFailure();
     return(temp);

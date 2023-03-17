@@ -43,6 +43,7 @@
 #  define fstat _fstat
 # endif
 #endif
+#include <string.h>
 
 LFUNC(OpenReadFile, int, (char *filename, xpmData *mdata));
 LFUNC(xpmDataClose, void, (xpmData *mdata));

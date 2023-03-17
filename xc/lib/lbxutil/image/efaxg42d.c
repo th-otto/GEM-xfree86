@@ -29,6 +29,7 @@
 #include "lbxfax.h"
 #include "lbximage.h"
 #include "lbxbwcodes.h"
+#include <stdlib.h>
 
 /*
  * -------------------------------------------------------------------------

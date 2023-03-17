@@ -50,6 +50,7 @@
 #include "dpsXcommonI.h"
 #include <math.h>
 #include <X11/Xos.h>
+#include <stdlib.h>
 
 #if defined(hpux) || defined(AIXV3)
 #define SELECT_TYPE int *

@@ -37,6 +37,7 @@ from the X Consortium.
 ** Contains the bare minimum necessary to oversee the whole operation.
 */
 
+#include <stdlib.h>
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
 #include <X11/Xaw/Form.h>

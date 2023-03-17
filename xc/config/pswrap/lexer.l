@@ -43,10 +43,6 @@
 #include "pswpriv.h"
 #include "pswparser.h"
 
-#if defined(FLEX_SCANNER) && !defined(YY_FLEX_LEX_COMPAT)
-int yylineno = 1;
-#endif
-
 extern int outlineno;		/* output line number */
 
 extern int maxstring;		/* max PS string length to scan (-s) */

@@ -44,6 +44,7 @@ in this Software without prior written authorization from The Open Group.
  */
 /* $XFree86: xc/programs/xfs/difs/dispatch.c,v 3.7 1999/12/13 03:04:55 robin Exp $ */
 
+#include <stdlib.h>
 #include	<dispatch.h>
 #include	<swapreq.h>
 #include	<swaprep.h>

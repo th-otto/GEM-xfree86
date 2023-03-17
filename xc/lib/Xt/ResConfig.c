@@ -52,9 +52,7 @@ in this Software without prior written authorization from The Open Group.
 #include "ResConfigP.h"
 #include <X11/Xatom.h>
 
-#ifdef DEBUG
 #include <stdio.h>
-#endif
 
 #define MAX_BUFFER 512
 

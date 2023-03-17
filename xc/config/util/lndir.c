@@ -47,6 +47,7 @@ in this Software without prior written authorization from The Open Group.
 #include <sys/param.h>
 #endif
 #include <errno.h>
+#include <stdlib.h>
 
 #ifndef X_NOT_POSIX
 #include <dirent.h>

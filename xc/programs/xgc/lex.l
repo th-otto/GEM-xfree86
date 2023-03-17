@@ -11,9 +11,6 @@
 #include <X11/X.h>
 #include "gram.h"
 #include "constants.h"
-#if defined(FLEX_SCANNER) && !defined(YY_FLEX_LEX_COMPAT)
-int yylineno = 0;
-#endif
 %}
 
 %p				4000

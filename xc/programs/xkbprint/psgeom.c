@@ -1381,10 +1381,10 @@ int	eG,nG,gI,l,g;
 		switch (buf[0]) {
 		    case '.': case ':': case ',': case ';':
 		    case '\'': case '"': case '`': case '~':
- 		    case '^': case '\250': case '\270': case '\267':
- 		    case '\260': case '\252': case '\272': case '\271':
- 		    case '\262': case '\263': case '\264': case '\255':
- 		    case '\254': case '\257':
+ 		    case '^': case (unsigned char)'\250': case (unsigned char)'\270': case (unsigned char)'\267':
+ 		    case (unsigned char)'\260': case (unsigned char)'\252': case (unsigned char)'\272': case (unsigned char)'\271':
+ 		    case (unsigned char)'\262': case (unsigned char)'\263': case (unsigned char)'\264': case (unsigned char)'\255':
+ 		    case (unsigned char)'\254': case (unsigned char)'\257':
 			top->size[(g*2)+l]= SZ_LARGE;
 			break;
 		}

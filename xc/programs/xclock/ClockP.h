@@ -53,6 +53,7 @@ SOFTWARE.
 #include <X11/Xos.h>		/* Needed for struct tm. */
 #include "Clock.h"
 #include <X11/Xaw/SimpleP.h>
+#include <time.h>
 
 #define SEG_BUFF_SIZE		128
 #define ASCII_TIME_BUFLEN	32	/* big enough for 26 plus slop */

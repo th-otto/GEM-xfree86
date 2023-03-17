@@ -43,6 +43,7 @@ in this Software without prior written authorization from The Open Group.
 /* $XFree86: xc/programs/xfs/os/error.c,v 1.5 1998/10/25 12:48:07 dawes Exp $ */
 
 #include	<stdio.h>
+#include <stdlib.h>
 #include	<stdarg.h>
 #include	<X11/Xos.h>
 

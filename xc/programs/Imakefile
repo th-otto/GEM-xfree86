@@ -43,7 +43,9 @@ SCREENSAVESRCDIR = beforelight
        XDMSRCDIR = xdm
 XFINDPROXYSRCDIR = xfindproxy
       XFWPSRCDIR = xfwp
+#if BuildXF86VidModeLibrary
     XGAMMASRCDIR = xgamma
+#endif
      XHOSTSRCDIR = xhost
 #if BuildPlugin
        XRXSRCDIR = xrx

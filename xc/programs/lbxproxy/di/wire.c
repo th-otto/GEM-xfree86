@@ -45,6 +45,7 @@ in this Software without prior written authorization from The Open Group.
 
 #include "lbx.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include "wire.h"
 #include "init.h"
 #ifndef Lynx

@@ -53,8 +53,8 @@
 #include "DPS/dpsNXargs.h"
 #include <DPS/XDPSlib.h>
 #include "cslibint.h"
-
-extern char *getenv();
+#include <stdio.h>
+#include <stdlib.h>
 
 /* ---Defines--- */
 

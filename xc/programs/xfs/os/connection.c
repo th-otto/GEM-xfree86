@@ -68,6 +68,8 @@ in this Software without prior written authorization from The Open Group.
 #include	<X11/Xtrans.h>
 #include	"misc.h"
 #include	<stdio.h>
+#undef abs
+#include <stdlib.h>
 #include	<errno.h>
 #include	<X11/Xos.h>
 #ifdef linux

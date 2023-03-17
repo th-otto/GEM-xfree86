@@ -40,6 +40,7 @@
 
 #include "XpmI.h"
 #include <ctype.h>
+#include <string.h>
 
 LFUNC(ParsePixels, int, (xpmData *data, unsigned int width,
 			 unsigned int height, unsigned int ncolors,

@@ -27,6 +27,7 @@ from The Open Group.
 #include <X11/Xos.h>
 #include <X11/Xlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
 #include "xmodmap.h"
 

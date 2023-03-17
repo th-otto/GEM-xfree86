@@ -28,6 +28,7 @@ in this Software without prior written authorization from The Open Group.
 #include <X11/Xmu/Editres.h>
 #include "Clock.h"
 #include <stdio.h> 
+#include <stdlib.h>
 
 #ifdef XKB
 #include <X11/extensions/XKBbells.h>

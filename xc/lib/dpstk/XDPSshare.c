@@ -44,6 +44,7 @@
 #include "XDPSswraps.h"
 #include "dpsXcommonI.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 static int extensionId = 0;
 

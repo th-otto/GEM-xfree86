@@ -169,7 +169,7 @@ XF86COMSRC=.
 #undef ServerOSDefines
 #define ServerOSDefines -DDDXOSINIT
 
-#ifndef Other IConfigFiles
+#ifndef OtherIConfigFile
 #define OtherIConfigFile $(IRULESRC)/kdrive.cf
 #endif
 

@@ -62,6 +62,8 @@ double (*pow_p)() = pow;
 #define DEG 0		/* DRG mode.  used for trig calculations */
 #define RAD 1
 #define GRAD 2
+#undef min
+#undef max
 #define min(a,b) ((a) < (b) ? (a) : (b))
 #define max(a,b) ((a) > (b) ? (a) : (b))
 #define True	1

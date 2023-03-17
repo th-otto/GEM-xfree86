@@ -39,6 +39,8 @@ from The Open Group.
 #ifndef abs
 #define abs(x)                        (((x) > 0) ? (x) : -(x))
 #endif
+#undef min
+#undef max
 #define min(x, y)                     (((x) < (y)) ? (x) : (y))
 #define max(x, y)                     (((x) > (y)) ? (x) : (y))
 

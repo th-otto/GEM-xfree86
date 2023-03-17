@@ -41,6 +41,8 @@
 /***********/
 
 #include "dpsdict.h"
+#include <stdlib.h>
+#include <string.h>
 
 
 /********************/

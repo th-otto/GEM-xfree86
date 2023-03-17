@@ -145,7 +145,7 @@ static void DrawSecond ( ClockWidget w, Dimension length, Dimension width,
 			 Dimension offset, int tick_units );
 static void SetSeg ( ClockWidget w, int x1, int y1, int x2, int y2 );
 static void DrawClockFace ( ClockWidget w );
-static int round ( double x );
+static int xround ( double x );
 static Boolean SetValues ( Widget gcurrent, Widget grequest, Widget gnew, 
 			   ArgList args, Cardinal *num_args );
 
@@ -692,14 +692,14 @@ DrawHand(ClockWidget w, Dimension length, Dimension width, int tick_units)
 	wc = width * cosangle;
 	ws = width * sinangle;
 	SetSeg(w,
-	       x = w->clock.centerX + round(length * sinangle),
-	       y = w->clock.centerY - round(length * cosangle),
-	       x1 = w->clock.centerX - round(ws + wc), 
-	       y1 = w->clock.centerY + round(wc - ws));  /* 1 ---- 2 */
+	       x = w->clock.centerX + xround(length * sinangle),
+	       y = w->clock.centerY - xround(length * cosangle),
+	       x1 = w->clock.centerX - xround(ws + wc), 
+	       y1 = w->clock.centerY + xround(wc - ws));  /* 1 ---- 2 */
 	/* 2 */
 	SetSeg(w, x1, y1, 
-	       x2 = w->clock.centerX - round(ws - wc), 
-	       y2 = w->clock.centerY + round(wc + ws));  /* 2 ----- 3 */
+	       x2 = w->clock.centerX - xround(ws - wc), 
+	       y2 = w->clock.centerY + xround(wc + ws));  /* 2 ----- 3 */
 
 	SetSeg(w, x2, y2, x, y);	/* 3 ----- 1(4) */
 }
@@ -760,14 +760,14 @@ DrawSecond(ClockWidget w, Dimension length, Dimension width,
 	ws = width * sinangle;
 	/*1 ---- 2 */
 	SetSeg(w,
-	       x = w->clock.centerX + round(length * sinangle),
-	       y = w->clock.centerY - round(length * cosangle),
-	       w->clock.centerX + round(ms - wc),
-	       w->clock.centerY - round(mc + ws) );
-	SetSeg(w, w->clock.centerX + round(offset *sinangle),
-	       w->clock.centerY - round(offset * cosangle), /* 2-----3 */
-	       w->clock.centerX + round(ms + wc), 
-	       w->clock.centerY - round(mc - ws));
+	       x = w->clock.centerX + xround(length * sinangle),
+	       y = w->clock.centerY - xround(length * cosangle),
+	       w->clock.centerX + xround(ms - wc),
+	       w->clock.centerY - xround(mc + ws) );
+	SetSeg(w, w->clock.centerX + xround(offset *sinangle),
+	       w->clock.centerY - xround(offset * cosangle), /* 2-----3 */
+	       w->clock.centerX + xround(ms + wc), 
+	       w->clock.centerY - xround(mc - ws));
 	w->clock.segbuffptr->x = x;
 	w->clock.segbuffptr++->y = y;
 	w->clock.numseg ++;
@@ -812,7 +812,7 @@ DrawClockFace(ClockWidget w)
 }
 
 static int 
-round(double x)
+xround(double x)
 {
 	return(x >= 0.0 ? (int)(x + .5) : (int)(x - .5));
 }

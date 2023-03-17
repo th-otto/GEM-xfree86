@@ -644,12 +644,12 @@ char *cpp_argv[ARGUMENTS] = {
 #ifdef __MINT__   /* >>>>> EEKS >>>>> */
 	"-traditional",
 	"-D__MINT__",
-# ifdef mc68000
+# ifdef __mc68000__
 	"-Dmc68000",
 	"-D__mc68000__",
 	"-D__M68000__",
 # endif
-# ifdef atarist
+# ifdef __atarist__
 	"-Datarist",
 	"-D__atarist",
 	"-D__atarist__",
@@ -892,6 +892,12 @@ struct symtab	predefs[] = {
 #endif
 #ifdef mc68020
 	{"mc68020", "1"},
+#endif
+#ifdef __mc68020__
+	{"__mc68020__", "1"},
+#endif
+#ifdef __coldfire__
+	{"__coldfire__", "1"},
 #endif
 #ifdef __GNUC__
 	{"__GNUC__", "1"},

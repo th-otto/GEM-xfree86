@@ -45,6 +45,8 @@ from The Open Group.
 #ifndef abs
 #define abs(x)                        ((((int)(x)) > 0) ? (x) : -(x))
 #endif
+#undef min
+#undef max
 #define min(x, y)                     ((((int)(x)) < (int)(y)) ? (x) : (y))
 #define max(x, y)                     ((((int)(x)) > (int)(y)) ? (x) : (y))
 

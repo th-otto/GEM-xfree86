@@ -38,6 +38,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 
 #define outfil stdout
 #define MAX_PER_LINE 16

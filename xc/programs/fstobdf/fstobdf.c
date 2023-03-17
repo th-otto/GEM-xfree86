@@ -42,6 +42,7 @@ in this Software without prior written authorization from The Open Group.
 /* $XFree86: xc/programs/fstobdf/fstobdf.c,v 1.3 1999/02/20 15:07:15 hohndel Exp $ */
 
 #include	<stdio.h>
+#include <stdlib.h>
 #include        <string.h>
 #include	"fstobdf.h"
 static void

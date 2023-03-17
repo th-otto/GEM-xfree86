@@ -44,6 +44,7 @@ in this Software without prior written authorization from The Open Group.
  */
 /* $XFree86: xc/programs/xfs/difs/main.c,v 3.3 1999/03/07 11:40:54 dawes Exp $ */
 
+#include <stdlib.h>
 #include	"FS.h"
 #include	"FSproto.h"
 #include	"clientstr.h"

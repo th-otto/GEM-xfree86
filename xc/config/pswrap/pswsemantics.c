@@ -47,6 +47,7 @@
 #else
 #include <string.h>
 #endif
+#include <stdlib.h>
 
 #include "pswdict.h"
 #include "pswpriv.h"

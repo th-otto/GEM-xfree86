@@ -140,6 +140,8 @@ typedef struct _xReq *xReqPtr;
 /* byte swap a short literal */
 #define lswaps(x) ((((x) & 0xff) << 8) | (((x) >> 8) & 0xff))
 
+#undef min
+#undef max
 #define min(a, b) (((a) < (b)) ? (a) : (b))
 #define max(a, b) (((a) > (b)) ? (a) : (b))
 #ifndef IN_MODULE

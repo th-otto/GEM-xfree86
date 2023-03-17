@@ -39,6 +39,7 @@ X Window System is a trademark of The Open Group.
 #include <X11/Xos.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <time.h>
 
 #include <X11/Xfuncs.h>			/* Need for bcopy() */
 #include <X11/ICE/ICElib.h>

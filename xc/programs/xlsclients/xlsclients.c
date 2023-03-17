@@ -25,6 +25,7 @@ in this Software without prior written authorization from The Open Group.
 /* $XFree86: xc/programs/xlsclients/xlsclients.c,v 1.3 1999/03/07 14:23:35 dawes Exp $ */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
 #include <X11/Xos.h>
 #include <X11/Xlib.h>

@@ -38,6 +38,7 @@
 
 #include "publictypes.h"
 #include "DPS/dpsclient.h"
+#include <string.h>
 
 #ifdef USE_DOPRINT
 extern void DPSdoprint();

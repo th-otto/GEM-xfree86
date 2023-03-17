@@ -44,6 +44,7 @@ in this Software without prior written authorization from The Open Group.
  */
 /* $XFree86: xc/programs/xfs/difs/fonts.c,v 3.5 1999/08/21 13:48:48 dawes Exp $ */
 
+#include <stdlib.h>
 #include	<sys/stat.h>
 
 #include        "FS.h"

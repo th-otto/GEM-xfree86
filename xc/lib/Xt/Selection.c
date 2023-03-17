@@ -59,6 +59,7 @@ in this Software without prior written authorization from The Open Group.
 #include "StringDefs.h"
 #include "SelectionI.h"
 #include <X11/Xatom.h>
+#include <stdio.h>
 
 void _XtSetDefaultSelectionTimeout(timeout)
 	unsigned long *timeout;

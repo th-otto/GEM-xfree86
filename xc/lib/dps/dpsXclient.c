@@ -65,6 +65,10 @@
 
 #include "dpsXint.h"
 
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 static DPSPrivContext FindPrivContext (dpy, cid)
   Display  *dpy;
   long int cid;

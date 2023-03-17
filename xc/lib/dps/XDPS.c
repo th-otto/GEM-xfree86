@@ -153,11 +153,11 @@ static Bool DPSCAPResumeContext();
 static Bool WaitForSyncProc();
 
 static XDPSLIOProcs xlProcs = {  /* Use these for DPS/X extension */
-    _XFlush,
+    (void *)_XFlush,
     _XRead,
-    _XReadPad,
+    (void *)_XReadPad,
     _XReply,
-    _XSend
+    (void *)_XSend
     };
 
 static XDPSLIOProcs nxlProcs = { /* Use these for NX */

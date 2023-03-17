@@ -54,6 +54,8 @@ in this Software without prior written authorization from The Open Group.
 #include <X11/Xtrans.h>
 #include "osstruct.h"
 #include <stdio.h>
+#undef abs
+#include <stdlib.h>
 #define  XK_LATIN1
 #include <X11/keysymdef.h>
 #ifdef __EMX__

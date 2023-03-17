@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <stdlib.h>
 #include <X11/Xos.h>
 #include <X11/X.h>
 #include <X11/extensions/XKB.h>

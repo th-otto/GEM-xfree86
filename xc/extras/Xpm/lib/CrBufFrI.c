@@ -33,6 +33,7 @@
 \*****************************************************************************/
 
 #include "XpmI.h"
+#include <string.h>
 
 LFUNC(WriteColors, int, (char **dataptr, unsigned int *data_size,
 			 unsigned int *used_size, XpmColor *colors,

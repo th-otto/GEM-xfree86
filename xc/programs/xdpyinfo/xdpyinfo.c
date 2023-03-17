@@ -63,6 +63,7 @@ in this Software without prior written authorization from The Open Group.
 #endif
 #include <X11/Xos.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 char *ProgramName;
 Bool queryExtensions = False;

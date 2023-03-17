@@ -481,7 +481,7 @@ initPoly(closure, poly, icoW, icoH)
     const Polyinfo *poly;
     int icoW, icoH;
 {
-    Point3D *vertices = poly->v;
+    const Point3D *vertices = poly->v;
     int NV = poly->numverts;
     Transform3D r1;
     Transform3D r2;
@@ -490,7 +490,7 @@ initPoly(closure, poly, icoW, icoH)
     FormatRotateMat('y', 5 * 3.1416 / 180.0, r2);
     ConcatMat(r1, r2, closure->xform);
 
-    memcpy((char *)closure->xv[0], (char *)vertices, NV * sizeof(Point3D));
+    memcpy((char *)closure->xv[0], vertices, NV * sizeof(Point3D));
     closure->xv_buffer = 0;
 
     closure->wo2 = icoW / 2.0;

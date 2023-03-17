@@ -43,6 +43,8 @@ in this Software without prior written authorization from The Open Group.
  */
 /* $XFree86: xc/programs/lbxproxy/di/main.c,v 1.6 1998/12/20 11:58:06 dawes Exp $ */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "lbx.h"
 #include "wire.h"
 #include "atomcache.h"

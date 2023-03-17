@@ -70,6 +70,7 @@
 #ifdef ISC
 #include <sys/bsdtypes.h>
 #endif
+#include <stdlib.h>
 
 #if defined(hpux) || defined(AIXV3)
 #define SELECT_TYPE int *

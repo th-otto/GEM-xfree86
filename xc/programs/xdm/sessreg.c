@@ -74,6 +74,10 @@
 #define SYSV
 #endif
 
+#ifdef __MINT__
+#define ttyslot() 0
+#endif
+
 #ifdef CSRG_BASED
 /* *BSD doesn't like a ':0' type entry in utmp */
 #define NO_UTMP

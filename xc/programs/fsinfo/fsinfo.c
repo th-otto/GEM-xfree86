@@ -55,6 +55,7 @@ from The Open Group.
  */
 
 #include	<stdio.h>
+#include <stdlib.h>
 #include	<X11/Xos.h>
 #include	"FSlib.h"
 

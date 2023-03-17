@@ -44,6 +44,7 @@
 
 #include "XpmI.h"
 #include <ctype.h>
+#include <string.h>
 
 #ifndef FOR_MSW				/* normal part first, MSW part at
 					 * the end, (huge ifdef!) */

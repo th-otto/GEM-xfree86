@@ -25,6 +25,7 @@ in this Software without prior written authorization from The Open Group.
 /* $XFree86: xc/programs/xclipboard/xcutsel.c,v 1.5 1999/03/21 07:35:37 dawes Exp $ */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
 #include <X11/Xatom.h>

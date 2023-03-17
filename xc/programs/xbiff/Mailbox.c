@@ -51,6 +51,7 @@ from the X Consortium.
 #endif
 #include <sys/stat.h>			/* for stat() ** needs types.h ***/
 #include <stdio.h>			/* for printing error messages */
+#include <stdlib.h>
 
 #ifndef X_NOT_POSIX
 #ifdef _POSIX_SOURCE

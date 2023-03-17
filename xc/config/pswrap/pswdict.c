@@ -48,6 +48,7 @@
 #else
 #include <string.h>
 #endif
+#include <stdlib.h>
 
 extern char *psw_calloc();
 extern char *psw_malloc();

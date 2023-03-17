@@ -33,6 +33,7 @@
 \*****************************************************************************/
 
 #include "XpmI.h"
+#include <string.h>
 
 int
 XpmWriteFileFromBuffer(filename, buffer)

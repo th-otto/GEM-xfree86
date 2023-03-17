@@ -29,6 +29,7 @@ from The Open Group.
 #include <assert.h>
 #include <stdio.h>
 #include <signal.h>
+#include <stdlib.h>
 
 #if defined(X_NOT_POSIX) && defined(SIGNALRETURNSINT)
 #define SIGVAL int

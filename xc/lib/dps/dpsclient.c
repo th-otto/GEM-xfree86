@@ -37,6 +37,9 @@
  */
 
 #include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 
 #include "publictypes.h"
 #include "DPS/dpsclient.h"

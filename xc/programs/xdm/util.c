@@ -145,6 +145,7 @@ freeEnv (char **env)
     }
 }
 
+#undef isblank
 # define isblank(c)	((c) == ' ' || c == '\t')
 
 char **

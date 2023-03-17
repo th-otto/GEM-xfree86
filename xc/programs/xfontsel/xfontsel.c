@@ -34,6 +34,7 @@ Modified: Mark Leisher <mleisher@crl.nmsu.edu> to deal with UCS sample text.
 /* $XFree86: xc/programs/xfontsel/xfontsel.c,v 1.1 2000/02/13 03:26:24 dawes Exp $ */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
 #include <X11/Xatom.h>

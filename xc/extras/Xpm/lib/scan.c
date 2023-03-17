@@ -43,6 +43,7 @@
  */
 
 #include "XpmI.h"
+#include <string.h>
 
 #define MAXPRINTABLE 92			/* number of printable ascii chars
 					 * minus \ and " for string compat

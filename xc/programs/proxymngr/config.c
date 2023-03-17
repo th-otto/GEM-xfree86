@@ -25,6 +25,7 @@ from The Open Group.
 
 #include "pmint.h"
 #include "config.h"
+#include <stdlib.h>
 
 
 static Bool

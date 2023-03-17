@@ -33,6 +33,7 @@
 
 #define CXPMPROG
 
+#include <string.h>
 #include "../lib/XpmI.h"
 
 #undef xpmGetC

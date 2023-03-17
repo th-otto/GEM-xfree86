@@ -44,6 +44,7 @@ from The Open Group.
 #include <X11/extensions/shape.h>
 #include <X11/Xmu/WinUtil.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /* Include routines to handle parsing defaults */
 #include "dsimple.h"

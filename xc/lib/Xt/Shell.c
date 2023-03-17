@@ -72,6 +72,7 @@ in this Software without prior written authorization from The Open Group.
 #include <X11/Xlocale.h>
 #include <X11/ICE/ICElib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #ifdef EDITRES
 #include <X11/Xmu/Editres.h>

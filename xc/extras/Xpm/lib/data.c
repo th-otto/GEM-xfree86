@@ -42,6 +42,7 @@ static char *RCS_Id = "Id: xpm.shar,v 3.71 1998/03/19 19:47:14 lehors Exp $";
 #include "XpmI.h"
 #endif
 #include <ctype.h>
+#include <string.h>
 
 #ifndef CXPMPROG
 #define Getc(data, file) getc(file)

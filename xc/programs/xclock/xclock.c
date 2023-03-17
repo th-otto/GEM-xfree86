@@ -26,6 +26,7 @@ in this Software without prior written authorization from The Open Group.
 /* $XFree86: xc/programs/xclock/xclock.c,v 1.4 2000/01/21 01:12:26 dawes Exp $ */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <X11/Xatom.h>
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>

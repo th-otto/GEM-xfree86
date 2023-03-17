@@ -38,6 +38,7 @@
  */
 
 #include "XpmI.h"
+#include <string.h>
 #if !defined(NO_ZPIPE) && defined(WIN32)
 # define popen _popen
 # define pclose _pclose

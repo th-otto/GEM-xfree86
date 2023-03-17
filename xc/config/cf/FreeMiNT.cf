@@ -113,23 +113,23 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 
 #define MkdirHierCmd		mkdir -p
 
-#define CppCmd			cpp
+#define CppCmd			m68k-atari-mint-cpp
 #define StandardCppOptions	-traditional
 #define StandardCppDefines	StandardDefines 
 #define PreProcessCmd		CcCmd -EP -x c
 #define PreIncDir		DefaultGccIncludeDir
 
-#define CcCmd			gcc
-#define CplusplusCmd		g++
+#define CcCmd			m68k-atari-mint-gcc
+#define CplusplusCmd		m68k-atari-mint-g++
 #define DefaultCCOptions	-O2 -fomit-frame-pointer GccWarningOptions
 
-#define AsCmd			as
+#define AsCmd			m68k-atari-mint-as
 #define GccGasOption 		-DGCCUSESGAS
 #define AsmDefines		-DUSE_GAS
 
-#define ArCmd			ar clq
-#define RanlibCmd		ranlib
-#define LdCmd			ld
+#define ArCmd			m68k-atari-mint-ar clq
+#define RanlibCmd		m68k-atari-mint-ranlib
+#define LdCmd			m68k-atari-mint-ld
 
 #define OptimizedCDebugFlags	
 #define ServerOSDefines		XFree86ServerOSDefines -DDDXTIME
@@ -157,7 +157,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 
 
 /*-- makedepend needs this --*/
-#define DefaultGccIncludeDir /usr/lib/gcc-lib/m68k-atari-mint/2.95.2/include
+#define DefaultGccIncludeDir $(shell CcCmd -print-file-name=include)
 
 #define InstallDriverSDKNonExecFile(file,dest)				/**/
 #define InstallDriverSDKLibrary(libname,dest)				/**/

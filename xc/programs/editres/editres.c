@@ -25,6 +25,7 @@ in this Software without prior written authorization from The Open Group.
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
 #include <X11/Xaw/Cardinals.h>	
+#include <stdlib.h>
 
 #define THIS_IS_MAIN		/* Don't get extern definitions of global
 				   variables. */

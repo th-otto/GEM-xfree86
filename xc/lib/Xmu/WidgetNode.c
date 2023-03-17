@@ -36,6 +36,7 @@ in this Software without prior written authorization from The Open Group.
 #include <X11/Xaw/Cardinals.h>
 #include <X11/Xmu/CharSet.h>
 #include <X11/Xmu/WidgetNode.h>
+#include <stdlib.h>
 
 /*
  * Prototypes
