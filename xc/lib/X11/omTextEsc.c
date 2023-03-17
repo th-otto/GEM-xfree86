@@ -151,10 +151,27 @@ TextWidthWithFontSet(font_set, oc, text, length)
 					       is_xchar2b, FONTSCOPE);
 	if(ptr_len <= 0)
 	    break;
-	if(fd == (FontData) NULL ||
-	   (font = fd->font) == (XFontStruct *) NULL) {
 
-	    if((font = font_set->font) == (XFontStruct *) NULL)
+	/* First, see if the "Best Match" font for the FontSet was set.
+	* If it was, use that font.  If it was not set, then use the
+	* font defined by font_set->font_data[0] (which is what
+	* _XomGetFontDataFromFontSet() always seems to return for
+	* non-VW text).  Note that given the new algorithm in 
+	* parse_fontname() and parse_fontdata(), fs->font will
+	* *always* contain good data.   We should probably remove
+	* the check for "fd->font", but we won't :-) -- jjw/pma (HP)
+	*
+	* Above comment and way this is done propagated from omText.c
+	* Note that fd->font is junk so using the result of the
+	* above call /needs/ to be ignored.
+	*
+	* Owen Taylor <otaylor@redhat.com>     12 Jul 2000
+	*
+	*/
+	if(fd == (FontData) NULL ||
+	   (font = font_set->font) == (XFontStruct *) NULL) {
+
+	    if((font = fd->font) == (XFontStruct *) NULL)
 		break;
 	}
 
