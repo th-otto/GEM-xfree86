@@ -389,6 +389,11 @@ Display *XOpenDisplay (display)
  * now extract the vendor string...  String must be null terminated,
  * padded to multiple of 4 bytes.
  */
+        /* Check for a sane vendor string length */
+        if (u.setup->nbytesVendor > 256) {
+            OutOfMemory(dpy, setup);
+            return (NULL);
+        }                                                                       
 	dpy->vendor = (char *) Xmalloc((unsigned) (u.setup->nbytesVendor + 1));
 	if (dpy->vendor == NULL) {
 	    OutOfMemory(dpy, setup);
