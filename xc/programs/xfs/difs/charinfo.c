@@ -490,6 +490,8 @@ packGlyphs (
 #define LSBBitLeft(b,c)	((b) >> (c))
 #define LSBBitRight(b,c)	((b) << (c))
 
+	if (srcp) {
+	  
 	if (dst_off == src_off)
 	{
 	    if (srcbpr == dstbpr && src_left_bytes == dst_left_bytes)
@@ -570,6 +572,7 @@ packGlyphs (
 		dstp += dst_extra;
 		srcp += src_extra;
 	    }
+	}
 	}
 	/* skip the amount we just filled in */
 	gd += l->length;
