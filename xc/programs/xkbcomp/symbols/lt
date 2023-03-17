@@ -1,0 +1,148 @@
+// $XFree86: xc/programs/xkbcomp/symbols/lt,v 1.1 1998/01/11 03:48:34 dawes Exp $
+
+partial alphanumeric_keys modifier_keys 
+xkb_symbols "basic" {
+
+    // Describes the differences between a very simple en_US
+    // keyboard and a very simple Lithuanian keyboard
+    // Usage: put this in `XF86Config' file and remove other Xkb* commands:
+    //     Xkbkeycodes "xfree86"
+    //     XkbTypes    "default"
+    //     XkbCompat   "default"
+    //     XkbSymbols  "en_US(pc102)+lt(pc102)+group(ctrl_shift_toggle)"
+    //     XkbGeometry "pc"
+    // or preferably, use:
+    //     XkbModel    "pc102"
+    //     XkbLayout   "lt"
+    //     XkbOptions  "grp:ctrl_shift_toggle"
+
+    name[Group1]= "US/ASCII";
+    name[Group2]= "Lithuanian";
+
+    key	<TLDE> {	[], [	    grave,	asciitilde	]	};
+    key	<AE01> {	[		1,	    exclam	],
+			[	  aogonek,	   Aogonek	]	};
+    key	<AE02> {	[		2,		at	],
+			[	   ccaron,	    Ccaron	]	};
+    key	<AE03> {	[		3,	numbersign	],
+			[	  eogonek,	   Eogonek	]	};
+    key	<AE04> {	[		4,	    dollar	],
+			[	eabovedot,	 Eabovedot	]	};
+    key	<AE05> {	[		5,	   percent	],
+			[	  iogonek,	   Iogonek	]	};
+    key	<AE06> {	[		6,     asciicircum	],
+			[	   scaron,	    Scaron	]	};
+    key	<AE07> {	[		7,	 ampersand	],
+			[	  uogonek,	   Uogonek	]	};
+    key	<AE08> {	[		8,	  asterisk	],
+			[	  umacron,	   Umacron	]	};
+    key	<AE09> {	[		9,	 parenleft	],
+			[ doublelowquotemark,    parenleft	]	};
+    key	<AE10> {	[		0,	parenright	],
+			[ leftdoublequotemark,  parenright	]	};
+    key	<AE11> {	[], [	    minus,	underscore	]	};
+    key	<AE12> {	[	    equal,	      plus	],
+			[	   zcaron,	    Zcaron	]	};
+    key	<AD01> {	[], [		q,		 Q	]	};
+    key	<AD02> {	[], [		w,		 W	]	};
+    key	<AD03> {	[], [		e,		 E	]	};
+    key	<AD04> {	[], [		r,		 R	]	};
+    key	<AD05> {	[], [		t,		 T	]	};
+    key	<AD06> {	[], [		y,		 Y	]	};
+    key	<AD07> {	[], [		u,		 U	]	};
+    key	<AD08> {	[], [		i,		 I	]	};
+    key	<AD09> {	[], [		o,		 O	]	};
+    key	<AD10> {	[], [		p,		 P	]	};
+    key	<AD11> {	[], [     bracketleft,	 braceleft	]	};
+    key	<AD12> {	[], [    bracketright,	braceright	]	};
+    key <RTRN> {	[	   Return,  ISO_Next_Group	]	};
+    key	<AC01> {	[], [		a,		 A	]	};
+    key	<AC02> {	[], [		s,		 S	]	};
+    key	<AC03> {	[], [		d,		 D	]	};
+    key	<AC04> {	[], [		f,		 F	]	};
+    key	<AC05> {	[], [		g,		 G	]	};
+    key	<AC06> {	[], [		h,		 H	]	};
+    key	<AC07> {	[], [		j,		 J	]	};
+    key	<AC08> {	[], [		k,		 K	]	};
+    key	<AC09> {	[], [		l,		 L	]	};
+    key	<AC10> {	[], [	semicolon,	     colon	]	};
+    key	<AC11> {	[], [      apostrophe,	  quotedbl	]	};
+    key	<AB01> {	[], [		z,		 Z	]	};
+    key	<AB02> {	[], [		x,		 X	]	};
+    key	<AB03> {	[], [		c,		 C	]	};
+    key	<AB04> {	[], [		v,		 V	]	};
+    key	<AB05> {	[], [		b,		 B	]	};
+    key	<AB06> {	[], [		n,		 N	]	};
+    key	<AB07> {	[], [		m,		 M	]	};
+    key	<AB08> {	[], [	    comma,	      less	]	};
+    key	<AB09> {	[], [	   period,	   greater	]	};
+    key	<AB10> {	[], [	    slash,	  question	]	};
+    key	<BKSL> {	[], [	backslash,             bar	]	};
+
+    // End alphanumeric section
+    
+    // Begin modifier mappings 
+
+    modifier_map Shift  { Shift_L };
+    modifier_map Lock   { Caps_Lock, ISO_Lock };
+    modifier_map Control{ Control_L };
+    modifier_map Mod3   { Mode_switch };
+};
+
+xkb_symbols "generic101" {
+    include "lt(basic)"
+    include "lt(function)"
+};
+
+xkb_symbols "pc101" {
+    include "lt(generic101)"
+};
+
+default
+xkb_symbols "pc102" {
+    include "lt(pc101)"
+    include "lt(left_switch)"
+};
+
+partial alphanumeric_keys 
+xkb_symbols "Sundeadkeys" {
+    include "lt(basic)" // for consistent naming
+};
+
+partial alphanumeric_keys 
+xkb_symbols "sundeadkeys" {
+    include "lt(Sundeadkeys)" // for consistent naming
+};
+
+partial alphanumeric_keys 
+xkb_symbols "nodeadkeys" {
+    include "lt(basic)" // for consistent naming
+};
+
+// "extra" function keys.
+xkb_symbols "function" {
+    // Begin "Function" section
+    key <FK01> {	[ 	 F1,		F11		]	};
+    key <FK02> {	[	 F2,		F12		]	};
+    key <FK03> {	[	 F3,		F13		]	};
+    key <FK04> {	[	 F4,		F14		]	};
+    key <FK05> {	[	 F5,		F15		]	};
+    key <FK06> {	[	 F6,		F16		]	};
+    key <FK07> {	[	 F7,		F17		]	};
+    key <FK08> {	[	 F8,		F18		]	};
+    key <FK09> {	[        F9,		F19		]	};
+    key <FK10> {	[        F10,		F20		]	};
+    key <FK11> {	[        F11,		F21		]	};
+    key <FK12> {	[ 	 F12,		F22		]	};
+    // End "Function" section
+};
+
+// definition for the extra key on 102-key keyboards
+// between left Control and Alt
+xkb_symbols "left_switch" {
+    key	<LSGT> {	[     Mode_switch,	 Multi_key 	],
+			[     Mode_switch,	 Multi_key 	]	};
+    // Begin modifier mappings 
+    modifier_map Mod3   { Mode_switch };
+};
+

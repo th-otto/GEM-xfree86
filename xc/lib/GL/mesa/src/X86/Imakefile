@@ -1,0 +1,124 @@
+XCOMM $XFree86: xc/lib/GL/mesa/src/X86/Imakefile,v 1.5 2000/03/02 16:07:34 martin Exp $
+
+#define DoNormalLib NormalLibGlx
+#define DoSharedLib SharedLibGlx
+#define DoExtraLib SharedLibGlx
+#define DoDebugLib DebugLibGlx
+#define DoProfileLib ProfileLibGlx
+
+LinkSourceFile(assyntax.h, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(common_x86.c, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(common_x86asm.S, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(common_x86asm.h, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(glapi_x86.S, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(x86.c, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(x86.h, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(x86a.S, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(vertex.S, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(x86flatregs.m4, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(x86a.S.m4, ../../../../../extras/Mesa/src/X86)
+
+LinkSourceFile(mmx.h, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(mmx_blend.S, ../../../../../extras/Mesa/src/X86)
+
+LinkSourceFile(3dnow.c, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(3dnow.h, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(3dnow_norm_raw.S, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(3dnow_xform_masked1.S, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(3dnow_xform_masked2.S, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(3dnow_xform_masked3.S, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(3dnow_xform_masked4.S, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(3dnow_xform_raw1.S, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(3dnow_xform_raw2.S, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(3dnow_xform_raw3.S, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(3dnow_xform_raw4.S, ../../../../../extras/Mesa/src/X86)
+LinkSourceFile(vertex_3dnow.S, ../../../../../extras/Mesa/src/X86)
+
+LinkSourceFile(glapioffsets.h, ../../../../../extras/Mesa/src)
+
+#if Malloc0ReturnsNull
+ALLOC_DEFINES = -DMALLOC_0_RETURNS_NULL
+#endif
+
+#ifdef i386Architecture
+XCOMM We'll learn at runtime whether 3dNow, MMX, etc are really present.
+      X86_SRCS = x86a.S common_x86.c common_x86asm.S glapi_x86.S x86.c vertex.S
+
+      X86_OBJS = x86a.o common_x86.o common_x86asm.o x86.o vertex.o
+
+      X86_DEFS = -DUSE_X86_ASM
+
+
+      MMX_SRCS = mmx_blend.S
+
+      MMX_OBJS = mmx_blend.o
+
+      MMX_DEFS = -DUSE_MMX_ASM
+
+
+XCOMM Disabling 3DNow code for the time being
+#if 0
+    3DNOW_SRCS = 3dnow.c 3dnow_norm_raw.S 3dnow_xform_masked1.S \
+		 3dnow_xform_masked2.S 3dnow_xform_masked3.S \
+		 3dnow_xform_masked4.S 3dnow_xform_raw1.S \
+		 3dnow_xform_raw2.S 3dnow_xform_raw3.S 3dnow_xform_raw4.S \
+		 vertex_3dnow.S
+
+    3DNOW_OBJS = 3dnow.o 3dnow_norm_raw.o 3dnow_xform_masked1.o \
+		 3dnow_xform_masked2.o 3dnow_xform_masked3.o \
+		 3dnow_xform_masked4.o 3dnow_xform_raw1.o \
+		 3dnow_xform_raw2.o 3dnow_xform_raw3.o 3dnow_xform_raw4.o \
+		 vertex_3dnow.o
+
+    3DNOW_DEFS = -DUSE_3DNOW_ASM
+#endif
+
+#endif
+
+      DEFINES = $(ALLOC_DEFINES) GlxDefines -DFX $(X86_DEFS) $(MMX_DEFS) $(3DNOW_DEFS)
+     INCLUDES = -I$(XLIBSRC) -I$(EXTINCSRC) -I../include -I../../include -I../../dri -I..
+         SRCS = $(X86_SRCS) $(MMX_SRCS) $(3DNOW_SRCS)
+         OBJS = $(X86_OBJS) $(MMX_OBJS) $(3DNOW_OBJS)
+
+#if !GlxUseBuiltInDRIDriver
+#undef DoNormalLib NormalLibGlx
+#undef DoExtraLib SharedLibGlx
+#undef DoDebugLib DebugLibGlx
+#undef DoProfileLib ProfileLibGlx
+#endif
+
+#include <Library.tmpl>
+
+LibraryObjectRule()
+
+STD_CPP_DEFINES = StandardDefines $(PROJECT_DEFINES)
+
+SubdirLibraryRule($(OBJS))
+NormalLintTarget($(SRCS))
+
+#ifdef HAVE_3DNOW
+ObjectFromAsmSource(3dnow_norm_raw, NullParameter)
+ObjectFromAsmSource(3dnow_xform_masked1, NullParameter)
+ObjectFromAsmSource(3dnow_xform_masked2, NullParameter)
+ObjectFromAsmSource(3dnow_xform_masked3, NullParameter)
+ObjectFromAsmSource(3dnow_xform_masked4, NullParameter)
+ObjectFromAsmSource(3dnow_xform_raw1, NullParameter)
+ObjectFromAsmSource(3dnow_xform_raw2, NullParameter)
+ObjectFromAsmSource(3dnow_xform_raw3, NullParameter)
+ObjectFromAsmSource(3dnow_xform_raw4, NullParameter)
+ObjectFromAsmSource(vertex_3dnow, NullParameter)
+#endif
+
+#ifdef HAVE_MMX
+ObjectFromAsmSource(mmx_blend, NullParameter)
+#endif
+
+ObjectFromAsmSource(common_x86asm, NullParameter)
+ObjectFromAsmSource(vertex, NullParameter)
+ObjectFromAsmSource(x86a, NullParameter)
+
+DependTarget()
+
+x86a.S: x86flatregs.m4
+x86a.S: x86a.S.m4
+	m4 $< >$@

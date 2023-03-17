@@ -1,0 +1,19 @@
+/*
+ * host.def for building the common component of the XFree86 bindists.
+ *
+ * The settings here require the following to be installed:
+ *
+ *   - XFree86 doctools package (requires groff)
+ *   - nroff/troff or groff
+ *
+ * $XFree86: xc/programs/Xserver/hw/xfree86/etc/bindist/common/host.def,v 1.4 2000/03/03 23:16:25 dawes Exp $
+ */
+
+#define HasSgmlFmt		YES
+#define BuildAllDocs		YES
+#define InstallJapaneseDocs	YES
+
+#define BuildSpecsDocs		YES
+#define SpecsDocDirs		GL Xext Xv xterm
+
+

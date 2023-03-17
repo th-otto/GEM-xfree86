@@ -1,0 +1,36 @@
+XCOMM
+XCOMM $XFree86: xc/programs/Xserver/hw/xfree86/os-support/qnx4/Imakefile,v 1.3 2000/02/13 03:36:10 dawes Exp $
+XCOMM
+
+#include <Server.tmpl>
+
+
+SRCS = qnx_io.c qnx_init.c qnx_utils.c mapVT_noop.c ioperm_noop.c qnx_video.c \
+       qnx_VTsw.c qnx_kbd.c posix_tty.c qnx_mouse.c qnx_select.c \
+       libc_wrapper.c stdResource.c stdPci.c sigiostubs.c pm_noop.c
+
+OBJS = qnx_io.o qnx_init.o qnx_utils.o mapVT_noop.o ioperm_noop.o qnx_video.o \
+       qnx_VTsw.o qnx_kbd.o posix_tty.o qnx_mouse.o qnx_select.o \
+       libc_wrapper.o stdResource.o stdPci.o sigiostubs.o pm_noop.o
+
+INCLUDES = -I$(XF86COMSRC) -I$(XF86OSSRC) -I. -I$(SERVERSRC)/include \
+           -I$(XINCLUDESRC)
+
+RESDEFINES = -DUSESTDRES
+
+DEFINES = $(RESDEFINES)
+
+SubdirLibraryRule($(OBJS))
+NormalLibraryObjectRule()
+
+
+LinkSourceFile(libc_wrapper.c,../shared)
+LinkSourceFile(posix_tty.c,../shared)
+LinkSourceFile(mapVT_noop.c,../shared)
+LinkSourceFile(ioperm_noop.c,../shared)
+LinkSourceFile(stdResource.c,../shared)
+LinkSourceFile(stdPci.c,../shared)
+LinkSourceFile(sigiostubs.c,../shared)
+LinkSourceFile(pm_noop.c,../shared)
+
+DependTarget()

@@ -1,0 +1,383 @@
+XCOMM $XFree86: xc/lib/GL/mesa/src/Imakefile,v 1.10 2000/03/02 16:07:34 martin Exp $
+
+#include <Threads.tmpl>
+
+#define DoNormalLib NormalLibGlx
+#define DoSharedLib SharedLibGlx
+#define DoExtraLib SharedLibGlx
+#define DoDebugLib DebugLibGlx
+#define DoProfileLib ProfileLibGlx
+
+#if Malloc0ReturnsNull
+ALLOC_DEFINES = -DMALLOC_0_RETURNS_NULL
+#endif
+
+#if GlxBuiltInTdfx
+    TDFX_DEFS = -DFX
+#endif
+
+LinkSourceFile(accum.c, ../../../../extras/Mesa/src)
+LinkSourceFile(accum.h, ../../../../extras/Mesa/src)
+LinkSourceFile(all.h, ../../../../extras/Mesa/src)
+LinkSourceFile(alpha.c, ../../../../extras/Mesa/src)
+LinkSourceFile(alpha.h, ../../../../extras/Mesa/src)
+LinkSourceFile(alphabuf.c, ../../../../extras/Mesa/src)
+LinkSourceFile(alphabuf.h, ../../../../extras/Mesa/src)
+LinkSourceFile(attrib.c, ../../../../extras/Mesa/src)
+LinkSourceFile(attrib.h, ../../../../extras/Mesa/src)
+LinkSourceFile(bbox.c, ../../../../extras/Mesa/src)
+LinkSourceFile(bbox.h, ../../../../extras/Mesa/src)
+LinkSourceFile(bitmap.c, ../../../../extras/Mesa/src)
+LinkSourceFile(bitmap.h, ../../../../extras/Mesa/src)
+LinkSourceFile(blend.c, ../../../../extras/Mesa/src)
+LinkSourceFile(blend.h, ../../../../extras/Mesa/src)
+LinkSourceFile(buffers.c, ../../../../extras/Mesa/src)
+LinkSourceFile(buffers.h, ../../../../extras/Mesa/src)
+LinkSourceFile(clip.c, ../../../../extras/Mesa/src)
+LinkSourceFile(clip.h, ../../../../extras/Mesa/src)
+LinkSourceFile(clip_funcs.h, ../../../../extras/Mesa/src)
+LinkSourceFile(clip_tmp.h, ../../../../extras/Mesa/src)
+LinkSourceFile(colortab.c, ../../../../extras/Mesa/src)
+LinkSourceFile(colortab.h, ../../../../extras/Mesa/src)
+LinkSourceFile(config.c, ../../../../extras/Mesa/src)
+LinkSourceFile(config.h, ../../../../extras/Mesa/src)
+LinkSourceFile(context.c, ../../../../extras/Mesa/src)
+LinkSourceFile(context.h, ../../../../extras/Mesa/src)
+LinkSourceFile(copy_tmp.h, ../../../../extras/Mesa/src)
+LinkSourceFile(copypix.c, ../../../../extras/Mesa/src)
+LinkSourceFile(copypix.h, ../../../../extras/Mesa/src)
+LinkSourceFile(cull_tmp.h, ../../../../extras/Mesa/src)
+LinkSourceFile(cva.c, ../../../../extras/Mesa/src)
+LinkSourceFile(cva.h, ../../../../extras/Mesa/src)
+LinkSourceFile(dd.h, ../../../../extras/Mesa/src)
+LinkSourceFile(debug_xform.c, ../../../../extras/Mesa/src)
+LinkSourceFile(debug_xform.h, ../../../../extras/Mesa/src)
+LinkSourceFile(depth.c, ../../../../extras/Mesa/src)
+LinkSourceFile(depth.h, ../../../../extras/Mesa/src)
+LinkSourceFile(dlist.c, ../../../../extras/Mesa/src)
+LinkSourceFile(dlist.h, ../../../../extras/Mesa/src)
+LinkSourceFile(dotprod_tmp.h, ../../../../extras/Mesa/src)
+LinkSourceFile(drawpix.c, ../../../../extras/Mesa/src)
+LinkSourceFile(drawpix.h, ../../../../extras/Mesa/src)
+LinkSourceFile(enable.c, ../../../../extras/Mesa/src)
+LinkSourceFile(enable.h, ../../../../extras/Mesa/src)
+LinkSourceFile(enums.c, ../../../../extras/Mesa/src)
+LinkSourceFile(enums.h, ../../../../extras/Mesa/src)
+LinkSourceFile(eval.c, ../../../../extras/Mesa/src)
+LinkSourceFile(eval.h, ../../../../extras/Mesa/src)
+LinkSourceFile(extensions.c, ../../../../extras/Mesa/src)
+LinkSourceFile(extensions.h, ../../../../extras/Mesa/src)
+LinkSourceFile(feedback.c, ../../../../extras/Mesa/src)
+LinkSourceFile(feedback.h, ../../../../extras/Mesa/src)
+LinkSourceFile(fixed.h, ../../../../extras/Mesa/src)
+LinkSourceFile(fog.c, ../../../../extras/Mesa/src)
+LinkSourceFile(fog.h, ../../../../extras/Mesa/src)
+LinkSourceFile(fog_tmp.h, ../../../../extras/Mesa/src)
+LinkSourceFile(general_clip.h, ../../../../extras/Mesa/src)
+LinkSourceFile(get.c, ../../../../extras/Mesa/src)
+LinkSourceFile(get.h, ../../../../extras/Mesa/src)
+LinkSourceFile(glapi.c, ../../../../extras/Mesa/src)
+LinkSourceFile(glapi.h, ../../../../extras/Mesa/src)
+LinkSourceFile(glapinoop.c, ../../../../extras/Mesa/src)
+LinkSourceFile(glapinoop.h, ../../../../extras/Mesa/src)
+LinkSourceFile(glapioffsets.h, ../../../../extras/Mesa/src)
+LinkSourceFile(glapitable.h, ../../../../extras/Mesa/src)
+LinkSourceFile(glapitemp.h, ../../../../extras/Mesa/src)
+LinkSourceFile(glheader.h, ../../../../extras/Mesa/src)
+LinkSourceFile(glthread.c, ../../../../extras/Mesa/src)
+LinkSourceFile(glthread.h, ../../../../extras/Mesa/src)
+LinkSourceFile(hash.c, ../../../../extras/Mesa/src)
+LinkSourceFile(hash.h, ../../../../extras/Mesa/src)
+LinkSourceFile(hint.c, ../../../../extras/Mesa/src)
+LinkSourceFile(hint.h, ../../../../extras/Mesa/src)
+LinkSourceFile(image.c, ../../../../extras/Mesa/src)
+LinkSourceFile(image.h, ../../../../extras/Mesa/src)
+LinkSourceFile(imaging.c, ../../../../extras/Mesa/src)
+LinkSourceFile(imaging.h, ../../../../extras/Mesa/src)
+LinkSourceFile(indirect_tmp.h, ../../../../extras/Mesa/src)
+LinkSourceFile(interp_tmp.h, ../../../../extras/Mesa/src)
+LinkSourceFile(light.c, ../../../../extras/Mesa/src)
+LinkSourceFile(light.h, ../../../../extras/Mesa/src)
+LinkSourceFile(lines.c, ../../../../extras/Mesa/src)
+LinkSourceFile(lines.h, ../../../../extras/Mesa/src)
+LinkSourceFile(linetemp.h, ../../../../extras/Mesa/src)
+LinkSourceFile(lnaatemp.h, ../../../../extras/Mesa/src)
+LinkSourceFile(logic.c, ../../../../extras/Mesa/src)
+LinkSourceFile(logic.h, ../../../../extras/Mesa/src)
+LinkSourceFile(macros.h, ../../../../extras/Mesa/src)
+LinkSourceFile(masking.c, ../../../../extras/Mesa/src)
+LinkSourceFile(masking.h, ../../../../extras/Mesa/src)
+LinkSourceFile(matrix.c, ../../../../extras/Mesa/src)
+LinkSourceFile(matrix.h, ../../../../extras/Mesa/src)
+LinkSourceFile(mem.c, ../../../../extras/Mesa/src)
+LinkSourceFile(mem.h, ../../../../extras/Mesa/src)
+LinkSourceFile(mmath.c, ../../../../extras/Mesa/src)
+LinkSourceFile(mmath.h, ../../../../extras/Mesa/src)
+LinkSourceFile(norm_tmp.h, ../../../../extras/Mesa/src)
+LinkSourceFile(pb.c, ../../../../extras/Mesa/src)
+LinkSourceFile(pb.h, ../../../../extras/Mesa/src)
+LinkSourceFile(pipeline.c, ../../../../extras/Mesa/src)
+LinkSourceFile(pipeline.h, ../../../../extras/Mesa/src)
+LinkSourceFile(pixel.c, ../../../../extras/Mesa/src)
+LinkSourceFile(pixel.h, ../../../../extras/Mesa/src)
+LinkSourceFile(points.c, ../../../../extras/Mesa/src)
+LinkSourceFile(points.h, ../../../../extras/Mesa/src)
+LinkSourceFile(polygon.c, ../../../../extras/Mesa/src)
+LinkSourceFile(polygon.h, ../../../../extras/Mesa/src)
+LinkSourceFile(quads.c, ../../../../extras/Mesa/src)
+LinkSourceFile(quads.h, ../../../../extras/Mesa/src)
+LinkSourceFile(rastpos.c, ../../../../extras/Mesa/src)
+LinkSourceFile(rastpos.h, ../../../../extras/Mesa/src)
+LinkSourceFile(readpix.c, ../../../../extras/Mesa/src)
+LinkSourceFile(readpix.h, ../../../../extras/Mesa/src)
+LinkSourceFile(rect.c, ../../../../extras/Mesa/src)
+LinkSourceFile(rect.h, ../../../../extras/Mesa/src)
+LinkSourceFile(render_tmp.h, ../../../../extras/Mesa/src)
+LinkSourceFile(scissor.c, ../../../../extras/Mesa/src)
+LinkSourceFile(scissor.h, ../../../../extras/Mesa/src)
+LinkSourceFile(shade.c, ../../../../extras/Mesa/src)
+LinkSourceFile(shade.h, ../../../../extras/Mesa/src)
+LinkSourceFile(shade_tmp.h, ../../../../extras/Mesa/src)
+LinkSourceFile(simple_list.h, ../../../../extras/Mesa/src)
+LinkSourceFile(span.c, ../../../../extras/Mesa/src)
+LinkSourceFile(span.h, ../../../../extras/Mesa/src)
+LinkSourceFile(stages.c, ../../../../extras/Mesa/src)
+LinkSourceFile(stages.h, ../../../../extras/Mesa/src)
+LinkSourceFile(state.c, ../../../../extras/Mesa/src)
+LinkSourceFile(state.h, ../../../../extras/Mesa/src)
+LinkSourceFile(stencil.c, ../../../../extras/Mesa/src)
+LinkSourceFile(stencil.h, ../../../../extras/Mesa/src)
+LinkSourceFile(texgen_tmp.h, ../../../../extras/Mesa/src)
+LinkSourceFile(teximage.c, ../../../../extras/Mesa/src)
+LinkSourceFile(teximage.h, ../../../../extras/Mesa/src)
+LinkSourceFile(texobj.c, ../../../../extras/Mesa/src)
+LinkSourceFile(texobj.h, ../../../../extras/Mesa/src)
+LinkSourceFile(texstate.c, ../../../../extras/Mesa/src)
+LinkSourceFile(texstate.h, ../../../../extras/Mesa/src)
+LinkSourceFile(texture.c, ../../../../extras/Mesa/src)
+LinkSourceFile(texture.h, ../../../../extras/Mesa/src)
+LinkSourceFile(trans_tmp.h, ../../../../extras/Mesa/src)
+LinkSourceFile(translate.c, ../../../../extras/Mesa/src)
+LinkSourceFile(translate.h, ../../../../extras/Mesa/src)
+LinkSourceFile(triangle.c, ../../../../extras/Mesa/src)
+LinkSourceFile(triangle.h, ../../../../extras/Mesa/src)
+LinkSourceFile(tritemp.h, ../../../../extras/Mesa/src)
+LinkSourceFile(types.h, ../../../../extras/Mesa/src)
+LinkSourceFile(varray.c, ../../../../extras/Mesa/src)
+LinkSourceFile(varray.h, ../../../../extras/Mesa/src)
+LinkSourceFile(vb.c, ../../../../extras/Mesa/src)
+LinkSourceFile(vb.h, ../../../../extras/Mesa/src)
+LinkSourceFile(vbcull.c, ../../../../extras/Mesa/src)
+LinkSourceFile(vbcull.h, ../../../../extras/Mesa/src)
+LinkSourceFile(vbfill.c, ../../../../extras/Mesa/src)
+LinkSourceFile(vbfill.h, ../../../../extras/Mesa/src)
+LinkSourceFile(vbindirect.c, ../../../../extras/Mesa/src)
+LinkSourceFile(vbindirect.h, ../../../../extras/Mesa/src)
+LinkSourceFile(vbrender.c, ../../../../extras/Mesa/src)
+LinkSourceFile(vbrender.h, ../../../../extras/Mesa/src)
+LinkSourceFile(vbxform.c, ../../../../extras/Mesa/src)
+LinkSourceFile(vbxform.h, ../../../../extras/Mesa/src)
+LinkSourceFile(vector.c, ../../../../extras/Mesa/src)
+LinkSourceFile(vector.h, ../../../../extras/Mesa/src)
+LinkSourceFile(vertices.c, ../../../../extras/Mesa/src)
+LinkSourceFile(vertices.h, ../../../../extras/Mesa/src)
+LinkSourceFile(winpos.c, ../../../../extras/Mesa/src)
+LinkSourceFile(winpos.h, ../../../../extras/Mesa/src)
+LinkSourceFile(xform.c, ../../../../extras/Mesa/src)
+LinkSourceFile(xform.h, ../../../../extras/Mesa/src)
+LinkSourceFile(xform_tmp.h, ../../../../extras/Mesa/src)
+LinkSourceFile(zoom.c, ../../../../extras/Mesa/src)
+LinkSourceFile(zoom.h, ../../../../extras/Mesa/src)
+
+    CORE_SRCS = accum.c \
+		alpha.c \
+		alphabuf.c \
+		attrib.c \
+		bbox.c \
+		bitmap.c \
+		blend.c \
+		buffers.c \
+		clip.c \
+		colortab.c \
+		config.c \
+		context.c \
+		copypix.c \
+		cva.c \
+		debug_xform.c \
+		depth.c \
+		dlist.c \
+		drawpix.c \
+		enable.c \
+		enums.c \
+		eval.c \
+		extensions.c \
+		feedback.c \
+		fog.c \
+		get.c \
+		glapi.c \
+		glapinoop.c \
+		glthread.c \
+		hash.c \
+		hint.c \
+		image.c \
+		imaging.o \
+		light.c \
+		lines.c \
+		logic.c \
+		masking.c \
+		matrix.c \
+		mem.c \
+		mmath.c \
+		pb.c \
+		pipeline.c \
+		pixel.c \
+		points.c \
+		polygon.c \
+		quads.c \
+		rastpos.c \
+		readpix.c \
+		rect.c \
+		scissor.c \
+		shade.c \
+		span.c \
+		stages.c \
+		state.c \
+		stencil.c \
+		teximage.c \
+		texobj.c \
+		texstate.c \
+		texture.c \
+		translate.c \
+		triangle.c \
+		varray.c \
+		vb.c \
+		vbcull.c \
+		vbfill.c \
+		vbindirect.c \
+		vbrender.c \
+		vbxform.c \
+		vector.c \
+		vertices.c \
+		winpos.c \
+		xform.c \
+		zoom.c
+
+    CORE_OBJS = accum.o \
+		alpha.o \
+		alphabuf.o \
+		attrib.o \
+		bbox.o \
+		bitmap.o \
+		blend.o \
+		buffers.o \
+		clip.o \
+		colortab.o \
+		config.o \
+		context.o \
+		copypix.o \
+		cva.o \
+		debug_xform.o \
+		depth.o \
+		dlist.o \
+		drawpix.o \
+		enable.o \
+		enums.o \
+		eval.o \
+		extensions.o \
+		feedback.o \
+		fog.o \
+		get.o \
+		hash.o \
+		hint.o \
+		image.o \
+		imaging.o \
+		light.o \
+		lines.o \
+		logic.o \
+		masking.o \
+		matrix.o \
+		mem.o \
+		mmath.o \
+		pb.o \
+		pipeline.o \
+		pixel.o \
+		points.o \
+		polygon.o \
+		quads.o \
+		rastpos.o \
+		readpix.o \
+		rect.o \
+		scissor.o \
+		shade.o \
+		span.o \
+		stages.o \
+		state.o \
+		stencil.o \
+		teximage.o \
+		texobj.o \
+		texstate.o \
+		texture.o \
+		translate.o \
+		triangle.o \
+		varray.o \
+		vb.o \
+		vbcull.o \
+		vbfill.o \
+		vbindirect.o \
+		vbrender.o \
+		vbxform.o \
+		vector.o \
+		vertices.o \
+		winpos.o \
+		xform.o \
+		zoom.o
+
+#ifdef i386Architecture
+     ASM_SRCS = 
+     ASM_OBJS = 
+     ASM_DEFS = -DUSE_MMX_ASM -DUSE_X86_ASM
+#endif
+
+      DEFINES = $(ALLOC_DEFINES) GlxDefines $(TDFX_DEFS) $(ASM_DEFS)
+     INCLUDES = -I$(XLIBSRC) -I$(EXTINCSRC) -I../include -I../../dri -I. -I../../../../include
+         SRCS = $(CORE_SRCS) $(ASM_SRCS)
+         OBJS = $(CORE_OBJS) $(ASM_OBJS)
+
+#if !GlxUseBuiltInDRIDriver
+#undef DoNormalLib NormalLibGlx
+#undef DoExtraLib SharedLibGlx
+#undef DoDebugLib DebugLibGlx
+#undef DoProfileLib ProfileLibGlx
+#endif
+
+#if GlxBuiltInMesa || GlxDriverUsesMesa || !GlxUseBuiltInDRIDriver
+# We have to go into X to make the xmesaP.h symbolic link
+  MESASUBDIRS = X
+
+  ASMSUBDIRS = X86
+
+#include <Library.tmpl>
+
+LibraryObjectRule()
+
+SubdirLibraryRule($(OBJS))
+NormalLintTarget($(SRCS))
+#endif
+
+#define IHaveSubdirs
+#define PassCDebugFlags
+
+SUBDIRS = $(MESASUBDIRS) $(ASMSUBDIRS) drv
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+#if !GlxUseBuiltInDRIDriver && !GlxDriverUsesMesa
+LIBNAME = mesa_dri.so
+ALL_OBJS = $(CORE_OBJS) X/?*.o X86/?*.o
+ALL_DEPS = $(SUBDIRS) DONE X/DONE X86/DONE
+SharedDepModuleTarget($(LIBNAME),$(ALL_DEPS),$(ALL_OBJS))
+InstallDynamicModule($(LIBNAME),$(MODULEDIR)/dri,.)
+#endif
+
+DependTarget()

@@ -1,0 +1,63 @@
+
+#define DoNormalLib NormalLibGlx
+#define DoSharedLib SharedLibGlx
+#define DoExtraLib SharedLibGlx
+#define DoDebugLib DebugLibGlx
+#define DoProfileLib ProfileLibGlx
+
+#if Malloc0ReturnsNull
+ALLOC_DEFINES = -DMALLOC_0_RETURNS_NULL
+#endif
+
+#if BuildXF86DRI
+  DRI_DEFINES = GlxDefines -DDRIVERTS
+ DRI_INCLUDES = -I../../../../dri -I../../../../glx \
+		-I$(TOP)/include -I$(TOP)/include/GL \
+		-I$(XF86OSSRC) -I$(SERVERSRC)/GL/dri \
+		-I$(XF86DRIVERSRC)/i810  \
+		-I../../../include -I../.. -I../common -I../../X
+#endif
+
+MESA_INCLUDES = -I. -I.. -I../../include
+
+
+
+      DEFINES = $(ALLOC_DEFINES) $(DRI_DEFINES)
+     INCLUDES = -I$(XLIBSRC) -I$(EXTINCSRC) $(MESA_INCLUDES) $(DRI_INCLUDES) \
+		-I/usr/include/glide
+      DRISRCS = i810_xmesa.c i810clear.c	\
+		i810dd.c i810depth.c i810dma.c i810ring.c		\
+		i810pipeline.c i810span.c i810state.c i810swap.c	\
+		i810tex.c i810tris.c i810vb.c i810fastpath.c
+
+      DRIOBJS = i810_xmesa.o i810clear.o	\
+		i810dd.o i810depth.o i810dma.o i810ring.o		\
+		i810pipeline.o i810span.o i810state.o i810swap.o	\
+		i810tex.o i810tris.o i810vb.o i810fastpath.o
+
+	 SRCS = $(DRISRCS) 
+	 OBJS = $(DRIOBJS) 
+
+#if !GlxUseBuiltInDRIDriver
+#undef DoNormalLib NormalLibGlx
+#undef DoExtraLib SharedLibGlx
+#undef DoDebugLib DebugLibGlx
+#undef DoProfileLib ProfileLibGlx
+#endif
+
+#include <Library.tmpl>
+
+LibraryObjectRule()
+
+SubdirLibraryRule($(OBJS))
+NormalLintTarget($(SRCS))
+
+#if !GlxUseBuiltInDRIDriver
+LIBNAME = i810_dri.so
+ALL_OBJS = $(OBJS)
+ALL_DEPS = DONE
+SharedDepModuleTarget($(LIBNAME),$(ALL_DEPS),$(ALL_OBJS))
+InstallDynamicModule($(LIBNAME),$(MODULEDIR),.)
+#endif
+
+DependTarget()

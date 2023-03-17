@@ -1,0 +1,67 @@
+
+#define DoNormalLib NormalLibGlx
+#define DoSharedLib SharedLibGlx
+#define DoExtraLib SharedLibGlx
+#define DoDebugLib DebugLibGlx
+#define DoProfileLib ProfileLibGlx
+
+#if Malloc0ReturnsNull
+ALLOC_DEFINES = -DMALLOC_0_RETURNS_NULL
+#endif
+
+#if BuildXF86DRI
+  DRI_DEFINES = GlxDefines -DDRIVERTS
+ DRI_INCLUDES = -I../../../../dri -I../../../../glx \
+		-I$(TOP)/include -I$(TOP)/include/GL \
+		-I$(XF86OSSRC) -I$(SERVERSRC)/GL/dri \
+		-I$(XF86DRIVERSRC)/mga \
+		-I../../../include -I../.. -I../../X -I../common \
+	        -I$(XF86OSSRC)/linux/drm/kernel
+#endif
+
+MESA_INCLUDES = -I. -I.. -I../../include
+
+
+
+      DEFINES = $(ALLOC_DEFINES) $(DRI_DEFINES)
+     INCLUDES = -I$(XLIBSRC) -I$(EXTINCSRC) $(MESA_INCLUDES) $(DRI_INCLUDES) \
+		-I/usr/include/glide
+      DRISRCS = mgaclear.c mgacnvtex.c mgadd.c mgadepth.c	\
+		mgafastpath.c					\
+		mgapipeline.c	\
+		mgaspan.c mgastate.c mgatex.c		\
+		mgatris.c mgavb.c mgaioctl.c mga_xmesa.c
+
+      DRIOBJS = mgaclear.o mgacnvtex.o mgadd.o mgadepth.o	\
+		mgafastpath.o					\
+		mgapipeline.o	\
+		mgaspan.o mgastate.o mgatex.o		\
+		mgatris.o mgavb.o mgaioctl.o mga_xmesa.o
+
+
+	 SRCS = $(DRISRCS) 
+	 OBJS = $(DRIOBJS) 
+
+#if !GlxUseBuiltInDRIDriver
+#undef DoNormalLib NormalLibGlx
+#undef DoExtraLib SharedLibGlx
+#undef DoDebugLib DebugLibGlx
+#undef DoProfileLib ProfileLibGlx
+#endif
+
+#include <Library.tmpl>
+
+LibraryObjectRule()
+
+SubdirLibraryRule($(OBJS))
+NormalLintTarget($(SRCS))
+
+#if !GlxUseBuiltInDRIDriver
+LIBNAME = mga_dri.so
+ALL_OBJS = $(OBJS)
+ALL_DEPS = DONE
+SharedDepModuleTarget($(LIBNAME),$(ALL_DEPS),$(ALL_OBJS))
+InstallDynamicModule($(LIBNAME),$(MODULEDIR),.)
+#endif
+
+DependTarget()

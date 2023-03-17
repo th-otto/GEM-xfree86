@@ -1,0 +1,120 @@
+XCOMM $XConsortium: Imakefile /main/16 1996/11/13 14:43:28 lehors $
+XCOMM $XFree86: xc/config/util/Imakefile,v 3.23 1999/12/30 03:56:16 robin Exp $
+
+#if UseCCMakeDepend
+MDEP_PROG = makedepend
+#endif
+
+#ifdef ExportListGenSource
+EXPORTLISTGEN = exportlistgen
+#endif
+
+#ifdef Win32Architecture
+CMKDIRHIER = mkdirhier.exe
+#endif
+
+#ifndef OS2Architecture
+GCCMDEP_PROG = gccmakedep
+LNDIR_PROG = ProgramTargetName(lndir)
+#endif
+
+#ifdef QNX4Architecture
+QNXCopyInstaller($(PROJECTROOT)/bin/install.qnx,./install.sh)
+#endif
+
+PROGRAMS = xmkmf $(MDEP_PROG) $(GCCMDEP_PROG) mergelib $(LNDIR_PROG) \
+	   ProgramTargetName(revpath) \
+	   ProgramTargetName(makestrs) $(EXPORTLISTGEN) $(CMKDIRHIER)
+DEPLIBS =
+#ifndef Win32Architecture
+  EXTRA_LIBRARIES =
+#endif
+
+XCOMM Some compilers generate fatal errors if an -L directory does
+XCOMM not exist.  Since BUILDLIBDIR may not exist yet suppress its use.
+         LDPRELIB =
+        LDPRELIBS =
+#if CrossCompiling
+       LDPOSTLIBS =
+        LDPOSTLIB = 
+#endif
+
+all:: $(PROGRAMS)
+
+#if HasGcc
+GCCCMD = $(CC)
+#else
+GCCCMD = gcc
+#endif
+
+includes:: ProgramTargetName(makestrs)
+
+#ifdef ExportListGenSource
+CppScriptTarget(exportlistgen,ExportListGenSource,-DCXXFILT=$(CXXFILT),)
+InstallNamedProg(exportlistgen,exportlistgen,$(BINDIR))
+#endif
+
+CppScriptTarget(xmkmf,xmkmf.cpp,-DCONFIGDIRSPEC='"'"-I$(CONFIGDIR)"'"',$(ICONFIGFILES))
+CppScriptTarget(makedepend,mdepend.cpp,-DPREPROC='"'"$(PREPROCESSCMD)"'"',$(ICONFIGFILES))
+CppScriptTarget(mergelib,mergelib.cpp,"-DARCMD=$(AR)" "-DRANLIB=$(RANLIB)",$(ICONFIGFILES))
+#ifndef OS2Architecture
+CppScriptTarget(gccmakedep,gccmdep.cpp,-DCCCMD='"'"$(GCCCMD)"'"' -DRMCMD='"'"$(RM)"'"' -DLNCMD='"'"$(LN)"'"' -DMVCMD='"'"$(MV)"'"',$(ICONFIGFILES))
+#endif
+
+#ifndef OpenBSDArchitecture
+#if HasSymLinks
+#if CrossCompiling
+SimpleHostProgramTarget(lndir)
+#else
+AllTarget($(LNDIR_PROG))
+SimpleProgramTarget_2(lndir)
+#endif
+#endif
+#endif
+
+#ifdef Win32Architecture
+AllTarget(ProgramTargetName(mkdirhier))
+SimpleProgramTarget_3(mkdirhier)
+#endif
+
+AllTarget(ProgramTargetName(makestrs))
+SimpleProgramTarget_1(makestrs)
+
+AllTarget(ProgramTargetName(revpath))
+SimpleProgramTarget_4(revpath)
+
+InstallManPage(xmkmf,$(MANDIR))
+
+#if defined(OS2Architecture)
+includes:: makestrs.exe
+	ImakeHelper 7 makestrs.exe /makestrs.exe
+
+InstallNamedProg(mkdirhier.cmd,mkdirhier.cmd,$(BINDIR))
+InstallNamedProg(indir.cmd,indir.cmd,$(BINDIR))
+InstallNamedProg(os2inst.cmd,os2inst.cmd,$(BINDIR))
+InstallNamedProg(xmkmf.cmd,xmkmf.cmd,$(BINDIR))
+InstallNamedProg(xmake.cmd,make.cmd,$(BINDIR))
+InstallDriverSDKNamedProg(mkdirhier.cmd,mkdirhier.cmd,$(DRIVERSDKDIR)/config/util)
+InstallDriverSDKNamedProg(indir.cmd,indir.cmd,$(DRIVERSDKDIR)/config/util)
+InstallDriverSDKNamedProg(os2inst.cmd,os2inst.cmd,$(DRIVERSDKDIR)/config/util)
+#else
+InstallNamedProg(xmkmf,xmkmf,$(BINDIR))
+InstallNamedProg(mkdirhier.sh,mkdirhier,$(BINDIR))
+InstallNamedProg(gccmakedep,gccmakedep,$(BINDIR))
+InstallDriverSDKNamedProg(mkdirhier.sh,mkdirhier.sh,$(DRIVERSDKDIR)/config/util)
+InstallDriverSDKNamedProg(gccmakedep,gccmakedep,$(DRIVERSDKDIR)/config/util)
+InstallNamedProg(mergelib,mergelib,$(BINDIR))
+InstallNamedProg(makeg.sh,makeg,$(BINDIR))
+InstallManPage(makeg,$(MANDIR))
+#endif
+InstallManPage(mkdirhier,$(MANDIR))
+#if UseCCMakeDepend
+InstallNamedProg(makedepend,makedepend,$(BINDIR))
+InstallDriverSDKNamedProg(makedepend,makedepend,$(DRIVERSDKDIR)/config/util)
+#endif
+#if SystemV || SystemV4
+InstallNamedProg(bsdinst.sh,bsdinst,$(BINDIR))
+InstallDriverSDKNamedProg(bsdinst.sh,bsdinst.sh,$(DRIVERSDKDIR)/config/util)
+#endif
+
+InstallDriverSDKNamedProg(revpath,revpath,$(DRIVERSDKDIR)/config/util)

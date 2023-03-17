@@ -1,0 +1,182 @@
+XCOMM $TOG: Imakefile /main/36 1998/05/20 15:10:33 kaleb $
+XCOMM $XFree86: xc/fonts/bdf/misc/Imakefile,v 1.7 1999/12/28 15:03:02 robin Exp $
+
+ARABIC24OBJS = FontObj(arabic24)
+ARABIC24DIR = $(TOP)/extras/fonts/arabic24
+
+CLEARLYUOBJS = FontObj(cu-alt12) FontObj(cu-arabic12) FontObj(cu-lig12) \
+	FontObj(cu-pua12) FontObj(cu12)
+CLEARLYUDIR = $(TOP)/extras/fonts/ClearlyU
+
+OBJS = FontObj(5x7) FontObj(5x7-ISO8859-1) \
+	FontObj(5x8) FontObj(5x8-ISO8859-1) \
+	FontObj(6x9) FontObj(6x9-ISO8859-1) \
+	FontObj(6x10) FontObj(6x10-ISO8859-1) \
+	FontObj(6x12) FontObj(6x12-ISO8859-1) \
+	FontObj(6x13) FontObj(6x13-ISO8859-1) FontObj(6x13-ISO8859-2) \
+	FontObj(6x13-ISO8859-7) FontObj(6x13-ISO8859-8) FontObj(6x13-KOI8-R) \
+	FontObj(6x13B) FontObj(6x13B-ISO8859-1) FontObj(6x13B-ISO8859-2) \
+	FontObj(6x13B-ISO8859-7) \
+	FontObj(7x13) FontObj(7x13-ISO8859-1) FontObj(7x13-ISO8859-15) \
+	FontObj(7x13B) FontObj(7x13B-ISO8859-1) FontObj(7x13B-ISO8859-15) \
+	FontObj(7x14) \
+	FontObj(7x14-ISO8859-1) FontObj(7x14-JISX0201.1976-0) \
+	FontObj(7x14B) FontObj(7x14B-ISO8859-1) \
+	FontObj(8x13) FontObj(8x13-ISO8859-1) FontObj(8x13-ISO8859-2) \
+	FontObj(8x13-ISO8859-7) FontObj(8x13-ISO8859-8) FontObj(8x13-KOI8-R) \
+	FontObj(8x13B) FontObj(8x13B-ISO8859-1) FontObj(8x13B-ISO8859-2) \
+	FontObj(8x13B-ISO8859-7) \
+	FontObj(8x16) FontObj(8x16rk) \
+	FontObj(9x15) FontObj(9x15-ISO8859-1) \
+	FontObj(9x15B) FontObj(9x15B-ISO8859-1) \
+	FontObj(9x18) FontObj(9x18-ISO8859-1) \
+	FontObj(9x18B) FontObj(9x18B-ISO8859-1) \
+	FontObj(10x20) FontObj(10x20-ISO8859-1) \
+	FontObj(12x13ja) \
+	FontObj(12x24) FontObj(12x24rk) \
+	FontObj(18x18ja) \
+	FontObj(cursor) FontObj(deccurs) FontObj(decsess) FontObj(olcursor) \
+	FontObj(olgl10) FontObj(olgl12) FontObj(olgl14) FontObj(olgl19) \
+	FontObj(nil2) FontObj(clB6x10) FontObj(clB6x12) FontObj(clB8x10) \
+	FontObj(clB8x12) FontObj(clB8x13) FontObj(clB8x14) FontObj(clB8x16) \
+	FontObj(clB8x8) FontObj(clB9x15) FontObj(clI6x12) FontObj(clI8x8) \
+	FontObj(clR4x6) FontObj(clR5x10) FontObj(clR5x6) FontObj(clR5x8) \
+	FontObj(clR6x10) FontObj(clR6x12) FontObj(clR6x13) FontObj(clR6x6) \
+	FontObj(clR6x8) FontObj(clR7x10) FontObj(clR7x12) FontObj(clR7x14) \
+	FontObj(clR7x8) FontObj(clR8x10) FontObj(clR8x12) FontObj(clR8x13) \
+	FontObj(clR8x14) FontObj(clR8x16) FontObj(clR8x8) FontObj(clR9x15) \
+	FontObj(k14) FontObj(jiskan16) FontObj(jiskan24) FontObj(hanglg16) \
+	FontObj(hanglm16) FontObj(hanglm24) FontObj(gb16fs) FontObj(gb16st) \
+	FontObj(gb24st) \
+	$(ARABIC24OBJS) $(CLEARLYUOBJS)
+
+FONTINSTDIR = $(FONTDIR)/misc
+
+MakeFonts()
+
+FontTarget(5x7)
+FontTarget(5x7-ISO8859-1)
+FontTarget(5x8)
+FontTarget(5x8-ISO8859-1)
+FontTarget(6x9)
+FontTarget(6x9-ISO8859-1)
+FontTarget(6x10)
+FontTarget(6x10-ISO8859-1)
+FontTarget(6x12)
+FontTarget(6x12-ISO8859-1)
+FontTarget(6x13)
+FontTarget(6x13-ISO8859-1)
+FontTarget(6x13-ISO8859-2)
+FontTarget(6x13-ISO8859-7)
+FontTarget(6x13-ISO8859-8)
+FontTarget(6x13-KOI8-R)
+FontTarget(6x13B)
+FontTarget(6x13B-ISO8859-1)
+FontTarget(6x13B-ISO8859-2)
+FontTarget(6x13B-ISO8859-7)
+FontTarget(7x13)
+FontTarget(7x13-ISO8859-1)
+FontTarget(7x13-ISO8859-15)
+FontTarget(7x13B)
+FontTarget(7x13B-ISO8859-1)
+FontTarget(7x13B-ISO8859-15)
+FontTarget(7x14)
+FontTarget(7x14-ISO8859-1)
+FontTarget(7x14-JISX0201.1976-0)
+FontTarget(7x14B)
+FontTarget(7x14B-ISO8859-1)
+FontTarget(8x13)
+FontTarget(8x13-ISO8859-1)
+FontTarget(8x13-ISO8859-2)
+FontTarget(8x13-ISO8859-7)
+FontTarget(8x13-ISO8859-8)
+FontTarget(8x13-KOI8-R)
+FontTarget(8x13B)
+FontTarget(8x13B-ISO8859-1)
+FontTarget(8x13B-ISO8859-2)
+FontTarget(8x13B-ISO8859-7)
+FontTarget(8x16)
+FontTarget(8x16rk)
+FontTarget(9x15)
+FontTarget(9x15-ISO8859-1)
+FontTarget(9x15B)
+FontTarget(9x15B-ISO8859-1)
+FontTarget(9x18)
+FontTarget(9x18-ISO8859-1)
+FontTarget(9x18B)
+FontTarget(9x18B-ISO8859-1)
+FontTarget(10x20)
+FontTarget(10x20-ISO8859-1)
+FontTarget(12x24)
+FontTarget(12x24rk)
+FontTarget(12x13ja)
+FontTarget(18x18ja)
+FontTarget(cursor)
+FontTarget(deccurs)
+FontTarget(decsess)
+FontTarget(olcursor)
+FontTarget(olgl10)
+FontTarget(olgl12)
+FontTarget(olgl14)
+FontTarget(olgl19)
+FontTarget(nil2)
+FontTarget(clB6x10)
+FontTarget(clB6x12)
+FontTarget(clB8x10)
+FontTarget(clB8x12)
+FontTarget(clB8x13)
+FontTarget(clB8x14)
+FontTarget(clB8x16)
+FontTarget(clB8x8)
+FontTarget(clB9x15)
+FontTarget(clI6x12)
+FontTarget(clI8x8)
+FontTarget(clR4x6)
+FontTarget(clR5x10)
+FontTarget(clR5x6)
+FontTarget(clR5x8)
+FontTarget(clR6x10)
+FontTarget(clR6x12)
+FontTarget(clR6x13)
+FontTarget(clR6x6)
+FontTarget(clR6x8)
+FontTarget(clR7x10)
+FontTarget(clR7x12)
+FontTarget(clR7x14)
+FontTarget(clR7x8)
+FontTarget(clR8x10)
+FontTarget(clR8x12)
+FontTarget(clR8x13)
+FontTarget(clR8x14)
+FontTarget(clR8x16)
+FontTarget(clR8x8)
+FontTarget(clR9x15)
+FontTarget(k14)
+FontTarget(jiskan16)
+FontTarget(jiskan24)
+FontTarget(hanglg16)
+FontTarget(hanglm16)
+FontTarget(hanglm24)
+FontTarget(gb16fs)
+FontTarget(gb16st)
+FontTarget(gb24st)
+
+FontTarget(arabic24)
+
+FontTarget(cu-alt12)
+FontTarget(cu-arabic12)
+FontTarget(cu-lig12)
+FontTarget(cu-pua12)
+FontTarget(cu12)
+
+LinkSourceFile(arabic24.bdf,$(ARABIC24DIR))
+
+LinkSourceFile(cu-alt12.bdf,$(CLEARLYUDIR))
+LinkSourceFile(cu-arabic12.bdf,$(CLEARLYUDIR))
+LinkSourceFile(cu-lig12.bdf,$(CLEARLYUDIR))
+LinkSourceFile(cu-pua12.bdf,$(CLEARLYUDIR))
+LinkSourceFile(cu12.bdf,$(CLEARLYUDIR))
+
+InstallFonts($(FONTINSTDIR))
+InstallFontAliases($(FONTINSTDIR))
+InstallEncodingsDir($(ENCODINGSSRC),$(FONTINSTDIR))

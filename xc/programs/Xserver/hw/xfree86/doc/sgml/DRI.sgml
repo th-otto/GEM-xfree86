@@ -1,0 +1,719 @@
+<!DOCTYPE linuxdoc PUBLIC "-//XFree86//DTD linuxdoc//EN" [
+<!ENTITY % defs SYSTEM "defs.ent"> %defs;
+]>
+
+<!-- Created: Mon Feb 28 13:00:00 2000 by brian@precisioninsight.com -->
+<!-- Revised: Mon Mar  6 20:10:02 2000 by kevin@precisioninsight.com -->
+
+  <article>
+
+      <title>DRI Users Guide
+      <author><htmlurl url="http://www.precisioninsight.com/"
+                       name="Precision Insight, Inc.">
+      <date>6 March 2000
+
+    <ident>
+    $XFree86: xc/programs/Xserver/hw/xfree86/doc/sgml/DRI.sgml,v 1.3 2000/03/08 05:38:41 dawes Exp $
+    </ident>
+
+    <toc>
+
+    <sect>Preamble
+<p>
+      <sect1>Copyright
+<p>
+          <bf>Copyright &copy; 2000 by Precision Insight, Inc.,
+          Cedar Park, Texas.
+          All Rights Reserved.</bf>
+        <p>
+          <bf>Permission is granted to make and distribute verbatim copies 
+          of this document provided the copyright notice and this permission
+          notice are preserved on all copies.</bf>
+          
+      <sect1>Trademarks
+<p>
+          OpenGL is a registered trademark and SGI is a trademark of
+          Silicon Graphics, Inc.
+          Unix is a registered trademark of The Open Group.
+          The `X' device and X Window System are trademarks of The Open Group.
+          XFree86 is a trademark of The XFree86 Project.
+          Linux is a registered trademark of Linus Torvalds.
+          Intel is a registered trademark of Intel Corporation.
+          3Dlabs, GLINT, and Oxygen are either registered trademarks or
+          trademarks of 3Dlabs Inc. Ltd.
+          3dfx, Voodoo3, Voodoo4, and Voodoo5 are registered trademarks of
+          3dfx Interactive, Incorporated.
+          All other trademarks mentioned are the property of their
+          respective owners.
+
+    <sect>Introduction
+<p>
+        With XFree86 4.0 and Precision Insight's Direct Rendering Interface
+        (DRI), hardware accelerated 3D graphics can be considered a standard
+        feature on Linux workstations.
+        Support for other operating systems, such as FreeBSD, is underway.
+      <p>
+        This document describes how to use the DRI system and troubleshoot
+        problems which may occur.
+        Readers should have a basic understanding of Linux, X and OpenGL.
+        See the resources section at the end for more documentation and
+	software downloads.
+      <p>
+        This document does not cover compilation or installation of
+        XFree86 4.0;
+        it is assumed that you've already installed a Linux distribution which
+        includes XFree86 4.0.  
+
+    <sect>Supported Hardware
+<p>
+        3D acceleration is currently only available for systems with
+        Intel-compatible CPUs.
+        Support for Alpha, and perhaps other CPUs, should be available in the
+        future.
+      <p>
+        XFree86 4.0 includes 3D acceleration for the following
+        graphics hardware:
+
+        <itemize>
+          <item>3dfx:
+            <itemize>
+              <item>Voodoo3 3500 TV
+              <item>Voodoo3 3000 AGP
+              <item>Voodoo3 3000 PCI
+              <item>Voodoo3 2000 AGP
+              <item>Voodoo3 2000 PCI
+              <item>Voodoo Banshee
+              <item>Velocity 100/200
+            </itemize>
+            There are many configurations of 3dfx cards on the market.
+            Not all have been tested.
+          <item>3Dlabs Oxygen GMX 2000 (MX/Gamma based)
+        </itemize>
+
+      <p>
+        Support for the following hardware is underway:
+	<itemize>
+          <item>Intel i810
+	  <item>Matrox G400
+	  <item>ATI Rage 128
+	  <item>3dfx Voodoo4 and Voodoo5 series
+	</itemize>
+
+
+    <sect>Prerequisite Software
+<p>
+        <itemize>
+          <item>XFree86 4.0
+          <item>Linux kernel 2.2.x (later kernels will be supported in
+                the near future, and may be required for some chipsets)
+        </itemize>
+      <p>
+        Mesa 3.3 (beta) is included with XFree86 4.0; there is no need to
+        download the stand-alone Mesa distribution.
+
+
+    <sect>X Server Start-up
+<p>
+        This section describes the steps needed to start the X server with
+        3D acceleration support.
+
+      <sect1>Kernel module
+<p>
+          Before starting the X server you must install the correct kernel
+          module for your hardware.
+        <p>
+          This can be done by executing the following as root:
+        <verb>
+        insmod XXX/drivername.o
+        </verb>
+        <p>
+          For example, on 3dfx hardware, the kernel module is called tdfx.o
+          so you you would type insmod XXX/tdfx.o
+
+        <p>
+          Verify that the kernel module was installed by checking that
+          /proc/dri/0 exists. 
+
+      <sect1>XF86Config file
+<p>
+          First, the XF86Config file must load the GLX and DRI modules:
+
+        <verb>
+	Section "Module"
+	...
+	# This loads the GLX module
+	    Load       "glx"
+	# This loads the DRI module
+	    Load       "dri"
+	EndSection
+        </verb>
+
+          Next, the DRI section can be used to restrict access to direct
+          rendering.
+        <p>
+          If you want all of the users on your system to be able to use
+          direct-rendering, then use a simple DRI section:
+        <verb>
+	Section "DRI"
+	     Mode 0666
+	EndSection
+        </verb>
+        <p>
+          This section will allow any user with a current connection to the X
+          server to use direct rendering.
+        <p>
+          If you want to restrict the use of direct-rendering to a
+          certain group of users, then create a group for those users by
+          editing the <tt>/etc/group</tt> file on your system.
+          For example, you may want to create a group called <tt>xf86dri</tt>
+          and place two users (e.g., <tt>fred</tt> and <tt>jane</tt>) in
+          that group.
+          To do that, you might add the following line to <tt>/etc/group</tt>:
+
+        <verb>
+        xf86dri:x:8000:fred,jane
+        </verb>
+
+          You have to be careful that the group id (8000 in this example)
+          is unique.
+        <p>
+          Then you would use the following DRI section:
+
+        <verb>
+        Section "DRI"
+             Group "xf86dri"
+             Mode 0660
+        EndSection
+        </verb>
+
+          This would limit access to direct-rendering to those users in the
+          <tt>xf86dri</tt> group (<tt>fred</tt> and <tt>jane</tt> in this
+          example).  When other users tried to use direct rendering, they
+          would fall back to unaccelerated indirect rendering.
+        <p>
+          [Note that there is a known bug in XFree86 4.0 that prevents some
+          changes to the DRI section from taking effect.  Until this bug is
+          fixed, if you change the DRI section, please also remove the
+          <tt>/dev/dri</tt> directory with the <tt>rm -rf /dev/dri</tt>
+          command.]
+        <p>
+          Next, the Device section of the XF86Config file must describe your
+          particular hardware.
+          For example, here's the Device section for a 3dfx Voodoo3 card:
+
+        <verb>
+        Section "Device"
+            Identifier  "Voodoo3"
+            VendorName  "3dfx"
+            Driver      "tdfx"
+        EndSection
+        </verb>
+
+        <p>
+          Finally, the Screen section of the XF86Config file may have to be
+          specially configured as well.
+          For example, Voodoo3 hardware acceleration is only available
+          in 16bpp mode.
+        <verb>
+	Section "Screen"
+	    Identifier  "Screen 1"
+	    Device      "Voodoo3"
+	    Monitor     "High Res Monitor"
+	    DefaultDepth 16
+	    Subsection "Display"
+		Depth       16
+		Modes       "1280x1024" "1024x768" "800x600" "640x480"
+		ViewPort    0 0
+	    EndSubsection
+        EndSection
+        </verb>
+
+        <p>
+          If there are errors in the XF86Config file, the X server will
+          log errors to the file /var/log/XFree86.0.log
+
+      <sect1>Memory usage
+<p>
+          Using the 3D features of a graphics card requires more memory
+          than when it's just used as a 2D device.
+          Double buffering, depth buffering, stencil buffers, textures,
+          etc. all require extra graphics memory.
+          These features may require four times the memory used for a simple
+          2D display.
+        <p>
+          If your graphics card doesn't have a lot of memory (less than 16MB,
+          for example), you may have to reduce your screen size and/or
+          color depth in order to use 3D features.
+        <p>
+          The documentation included with your card should have information
+          about maximum screen size when using 3D.
+
+
+    <sect>Using 3D Acceleration
+<p>
+        This section describes how to link your application with libGL.so
+        and verify that you are in fact using 3D acceleration.
+
+      <sect1>libGL.so
+<p>
+          Your OpenGL program must link with the libGL.so.1.2 library provided
+          by XFree86 4.0.
+          The libGL.so.1.2 library contains a GLX protocol encoder for
+          indirect/remote rendering and DRI code for accessing hardware
+          drivers.
+          In particular, be sure you're not using libGL.so from another
+          source such as Mesa or the Utah GLX project.
+        <p>
+          Unless it was built in a special way, the libGL.so library does
+          not contain any 3D hardware driver code.
+          Instead, libGL.so dynamically loads the appropriate 3D driver
+          during initialization.
+        <p>
+          Most simple OpenGL programs also use the GLUT and GLU libraries.
+          A source for these libraries is listed in the Resources
+          section below.
+
+      <sect1>Compiling and linking an OpenGL program
+<p>
+          A simple GLUT/OpenGL program may be compiled and linked as follows:
+        <verb>
+        gcc program.c -I/usr/local/include -L/usr/local/lib -L/usr/X11R6/lib -lglut -lGLU -lGL -o program
+        </verb>
+        <p>
+          The <tt/-I/ option is used to specify where the GL/glut.h (and
+          possibly the GL/gl.h and GL/glu.h) header file may be found.
+        <p>
+          The <tt/-L/ options specify where the libglut.so, libGLU.so and
+          X libraries are located.
+        <p>
+          The <tt/-lglut -lGLU -lGL/ arguments specify that the application
+          should link with the GLUT, GLU and GL libraries.
+
+      <sect1>Running your OpenGL program
+<p>
+          Simply typing ./program in your shell should execute the program.
+        <p>
+          If you get an error message such as
+        <verb>
+        gears: error in loading shared libraries: libGL.so.1: cannot
+        open shared object file: No such file or directory
+        </verb>
+          if means that the libGL.so.1 file is not the right location.
+          Proceed to the trouble shooting section.          
+
+      <sect1>glxinfo
+<p>
+          glxinfo is a useful program for checking which version of
+          libGL you're using as well as which DRI-based driver.
+          Simply type <tt/glxinfo/ and examine the OpenGL vendor, renderer,
+          and version lines.
+          Among the output you should see something like this:
+        <p>
+        <verb>
+          OpenGL vendor string: Precision Insight, Inc.
+          OpenGL renderer string: Mesa DRI Voodoo3 20000224
+          OpenGL version string: 1.2 Mesa 3.3 beta
+        </verb>
+        <p>
+          or this:
+        <p>
+        <verb>
+          OpenGL vendor string: Precision Insight, Inc.
+          OpenGL renderer string: Mesa GLX Indirect
+          OpenGL version string: 1.2 Mesa 3.3 beta
+        </verb>
+        <p>
+          The first example indicates that the 3dfx driver is using
+          Voodoo3 hardware.
+          The second example indicates that no hardware driver was
+          found and indirect, unaccelerated rendering is being used.
+        <p>
+          If you see that indirect rendering is being used when direct
+          rendering was expected, proceed to the troubleshooting section.
+        <p>
+          <tt/glxinfo/ also lists all of the GLX-enhanced visuals available.
+          Here you can determine which visuals may have depth buffers, stencil
+          buffers, accumulation buffers, etc.
+
+      <sect1>Environment Variables
+<p>
+          The libGL.so library recognizes three environment variables.
+          Normally, none of them need to be defined.
+          If you're using the csh or tcsh shells, type
+          <tt/setenv VARNAME value/ to set the variable.
+          Otherwise, if you're using sh or bash, type
+          <tt/export VARNAME=value/.
+          <enum>
+            <item>
+              <tt/LIBGL_DEBUG/, if defined will cause libGL.so to print error
+              and diagnostic messages.  This can help to solve problems.
+	    <item>
+	      <tt/LIBGL_ALWAYS_INDIRECT/, if defined this will force libGL.so
+	      to always use indirect rendering instead of hardware
+               acceleration.
+	      This can be useful to isolate rendering errors.
+	    <item>
+	      <tt/LIBGL_DRIVERS_DIR/ can be used to override the default
+	      directory which is searched for 3D drivers.
+	      In a typical XFree86 installation, the 3D drivers should be in
+	      /usr/X11R6/lib/modules/dri/.
+	      This environment variable can be used to specify a different
+	      directory.
+	      Note that this feature is disabled for set-uid programs.
+	  </enum>
+        <p>
+          Mesa-based drivers (this includes most of the drivers listed
+          above) also observe many of the existing Mesa environment variables.
+          These include the <tt/MESA_DEBUG/ and <tt/MESA_INFO/ variables.
+
+
+    <sect>General Trouble Shooting
+<p>
+        This section contains information to help you diagnose general
+         problems.
+         See below for additional information for specific hardware.
+
+      <sect1>Starting the X server
+<p>
+	<enum>
+	  <item>
+	    Before you start the X server, verify the appropriate 3D kernel
+	    module is installed.
+	    Type <tt/lsmod/ and look for the appropriate kernel module.
+	    For 3dfx hardware you should see <tt/tdfx/, for example.
+
+	  <item>
+	    Verify you're running XFree86 4.0 and not an older version.
+            If you run <tt/xdpyinfo/ and look for the following line near
+            the top:
+        <verb>
+            vendor release number:    4000
+        </verb>
+
+	  <item>
+	    Verify that your XF86Config file (usually found at
+	    /etc/X11/XF86Config) loads the glx and dri modules and
+	    has a DRI section.
+	    <p>
+	    See the Software Resources section below for sample
+            XF86Config files.
+
+          <item>
+            Examine the messages printed during X server startup and check
+            that the DRM module loaded.
+            Using the Voodoo3 as an example:
+        <verb>
+        (==) TDFX(0): Write-combining range (0xf0000000,0x2000000)
+        (II) TDFX(0): Textures Memory 7.93 MB
+        (0): [drm] created "tdfx" driver at busid "PCI:1:0:0"
+        (0): [drm] added 4096 byte SAREA at 0xc65dd000
+        (0): [drm] mapped SAREA 0xc65dd000 to 0x40013000
+        (0): [drm] framebuffer handle = 0xf0000000
+        (0): [drm] added 1 reserved context for kernel
+        (II) TDFX(0): [drm] Registers = 0xfc000000
+        (II) TDFX(0): visual configs initialized
+        (II) TDFX(0): Using XFree86 Acceleration Architecture (XAA)
+                Screen to screen bit blits
+                Solid filled rectangles
+                8x8 mono pattern filled rectangles
+                Indirect CPU to Screen color expansion
+                Solid Lines
+                Dashed Lines
+                Offscreen Pixmaps
+                Driver provided NonTEGlyphRenderer replacement
+                Setting up tile and stipple cache:
+                        10 128x128 slots
+        (==) TDFX(0): Backing store disabled
+        (==) TDFX(0): Silken mouse enabled
+        (0): X context handle = 0x00000001
+        (0): [drm] installed DRM signal handler
+        (0): [DRI] installation complete
+        (II) TDFX(0): direct rendering enabled
+        </verb>
+
+	  <item>
+	    After the X server has started, verify that the required X server
+	    extensions are loaded.
+	    Run <tt/xdpyinfo/ and look for the following entries in the
+	    extensions list:
+        <verb>
+	  GLX
+	  SGI-GLX
+	  XFree86-DRI
+        </verb>
+
+        </enum>
+
+      <sect1>Linking, running and verifying 3D acceleration
+<p>
+          After you've verified that the X server and DRI have started
+          correctly it's time to verify that the GL library and hardware
+          drivers are working correctly.
+
+        <enum>
+          <item>
+	    Verify that you're using the correct libGL.so library with
+            <tt/ldd/.
+            The /usr/lib and /usr/X11R6/lib directories are expected
+            locations for libGL.so.
+            <p>
+              Example:
+        <verb>
+        % ldd /usr/local/bin/glxinfo
+                libglut.so.3 => /usr/local/lib/libglut.so.3 (0x40019000)
+                libGLU.so.1 => /usr/local/lib/libGLU.so.1 (0x40051000)
+                libGL.so.1 => /usr/lib/libGL.so.1 (0x40076000)
+                libXmu.so.6 => /usr/X11R6/lib/libXmu.so.6 (0x402ee000)
+                libXi.so.6 => /usr/X11R6/lib/libXi.so.6 (0x40301000)
+                libm.so.6 => /lib/libm.so.6 (0x40309000)
+                libc.so.6 => /lib/libc.so.6 (0x40325000)
+                libX11.so.6 => /usr/X11R6/lib/libX11.so.6 (0x40419000)
+                libXt.so.6 => /usr/X11R6/lib/libXt.so.6 (0x404bd000)
+                libSM.so.6 => /usr/X11R6/lib/libSM.so.6 (0x40509000)
+                libICE.so.6 => /usr/X11R6/lib/libICE.so.6 (0x40512000)
+                libXext.so.6 => /usr/X11R6/lib/libXext.so.6 (0x40529000)
+                libvga.so.1 => /usr/lib/libvga.so.1 (0x40537000)
+                libpthread.so.0 => /lib/libpthread.so.0 (0x4057d000)
+                /lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x40000000)
+        </verb>
+
+	  <item>
+	    You may also double check that libGL.so is in fact DRI-capable.
+	    Run <tt/strings libGL.so.1.2 | grep DRI/ and look for
+            symbols prefixed with "XF86DRI", such as "XF86DRIQueryExtension".
+
+          <item>
+            To be safe one should run <tt/ldconfig/ after installing libGL.so
+            to be sure the runtime loader will find the proper library.
+
+	  <item>
+	    Verify that the appropriate 3D driver is in
+	    /usr/X11R6/lib/modules/dri/
+            For example, the 3dfx driver will be named <tt/tdfx_dri.so/.
+
+          <item>
+            Set the <tt/LIBGL_DEBUG/ environment variable.
+            This will cause libGL.so to print an error message if it fails
+            to load a DRI driver.
+            Any error message printed should be self-explanatory.
+
+	  <item>
+	    Run <tt/glxinfo/.  Note the line labeled "OpenGL renderer string".
+	    It should have a value which starts with "Mesa DRI" followed by
+	    the name of your hardware.
+
+          <item>
+            Older Linux OpenGL applications may have been linked against
+            Mesa's GL library and will not automatically use libGL.so.
+            In some cases, making symbolic links from the Mesa GL library
+            to libGL.so.1 will solve the problem:
+        <verb>
+        ln -s libGL.so.1 libMesaGL.so.3
+        </verb>
+            In other cases, the application will have to be relinked
+            against the new XFree86 libGL.so.
+            <P>
+            It is reported that part of the problem is that running
+            <tt/ldconfig/ will silently rewrite symbolic links based
+            on the SONAME field in libraries.
+	</enum>
+
+      <p>
+        If you're still having trouble, look in the next section for
+        information specific to your graphics card.
+
+
+
+    <sect>Hardware-Specific Information and Troubleshooting
+<p>
+        This section presents hardware-specific information for normal
+        use and troubleshooting.
+
+      <sect1>3dfx Voodoo3
+<p>
+        <sect2>Troubleshooting
+<p>
+          <itemize>
+            <item>
+              3D acceleration for Voodoo3 is only supported in the 16
+              bit/pixel screen mode.
+              Use <tt/xdpyinfo/ to verify that all your visuals are depth 16.
+              Edit your XF86Config file if needed.
+          </itemize>
+
+        <sect2>Performance
+<p>
+          <itemize>
+            <item>
+              Normally, buffer swapping in double-buffered applications is
+              synchronized to your monitor's refresh rate.
+              This may be overridden by setting the <tt/FX_GLIDE_SWAPINTERNVAL/
+              environment variable.
+              The value of this variable indicates the maximum number of
+              swap buffer commands can be buffered.
+              Zero allows maximum frame rate.
+            <item>
+              The <tt/glTexEnv/ mode <tt/GL_BLEND/ is not directly supported
+              by the 3dfx hardware.
+              It can be accomplished with a multipass algorithm but it's not
+              implemented at this time.
+              Applications which use that mode, such as the Performer Town
+              demo, may become sluggish when falling back to software
+              rendering to render in that mode.
+          </itemize>
+        <sect2>Known Problems
+<p>
+          <itemize>
+            <item>
+              SSystem has problems because of poorly set near and far
+              clipping planes.
+              The office.unc Performer model also suffers from this problem.
+          </itemize>
+
+
+      <sect1>Intel i810
+<p>
+      <sect1>Matrox G400
+<p>
+      <sect1>ATI Rage 128
+<p>
+      <sect1>3DLabs Oxygen GMX 2000
+<p>
+          The driver for this hardware was experimental and is no longer being
+          developed or supported.
+
+
+    <sect>Limitations and Known Bugs
+<p>
+      <sect1>OpenGL
+<p>
+          The following OpenGL features are not supported at this time:
+          overlays, stereo, hardware-accelerated indirect rendering.
+        <p>
+          OpenGL-like functionality is provided with the Mesa library.
+          XFree86 4.0 uses a beta version Mesa 3.3.
+          When newer versions of Mesa are available, the 3D drivers can
+          be updated without reinstalling XFree86 or libGL.so.
+
+      <sect1>GLX
+<p>
+          The GLX 1.3 API is exported but none of the new 1.3 functions
+          are operational.
+        <p>
+          The new <tt/glXGetProcAddressARB/ function is fully supported.
+
+      <sect1>Signal Handling
+<p>
+          There are several understood, but unresolved problems relating
+          to hardware locking and signal handling.
+          Hitting CTRL-z to suspend a 3D application can sometimes cause
+          the X server to lock-up if executing device driver code at that
+          moment.
+          Also, using a debugger to step through OpenGL/Mesa device driver
+          functions code could cause a lock-up.
+          These problems will be fixed in the future.
+
+      <sect1>Scheduling
+<p>
+          When you run multiple GL applications at once you may notice poor
+          time slicing.
+          This is due to an interaction problem with the Linux scheduler
+          which will be addressed in the future.
+
+
+      <sect1>Bug Database
+<p>
+          The DRI bug database which includes bugs related to specific
+          drivers is at the
+          <htmlurl url="http://sourceforge.net/bugs/?group_id=387"
+           name="SourceForge DRI Bug Database">
+        <p>
+          Please scan both the open and closed bug lists to determine if your
+          problem has already been reported and perhaps fixed.
+
+
+    <sect>Resources
+<p>
+      <sect1>Software
+<p>
+          A collection of useful configuration files, libraries, headers,
+          utilities and demo programs is available from
+          <htmlurl url="http://dri.sourceforge.net/resources/resources.html"
+                   name="http://dri.sourceforge.net/resources/resources.html">
+
+      <sect1>Documentation
+<p>
+        <itemize>
+          <item>General OpenGL information is available at the
+            <htmlurl url="http://www.opengl.org" name="OpenGL Home Page">
+          <item>XFree86 information is available at the
+            <htmlurl url="http://www.xfree86.org" name="XFree86 Home Page">
+          <item>Information about the design of the DRI is available from
+            <htmlurl url="http://www.precisioninsight.com/piinsights.html"
+            name="Precision Insight, Inc.">
+          <item>Visit the <htmlurl url="http://dri.sourceforge.net"
+            name="DRI project on SourceForge.net"> for the latest development
+            news about the DRI and 3D drivers.
+        </itemize>
+
+      <sect1>Support
+<p>
+        <itemize>
+          <item>
+            The DRI-users mailing list at
+            <htmlurl url="http://sourceforge.net/mail/?group_id=387"
+            name="SourceForge"> is a forum for people to discuss DRI problems.
+          <item>
+            XXX IHV support?
+          <item>
+            XXX Linux distro support?
+        </itemize>
+
+  </article>
+
+
+<!--
+1. Introduction
+2. Supported Hardware
+3. Prerequisite Software
+4. Start-Up
+5. Using 3D Acceleration
+   5.1 libGL.so
+   5.2 glxinfo
+   5.3 Environment variables
+6. General Trouble Shooting
+7. Hardware-Specific Information
+   7.1 3dfx
+   7.2 Intel i810
+   7.3 Matrox G400
+   7.4 ATI Rage 128
+   7.5 3DLabs Gamma
+8. Limitation and Known Bugs
+   8.1 OpenGL
+   8.2 GLX
+   8.3 Signal Handling
+   8.4 Scheduling
+   8.5 Bug Database
+9. Resources
+   9.1 Software Resources
+       GLU
+       GLUT
+       Glide3
+       Utilities and demos
+       Sample XF86Config files
+   9.2 Documentation
+       www.XFree86.org
+       www.opengl.org
+       www.linux.com
+       www.precisioninsight.com
+       sourceforge.net
+   9.3 Support
+       IHVs
+       RedHat
+ -->
+
+  <!-- Local Variables: -->
+  <!-- fill-column: 72  -->
+  <!-- End:             -->
+
+

@@ -1,0 +1,30 @@
+XCOMM $XFree86: xc/lib/Xanti/Imakefile,v 1.1 1998/11/15 04:29:56 dawes Exp $
+
+#define DoNormalLib NormalLibXanti
+#define DoSharedLib SharedLibXanti
+#define DoDebugLib DebugLibXanti
+#define DoProfileLib ProfileLibXanti
+#define LibName Xanti
+#define SoRev SOXANTIREV
+
+#include <Threads.tmpl>
+
+#ifdef SharedXantiReqs
+REQUIREDLIBS = SharedXantiReqs
+#endif
+
+#if Malloc0ReturnsNull
+ALLOC_DEFINES = -DMALLOC_0_RETURNS_NULL
+#endif
+
+      DEFINES = $(ALLOC_DEFINES)
+     INCLUDES = -I$(XLIBSRC) -I$(EXTINCSRC)
+         SRCS = XAnti.c
+         OBJS = XAnti.o
+     LINTLIBS = $(LINTXLIB)
+
+HEADERS = XAntiint.h
+
+#include <Library.tmpl>
+
+DependTarget()

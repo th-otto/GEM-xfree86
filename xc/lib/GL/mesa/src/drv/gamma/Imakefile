@@ -1,0 +1,83 @@
+XCOMM $XFree86: xc/lib/GL/mesa/src/drv/gamma/Imakefile,v 1.8 2000/03/02 16:07:35 martin Exp $
+
+#define DoNormalLib NormalLibGlx
+#define DoSharedLib SharedLibGlx
+#define DoExtraLib SharedLibGlx
+#define DoDebugLib DebugLibGlx
+#define DoProfileLib ProfileLibGlx
+
+LinkSourceFile(xmesaP.h, ../../../../../../extras/Mesa/src/X)
+LinkSourceFile(glapi.h, ../../../../../../extras/Mesa/src)
+
+
+#if Malloc0ReturnsNull
+ALLOC_DEFINES = -DMALLOC_0_RETURNS_NULL
+#endif
+
+#if BuildXF86DRI
+  DRI_DEFINES = GlxDefines
+ DRI_INCLUDES = -I../../../../dri -I../../../../glx \
+		-I../../../dri \
+		-I$(TOP)/include -I$(TOP)/include/GL \
+		-I$(XF86OSSRC) -I$(SERVERSRC)/GL/dri \
+		-I$(XF86DRIVERSRC)/glint \
+		-I../../../include -I../.. -I../../X
+#endif
+
+MESA_INCLUDES = -I. -I.. -I../../include
+
+      DEFINES = $(ALLOC_DEFINES) $(DRI_DEFINES)
+     INCLUDES = -I$(XLIBSRC) -I$(EXTINCSRC) $(MESA_INCLUDES) $(DRI_INCLUDES)
+
+      DRISRCS = ../../../dri/dri_mesa.c \
+		../../../../dri/dri_tmm.c
+
+      DRIOBJS = ../../../dri/dri_mesa.o \
+		../../../../dri/dri_tmm.o
+
+      DRMSRCS = ../../../../dri/drm/xf86drm.c \
+		../../../../dri/drm/xf86drmHash.c \
+		../../../../dri/drm/xf86drmRandom.c \
+		../../../../dri/drm/xf86drmSL.c
+
+      DRMOBJS = ../../../../dri/drm/xf86drm.o \
+		../../../../dri/drm/xf86drmHash.o \
+		../../../../dri/drm/xf86drmRandom.o \
+		../../../../dri/drm/xf86drmSL.o
+
+    GAMMASRCS = gamma_gl.c gamma_xmesa.c gamma_init.c gamma_matrix.c \
+                gamma_inithw.c gamma_texture.c
+
+    GAMMAOBJS = gamma_gl.o gamma_xmesa.o gamma_init.o gamma_matrix.o \
+                gamma_inithw.o gamma_texture.o
+
+XCOMM	 SRCS = $(DRISRCS) $(DRMSRCS) $(GAMMASRCS)
+XCOMM	 OBJS = $(DRIOBJS) $(DRMOBJS) $(GAMMAOBJS)
+
+	 SRCS = $(GAMMASRCS)
+	 OBJS = $(DRIOBJS) $(DRMOBJS) $(GAMMAOBJS)
+
+
+#if !GlxUseBuiltInDRIDriver
+#undef DoNormalLib NormalLibGlx
+#undef DoExtraLib SharedLibGlx
+#undef DoDebugLib DebugLibGlx
+#undef DoProfileLib ProfileLibGlx
+#endif
+
+#include <Library.tmpl>
+
+LibraryObjectRule()
+
+SubdirLibraryRule($(OBJS))
+NormalLintTarget($(SRCS))
+
+#if !GlxUseBuiltInDRIDriver
+LIBNAME = gamma_dri.so
+ALL_OBJS = $(OBJS)
+ALL_DEPS = DONE
+SharedDepModuleTarget($(LIBNAME),$(ALL_DEPS),$(ALL_OBJS))
+InstallDynamicModule($(LIBNAME),$(MODULEDIR)/dri,.)
+#endif
+
+DependTarget()

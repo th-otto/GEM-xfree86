@@ -1,0 +1,32 @@
+XCOMM $XConsortium: Imakefile /main/2 1996/09/28 17:06:40 rws $
+
+
+
+
+XCOMM $XFree86: xc/programs/Xserver/dbe/Imakefile,v 3.7 1999/08/14 10:49:27 dawes Exp $
+
+#define IHaveModules
+#include <Server.tmpl>
+
+#if DoLoadableServer
+      MSRCS = dbemodule.c
+      MOBJS = dbemodule.o
+#endif
+
+       SRCS = dbe.c midbe.c $(MSRCS)
+       OBJS = dbe.o midbe.o $(MOBJS)
+   INCLUDES = -I../include -I$(XINCLUDESRC) -I$(EXTINCSRC) -I$(EXTRAINCLUDES)
+   LINTLIBS = ../dix/llib-ldix.ln ../os/llib-los.ln
+
+ModuleObjectRule()
+
+LibraryModuleTarget(dbe,$(OBJS))
+
+LintLibraryTarget(dbe,$(SRCS))
+NormalLintTarget($(SRCS))
+
+InstallLibraryModule(dbe,$(MODULEDIR),extensions)
+
+DependTarget()
+
+InstallDriverSDKLibraryModule(dbe,$(DRIVERSDKMODULEDIR),extensions)

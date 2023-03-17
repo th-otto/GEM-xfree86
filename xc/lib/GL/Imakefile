@@ -1,0 +1,152 @@
+XCOMM $XFree86: xc/lib/GL/Imakefile,v 1.16 2000/03/02 16:07:30 martin Exp $
+
+#include <Threads.tmpl>
+
+#define IHaveSubdirs
+#define PassCDebugFlags
+
+#define DoNormalLib NormalLibGlx
+#define DoSharedLib SharedLibGlx
+#define DoExtraLib SharedLibGlx
+#define DoDebugLib DebugLibGlx
+#define DoProfileLib ProfileLibGlx
+
+#if BuildXF86DRI
+DRIDIRS = dri
+MESADIRS = mesa/dri mesa/include/GL mesa/src
+#endif
+SUBDIRS = glx $(DRIDIRS) $(MESADIRS)
+
+#ifdef SharedGLReqs
+REQUIREDLIBS = SharedGLReqs
+#endif
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+     LIBNAME = GL
+     SOREV   = $(SOGLREV)
+
+     GLXOBJS = glx/?*.o
+    GLXUOBJS = glx/unshared/?*.o
+    GLXDOBJS = glx/debugger/?*.o
+    GLXPOBJS = glx/profiled/?*.o
+    GLXDONES = glx/DONE
+
+#if BuildXF86DRI
+     DRIOBJS = dri/XF86dri.o dri/dri_glx.o
+    DRIUOBJS = dri/unshared/XF86dri.o dri/unshared/dri_glx.o
+    DRIDOBJS = dri/debugger/XF86dri.o dri/debugger/dri_glx.o
+    DRIPOBJS = dri/profiled/XF86dri.o dri/profiled/dri_glx.o
+    DRIDONES = dri/DONE
+
+#if !GlxUseSGISI
+#if GlxBuiltInGamma
+     DRMOBJS = dri/drm/?*.o
+    DRMUOBJS = dri/drm/unshared/?*.o
+    DRMDOBJS = dri/drm/debugger/?*.o
+    DRMPOBJS = dri/drm/profiled/?*.o
+    DRMDONES = dri/drm/DONE
+
+   GAMMAOBJS = mesa/src/drv/gamma/?*.o
+  GAMMAUOBJS = mesa/src/drv/gamma/unshared/?*.o
+  GAMMADOBJS = mesa/src/drv/gamma/debugger/?*.o
+  GAMMAPOBJS = mesa/src/drv/gamma/profiled/?*.o
+  GAMMADONES = mesa/src/drv/gamma/DONE
+
+ DRIMESAOBJS = mesa/dri/?*.o
+DRIMESAUOBJS = mesa/dri/unshared/?*.o
+DRIMESADOBJS = mesa/dri/debugger/?*.o
+DRIMESAPOBJS = mesa/dri/profiled/?*.o
+DRIMESADONES = mesa/dri/DONE
+
+     DRVOBJS = $(GAMMAOBJS) $(MESAOBJS) $(DRIMESAOBJS) $(DRMOBJS)
+    DRVUOBJS = $(GAMMAUOBJS) $(MESAUOBJS) $(DRIMESAUOBJS) $(DRMUOBJS)
+    DRVDOBJS = $(GAMMADOBJS) $(MESADOBJS) $(DRIMESADOBJS) $(DRMDOBJS)
+    DRVPOBJS = $(GAMMAPOBJS) $(MESAPOBJS) $(DRIMESAPOBJS) $(DRMPOBJS)
+    DRVDONES = $(GAMMADONES) $(MESADONES) $(DRIMESADONES) $(DRMDONES)
+
+#elif GlxBuiltInTdfx
+     DRMOBJS = dri/drm/?*.o
+    DRMUOBJS = dri/drm/unshared/?*.o
+    DRMDOBJS = dri/drm/debugger/?*.o
+    DRMPOBJS = dri/drm/profiled/?*.o
+    DRMDONES = dri/drm/DONE
+
+    TDFXOBJS = mesa/src/drv/tdfx/?*.o
+   TDFXUOBJS = mesa/src/drv/tdfx/unshared/?*.o
+   TDFXDOBJS = mesa/src/drv/tdfx/debugger/?*.o
+   TDFXPOBJS = mesa/src/drv/tdfx/profiled/?*.o
+   TDFXDONES = mesa/src/drv/tdfx/DONE
+
+    MESAOBJS = mesa/src/?*.o mesa/src/X86/?*.o
+   MESAUOBJS = mesa/src/unshared/?*.o mesa/src/X86/unshared/?*.o
+   MESADOBJS = mesa/src/debugger/?*.o mesa/src/X86/debugger/?*.o
+   MESAPOBJS = mesa/src/profiled/?*.o mesa/src/X86/profiled/?*.o
+   MESADONES = mesa/src/DONE mesa/src/X86/DONE
+
+ DRIMESAOBJS = mesa/dri/?*.o
+DRIMESAUOBJS = mesa/dri/unshared/?*.o
+DRIMESADOBJS = mesa/dri/debugger/?*.o
+DRIMESAPOBJS = mesa/dri/profiled/?*.o
+DRIMESADONES = mesa/dri/DONE
+
+     DRVOBJS = $(TDFXOBJS) $(MESAOBJS) $(DRIMESAOBJS) $(DRMOBJS)
+    DRVUOBJS = $(TDFXUOBJS) $(MESAUOBJS) $(DRIMESAUOBJS) $(DRMUOBJS)
+    DRVDOBJS = $(TDFXDOBJS) $(MESADOBJS) $(DRIMESADOBJS) $(DRMDOBJS)
+    DRVPOBJS = $(TDFXPOBJS) $(MESAPOBJS) $(DRIMESAPOBJS) $(DRMPOBJS)
+    DRVDONES = $(TDFXDONES) $(MESADONES) $(DRIMESADONES) $(DRMDONES)
+
+ REQUIREDLIBS += -lglide3x
+#elif GlxBuiltInMesa
+#ifndef GlxDriverUsesMesa
+     DRVOBJS = mesa/src/?*.o mesa/src/X/?*.o
+    DRVUOBJS = mesa/src/unshared/?*.o mesa/src/X/unshared/?*.o
+    DRVDOBJS = mesa/src/debugger/?*.o mesa/src/X/debugger/?*.o
+    DRVPOBJS = mesa/src/profiled/?*.o mesa/src/X/profiled/?*.o
+    DRVDONES = mesa/src/DONE mesa/src/X/DONE
+#endif
+#endif
+#endif
+#endif
+
+#ifdef OS2Architecture
+        OBJS = $(LIBNAME).a
+#else
+       OBJS = $(GLXOBJS)  $(DRIOBJS)   $(DRVOBJS)
+#endif
+#if HasSharedLibraries
+       UOBJS = $(GLXUOBJS) $(DRIUOBJS) $(DRVUOBJS)
+#else
+       UOBJS = $(OBJS)
+#endif
+       DOBJS = $(GLXDOBJS) $(DRIDOBJS) $(DRVDOBJS)
+       POBJS = $(GLXPOBJS) $(DRIPOBJS) $(DRVPOBJS)
+       DONES = $(GLXDONES) $(DRIDONES) $(DRVDONES)
+
+#if LocalThreads
+  THREADOBJS = $(THREADS_LIBS)
+#endif
+
+#include <Library.tmpl>
+
+#undef _LinkBuildLibrary
+#define _LinkBuildLibrary(lib) LinkBuildLibrary(lib)
+
+#if NormalLibGlx
+NormalDepLibraryTarget($(LIBNAME),$(SUBDIRS) $(DONES),$(UOBJS))
+InstallLibrary($(LIBNAME),$(USRLIBDIR))
+#endif
+#if SharedLibGlx
+SharedDepLibraryTarget($(LIBNAME),$(SOREV),$(SUBDIRS) $(DONES),$(OBJS) $(THREADOBJS),.,.)
+InstallSharedLibrary($(LIBNAME),$(SOREV),$(SHLIBDIR))
+#endif
+#if DebugLibGlx
+DebuggedDepLibraryTarget($(LIBNAME),$(SUBDIRS) $(DONES),$(DOBJS))
+InstallLibrary($(LIBNAME)_d,$(USRLIBDIR))
+#endif
+#if ProfileLibGlx
+ProfiledDepLibraryTarget($(LIBNAME),$(SUBDIRS) $(DONES),$(POBJS))
+InstallLibrary($(LIBNAME)_p,$(USRLIBDIR))
+#endif
+

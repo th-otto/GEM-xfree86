@@ -1,0 +1,47 @@
+XCOMM $XFree86: xc/programs/Xserver/hw/xfree86/os-support/misc/Imakefile,v 3.7 2000/02/15 23:44:58 dawes Exp $
+
+
+
+
+XCOMM $XConsortium: Imakefile /main/4 1996/09/28 17:24:12 rws $
+
+#include <Server.tmpl>
+
+
+#if defined(i386Architecture)
+XSRCS = BUSmemcpy.S IODelay.S SlowBcopy.S
+XOBJS = BUSmemcpy.o IODelay.o SlowBcopy.o
+#elif defined(SparcArchitecture)
+XSRCS = BUSmemcpy.c IODelay.c SlowBcopy.c SparcMulDiv.S
+XOBJS = BUSmemcpy.o IODelay.o SlowBcopy.o SparcMulDiv.o
+#else
+XSRCS = BUSmemcpy.c IODelay.c SlowBcopy.c
+XOBJS = BUSmemcpy.o IODelay.o SlowBcopy.o
+#endif
+
+#if HasGcc || HasGcc2
+ILHACKSRCS = xf86_IlHack.c
+ILHACKOBJS = xf86_IlHack.o
+#endif
+
+SRCS = xf86_Util.c $(ILHACKSRCS) $(XSRCS)
+
+OBJS = xf86_Util.o $(ILHACKOBJS) $(XOBJS)
+
+INCLUDES = -I$(XF86COMSRC) -I$(XF86OSSRC) -I. -I$(SERVERSRC)/include \
+           -I$(XINCLUDESRC)
+
+SubdirLibraryRule($(OBJS))
+NormalLibraryObjectRule()
+
+#if defined(i386Architecture)
+ObjectFromAsmSource(BUSmemcpy,NullParameter)
+ObjectFromAsmSource(IODelay,NullParameter)
+ObjectFromAsmSource(SlowBcopy,NullParameter)
+#endif
+#if defined(SparcArchitecture)
+ObjectFromAsmSource(SparcMulDiv,NullParameter)
+#endif
+
+DependTarget()
+

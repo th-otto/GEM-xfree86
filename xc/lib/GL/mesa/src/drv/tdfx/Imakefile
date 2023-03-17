@@ -1,0 +1,301 @@
+
+#include <Threads.tmpl>
+
+#define DoNormalLib NormalLibGlx
+#define DoSharedLib SharedLibGlx
+#define DoExtraLib SharedLibGlx
+#define DoDebugLib DebugLibGlx
+#define DoProfileLib ProfileLibGlx
+
+#if Malloc0ReturnsNull
+ALLOC_DEFINES = -DMALLOC_0_RETURNS_NULL
+#endif
+
+#if BuildXF86DRI
+  DRI_DEFINES = GlxDefines -DFX -DFX_GLIDE3 -DGLIDE3 -DDRIVERTS
+ DRI_INCLUDES = -I../../../../dri -I../../../../glx \
+		-I../../../dri \
+		-I$(TOP)/include -I$(TOP)/include/GL \
+		-I$(XF86OSSRC) -I$(SERVERSRC)/GL/dri \
+		-I$(XF86DRIVERSRC)/tdfx \
+		-I../../../include -I../.. -I../../X
+#endif
+
+MESA_INCLUDES = -I. -I.. -I../../include
+
+LinkSourceFile(fxclip.c, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxcliptmp.h, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxcva.c, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxcva.h, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxcvatmp.h, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxdd.c, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxddspan.c, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxddtex.c, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxdrv.h, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxfastpath.c, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxfasttmp.h, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxglidew.c, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxglidew.h, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxpipeline.c, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxrender.c, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxsanity.c, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxsdettmp.h, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxsetup.c, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxstripdet.c, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxtexman.c, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxtrifuncs.c, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxtritmp.h, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxvsetup.c, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxvsetup.h, ../../../../../../extras/Mesa/src/FX)
+LinkSourceFile(fxvs_tmp.h, ../../../../../../extras/Mesa/src/FX)
+
+      DEFINES = $(ALLOC_DEFINES) $(DRI_DEFINES)
+     INCLUDES = -I$(XLIBSRC) -I$(EXTINCSRC) $(MESA_INCLUDES) $(DRI_INCLUDES) \
+		-I$(GLIDE3INCDIR)
+
+      DRISRCS = ../../../dri/dri_mesa.c \
+		../../../../dri/dri_tmm.c
+
+      DRIOBJS = ../../../dri/dri_mesa.o \
+		../../../../dri/dri_tmm.o
+
+      DRMSRCS = ../../../../dri/drm/xf86drm.c \
+		../../../../dri/drm/xf86drmHash.c \
+		../../../../dri/drm/xf86drmRandom.c \
+		../../../../dri/drm/xf86drmSL.c
+
+      DRMOBJS = ../../../../dri/drm/xf86drm.o \
+		../../../../dri/drm/xf86drmHash.o \
+		../../../../dri/drm/xf86drmRandom.o \
+		../../../../dri/drm/xf86drmSL.o
+
+     TDFXSRCS = tdfx_xmesa.c tdfx_init.c tdfx_inithw.c \
+		fxclip.c fxcva.c fxdd.c fxddspan.c fxddtex.c fxfastpath.c \
+		fxglidew.c fxpipeline.c fxrender.c fxsanity.c fxsetup.c \
+		fxtexman.c fxtrifuncs.c fxvsetup.c
+
+     TDFXOBJS = tdfx_xmesa.o tdfx_init.o tdfx_inithw.o \
+		fxclip.o fxcva.o fxdd.o fxddspan.o fxddtex.o fxfastpath.o \
+		fxglidew.o fxpipeline.o fxrender.o fxsanity.o fxsetup.o \
+		fxtexman.o fxtrifuncs.o fxvsetup.o
+
+     MESASRCS = ../../accum.c \
+		../../alpha.c \
+		../../alphabuf.c \
+		../../attrib.c \
+		../../bbox.c \
+		../../bitmap.c \
+		../../blend.c \
+		../../buffers.c \
+		../../clip.c \
+		../../colortab.c \
+		../../config.c \
+		../../context.c \
+		../../copypix.c \
+		../../cva.c \
+		../../debug_xform.c \
+		../../depth.c \
+		../../dlist.c \
+		../../drawpix.c \
+		../../enable.c \
+		../../enums.c \
+		../../eval.c \
+		../../extensions.c \
+		../../feedback.c \
+		../../fog.c \
+		../../get.c \
+		../../glapi.c \
+		../../glapinoop.c \
+		../../glthread.c \
+		../../hash.c \
+		../../image.c \
+		../../imaging.o \
+		../../light.c \
+		../../lines.c \
+		../../logic.c \
+		../../masking.c \
+		../../matrix.c \
+		../../mem.c \
+		../../mmath.c \
+		../../pb.c \
+		../../pipeline.c \
+		../../pixel.c \
+		../../points.c \
+		../../polygon.c \
+		../../quads.c \
+		../../rastpos.c \
+		../../readpix.c \
+		../../rect.c \
+		../../scissor.c \
+		../../shade.c \
+		../../span.c \
+		../../stages.c \
+		../../state.c \
+		../../stencil.c \
+		../../teximage.c \
+		../../texobj.c \
+		../../texstate.c \
+		../../texture.c \
+		../../translate.c \
+		../../triangle.c \
+		../../varray.c \
+		../../vb.c \
+		../../vbcull.c \
+		../../vbfill.c \
+		../../vbindirect.c \
+		../../vbrender.c \
+		../../vbxform.c \
+		../../vector.c \
+		../../vertices.c \
+		../../winpos.c \
+		../../xform.c \
+		../../zoom.c \
+		../../X86/common_x86.c
+
+     MESAOBJS = ../../accum.o \
+		../../alpha.o \
+		../../alphabuf.o \
+		../../attrib.o \
+		../../bbox.o \
+		../../bitmap.o \
+		../../blend.o \
+		../../buffers.o \
+		../../clip.o \
+		../../colortab.o \
+		../../config.o \
+		../../context.o \
+		../../copypix.o \
+		../../cva.o \
+		../../debug_xform.o \
+		../../depth.o \
+		../../dlist.o \
+		../../drawpix.o \
+		../../enable.o \
+		../../enums.o \
+		../../eval.o \
+		../../extensions.o \
+		../../feedback.o \
+		../../fog.o \
+		../../get.o \
+		../../hash.o \
+		../../hint.o \
+		../../image.o \
+		../../imaging.o \
+		../../light.o \
+		../../lines.o \
+		../../logic.o \
+		../../masking.o \
+		../../matrix.o \
+		../../mem.o \
+		../../mmath.o \
+		../../pb.o \
+		../../pipeline.o \
+		../../pixel.o \
+		../../points.o \
+		../../polygon.o \
+		../../quads.o \
+		../../rastpos.o \
+		../../readpix.o \
+		../../rect.o \
+		../../scissor.o \
+		../../shade.o \
+		../../span.o \
+		../../stages.o \
+		../../state.o \
+		../../stencil.o \
+		../../teximage.o \
+		../../texobj.o \
+		../../texstate.o \
+		../../texture.o \
+		../../translate.o \
+		../../triangle.o \
+		../../varray.o \
+		../../vb.o \
+		../../vbcull.o \
+		../../vbfill.o \
+		../../vbindirect.o \
+		../../vbrender.o \
+		../../vbxform.o \
+		../../vector.o \
+		../../vertices.o \
+		../../winpos.o \
+		../../xform.o \
+		../../zoom.o
+
+#ifdef i386Architecture
+     X86_SRCS = ../../X86/x86.c \
+		../../X86/x86a.S \
+		../../X86/common_x86.c \
+		../../X86/common_x86asm.S \
+		../../X86/vertex.S
+
+     X86_OBJS = ../../X86/x86.o \
+		../../X86/x86a.o \
+		../../X86/common_x86.o \
+		../../X86/common_x86asm.o \
+		../../X86/vertex.o
+
+     MMX_SRCS = ../../X86/mmx_blend.S
+
+     MMX_OBJS = ../../X86/mmx_blend.o
+
+XCOMM Disabling 3Dnow code for the time being.
+#if 0
+   3DNOW_SRCS = ../../X86/3dnow.c \
+		../../X86/3dnow_norm_raw.S \
+		../../X86/3dnow_xform_masked1.S \
+		../../X86/3dnow_xform_masked2.S \
+		../../X86/3dnow_xform_masked3.S \
+		../../X86/3dnow_xform_masked4.S \
+		../../X86/3dnow_xform_raw1.S \
+		../../X86/3dnow_xform_raw2.S \
+		../../X86/3dnow_xform_raw3.S \
+		../../X86/3dnow_xform_raw4.S \
+		../../X86/vertex_3dnow.S
+
+   3DNOW_OBJS = ../../X86/3dnow.o \
+		../../X86/3dnow_norm_raw.o \
+		../../X86/3dnow_xform_masked1.o \
+		../../X86/3dnow_xform_masked2.o \
+		../../X86/3dnow_xform_masked3.o \
+		../../X86/3dnow_xform_masked4.o \
+		../../X86/3dnow_xform_raw1.o \
+		../../X86/3dnow_xform_raw2.o \
+		../../X86/3dnow_xform_raw3.o \
+		../../X86/3dnow_xform_raw4.o \
+		../../X86/vertex_3dnow.o
+#endif
+
+#endif
+
+      ASMSRCS = $(X86_SRCS) $(MMX_SRCS) $(3DNOW_SRCS)
+      ASMOBJS = $(X86_OBJS) $(MMX_OBJS) $(3DNOW_OBJS)
+
+	 SRCS = $(DRISRCS) $(DRMSRCS) $(TDFXSRCS) $(MESASRCS) $(ASMSRCS)
+	 OBJS = $(DRIOBJS) $(DRMOBJS) $(TDFXOBJS) $(MESAOBJS) $(ASMOBJS)
+
+REQUIREDLIBS += -lglide3x
+
+#if !GlxUseBuiltInDRIDriver
+#undef DoNormalLib NormalLibGlx
+#undef DoExtraLib SharedLibGlx
+#undef DoDebugLib DebugLibGlx
+#undef DoProfileLib ProfileLibGlx
+#endif
+
+#include <Library.tmpl>
+
+LibraryObjectRule()
+
+SubdirLibraryRule($(OBJS))
+NormalLintTarget($(SRCS))
+
+#if !GlxUseBuiltInDRIDriver
+LIBNAME = tdfx_dri.so
+ALL_OBJS = $(OBJS)
+ALL_DEPS = DONE
+SharedDepModuleTarget($(LIBNAME),$(ALL_DEPS),$(ALL_OBJS))
+InstallDynamicModule($(LIBNAME),$(MODULEDIR)/dri,.)
+#endif
+
+DependTarget()

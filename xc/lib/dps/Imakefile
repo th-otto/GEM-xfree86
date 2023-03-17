@@ -1,0 +1,320 @@
+XCOMM $XFree86: xc/lib/dps/Imakefile,v 1.7 2000/02/24 05:36:39 tsi Exp $
+
+#define DoNormalLib NormalLibDps
+#define DoSharedLib SharedLibDps
+#define DoExtraLib SharedLibDps
+#define DoDebugLib DebugLibDps
+#define DoProfileLib ProfileLibDps
+#define LibName dps
+#define SoRev SODPSREV
+#define IncSubdir DPS
+
+XCOMM  The Client Library uses definitions just like Xlib for network
+XCOMM  capabilities, such as TCPCONN, UNIXCONN, and DNETCONN.  See
+XCOMM  csconndi.c and csopendi.c
+
+XCOMM The connection code should be rewritten to use xtrans.  The STREAMSCONN
+XCOMM code here needs work.  For now force ConnectionFlags to be
+XCOMM  -DTCPCONN -DUNIXCONN
+
+#undef ConnectionFlags
+#define ConnectionFlags -DTCPCONN -DUNIXCONN
+
+        DEFINES = -DXDPS -DCSDPS ConnectionFlags
+            CAT = cat
+            SED = sed
+            AWK = awk
+           SORT = sort
+      PSWRAPSRC = $(TOP)/config/pswrap
+         PSWRAP = $(PSWRAPSRC)/pswrap
+
+
+COMMONOBJECTFILES = \
+	dpsclient.o\
+	dpsprintf.o\
+	dpsexcept.o\
+	dpsdict.o\
+	dpsabbrev.o
+
+COMMONSOURCEFILES = \
+	dpsclient.c\
+	dpsprintf.c\
+	dpsexcept.c\
+	dpsdict.c\
+	dpsabbrev.c
+
+XOBJECTFILES = \
+	dpsXclient.o\
+	dpssysnames.o\
+	dpsXpriv.o\
+	XDPS.o\
+	dpsXtdisp.o\
+	dpsXcmu.o
+
+XSOURCEFILES = \
+	dpsXclient.c\
+	dpssysnames.c\
+	dpsXpriv.c\
+	XDPS.c\
+	dpsXtdisp.c\
+	dpsXcmu.c
+
+XCSDPSOBJECTFILES = \
+	cslibext.o\
+	csopendi.o\
+	csconndi.o\
+	csstartNX.o\
+	csfindNX.o\
+	cslibint.o
+
+XCSDPSSOURCEFILES = \
+	cslibext.c\
+	csopendi.c\
+	csconndi.c\
+	csstartNX.c\
+	csfindNX.c\
+	cslibint.c
+
+DPSOPSOBJECTS = \
+    dpsclrops.o\
+    dpsctrlops.o\
+    dpsctxtops.o\
+    dpsdataops.o\
+    dpsfontops.o\
+    dpsgsttops.o\
+    dpsioops.o\
+    dpsmathops.o\
+    dpsmtrxops.o\
+    dpsmiscops.o\
+    dpspntops.o\
+    dpspathops.o\
+    dpssysops.o\
+    dpswinops.o\
+    dpsopstack.o\
+    dpsXops.o\
+    dpsl2ops.o
+
+PSOPSOBJECTS = \
+    psclrops.o\
+    psctrlops.o\
+    psctxtops.o\
+    psdataops.o\
+    psfontops.o\
+    psgsttops.o\
+    psioops.o\
+    psmathops.o\
+    psmtrxops.o\
+    psmiscops.o\
+    pspntops.o\
+    pspathops.o\
+    pssysops.o\
+    pswinops.o\
+    psopstack.o\
+    psXops.o\
+    psl2ops.o
+
+DPSOPSHEADERFILES = \
+    dpsclrops.h\
+    dpsctrlops.h\
+    dpsctxtops.h\
+    dpsdataops.h\
+    dpsfontops.h\
+    dpsgsttops.h\
+    dpsioops.h\
+    dpsmathops.h\
+    dpsmtrxops.h\
+    dpsmiscops.h\
+    dpsopstack.h\
+    dpspntops.h\
+    dpspathops.h\
+    dpssysops.h\
+    dpswinops.h\
+    dpsXops.h\
+    dpsl2ops.h
+
+PSOPSHEADERFILES = \
+    psclrops.h\
+    psctrlops.h\
+    psctxtops.h\
+    psdataops.h\
+    psfontops.h\
+    psgsttops.h\
+    psioops.h\
+    psmathops.h\
+    psmtrxops.h\
+    psmiscops.h\
+    pspntops.h\
+    pspathops.h\
+    pssysops.h\
+    pswinops.h\
+    psopstack.h\
+    psXops.h\
+    psl2ops.h
+
+DPSOPSCFILES = \
+    dpsclrops.c\
+    dpsctrlops.c\
+    dpsctxtops.c\
+    dpsdataops.c\
+    dpsfontops.c\
+    dpsgsttops.c\
+    dpsioops.c\
+    dpsmathops.c\
+    dpsmtrxops.c\
+    dpsmiscops.c\
+    dpsopstack.c\
+    dpspntops.c\
+    dpspathops.c\
+    dpssysops.c\
+    dpswinops.c\
+    dpsXops.c\
+    dpsl2ops.c
+
+PSOPSCFILES = \
+    psclrops.c\
+    psctrlops.c\
+    psctxtops.c\
+    psdataops.c\
+    psfontops.c\
+    psgsttops.c\
+    psioops.c\
+    psmathops.c\
+    psmtrxops.c\
+    psmiscops.c\
+    pspntops.c\
+    pspathops.c\
+    pssysops.c\
+    pswinops.c\
+    psopstack.c\
+    psXops.c\
+    psl2ops.c
+
+DPSOPSANSIHEADERFILES = \
+    dpsclrops.ah\
+    dpsctrlops.ah\
+    dpsctxtops.ah\
+    dpsdataops.ah\
+    dpsfontops.ah\
+    dpsgsttops.ah\
+    dpsioops.ah\
+    dpsmathops.ah\
+    dpsmtrxops.ah\
+    dpsmiscops.ah\
+    dpsopstack.ah\
+    dpspntops.ah\
+    dpspathops.ah\
+    dpssysops.ah\
+    dpswinops.ah\
+    dpsXops.ah\
+    dpsl2ops.ah
+
+PSOPSANSIHEADERFILES = \
+    psclrops.ah\
+    psctrlops.ah\
+    psctxtops.ah\
+    psdataops.ah\
+    psfontops.ah\
+    psgsttops.ah\
+    psioops.ah\
+    psmathops.ah\
+    psmtrxops.ah\
+    psmiscops.ah\
+    pspntops.ah\
+    pspathops.ah\
+    pssysops.ah\
+    pswinops.ah\
+    psopstack.ah\
+    psXops.ah\
+    psl2ops.ah
+
+includes:: $(DPSOPSCFILES) $(PSOPSCFILES)
+
+$(DPSOPSCFILES) $(PSOPSCFILES): $(PSWRAP)
+
+XCOMM Unless you have a completely and thoroughly ANSI-C environment, dont run
+XCOMM pswrap on the singleops with -a (ANSI C).  Many of the procedures have 
+XCOMM float arguments, and if you run pswrap with -a these become really and 
+XCOMM truly floats instead of the doubles they are automatically promoted 
+XCOMM to under non-ANSI C.  The resulting library cannot be linked with 
+XCOMM code compiled with a non-ANSI C compiler.
+
+SRCS = \
+	${COMMONSOURCEFILES} \
+	${XSOURCEFILES} \
+	${XCSDPSSOURCEFILES} \
+	${DPSOPSCFILES} \
+	${PSOPSCFILES}
+
+OBJS = \
+	${COMMONOBJECTFILES} \
+	${XOBJECTFILES} \
+	${XCSDPSOBJECTFILES} \
+	${DPSOPSOBJECTS} \
+	${PSOPSOBJECTS}
+
+DERIVED_FILES = $(DPSOPSHEADERFILES) $(PSOPSHEADERFILES) \
+		$(DPSOPSANSIHEADERFILES) $(PSOPSANSIHEADERFILES) \
+		$(DPSOPSCFILES) $(PSOPSCFILES)
+
+#include <Library.tmpl>
+
+.SUFFIXES: .psw .ah .h
+
+.psw.c : ProgramTargetName($(PSWRAP))
+	RunProgram(PSWRAP,-o $*.c -h $*.h $<)
+
+.psw.ah : ProgramTargetName($(PSWRAP))
+	RunProgram(PSWRAP,-a -h $*.ah $< > /dev/null)
+
+.psw.h : ProgramTargetName($(PSWRAP))
+	RunProgram(PSWRAP,-h $*.h $< > /dev/null)
+
+ProgramTargetName($(PSWRAP)):
+	@echo "checking $@ over in $(PSWRAPSRC) first..."; \
+	cd $(PSWRAPSRC) && $(MAKE); \
+	echo "okay, continuing in $(CURRENT_DIR)"
+
+HEADERS = psops.h dpsops.h
+
+all :: $(HEADERS)
+depend :: $(HEADERS)
+
+psops.h : $(PSOPSHEADERFILES) $(PSOPSANSIHEADERFILES)
+	$(RM) $@
+	${CAT} $(PSOPSHEADERFILES) |\
+	    ${SED} -e '/^$$/D' -e '/#/D' -e '/^\//D'\
+	        -e '/^   gener/D' -e '/^.\//D' |\
+	    ${SORT} > .sort
+	${AWK} '/;/ {print; printf("\n");}' .sort > .ttt
+	${CAT} $(PSOPSANSIHEADERFILES) |\
+	    ${SED} -e '/^$$/D' -e '/#/D' -e '/^\//D'\
+	        -e '/^   gener/D' -e '/^.\//D'\
+		-e 's/float \([a-zA-Z][a-zA-Z0-9]*[,\)]\)/double \1/g' |\
+	    ${SORT} > .sort
+	${AWK} '/;/ {print; printf("\n");}' .sort > .attt
+	${CAT} psname.txt header.txt psifdef.txt .ttt else.txt .attt\
+		psendif.txt > psops.h
+	${RM} .sort .ttt .attt
+
+dpsops.h : $(DPSOPSHEADERFILES) $(DPSOPSANSIHEADERFILES)
+	$(RM) $@
+	${CAT} $(DPSOPSHEADERFILES) |\
+	    ${SED} -e '/^$$/D' -e '/#/D' -e '/^\//D'\
+	        -e '/^   gener/D' -e '/^.\//D' |\
+	    ${SORT} > .sort
+	${AWK} '/;/ {print; printf("\n");}' .sort > .ttt
+	${CAT} $(DPSOPSANSIHEADERFILES) |\
+	    ${SED} -e '/^$$/D' -e '/#/D' -e '/^\//D'\
+	        -e '/^   gener/D' -e '/^.\//D'\
+		-e 's/float \([a-zA-Z][a-zA-Z0-9]*[,\)]\)/double \1/g' |\
+	    ${SORT} > .sort
+	${AWK} '/;/ {print; printf("\n");}' .sort > .attt
+	${CAT} dpsname.txt header.txt dpsifdef.txt .ttt else.txt .attt\
+		dpsendif.txt > dpsops.h
+	${RM} .sort .ttt .attt
+
+clean ::
+	${RM} $(DERIVED_FILES) .sort .ttt .att psops.h dpsops.h *%
+
+DependTarget()
+

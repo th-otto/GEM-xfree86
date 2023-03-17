@@ -1,0 +1,31 @@
+XCOMM $XFree86: xc/lib/GL/mesa/src/drv/Imakefile,v 1.8 2000/03/07 14:31:38 dawes Exp $
+
+#define DoNormalLib NormalLibGlx
+#define DoSharedLib SharedLibGlx
+#define DoExtraLib SharedLibGlx
+#define DoDebugLib DebugLibGlx
+#define DoProfileLib ProfileLibGlx
+
+#define IHaveSubdirs
+#define PassCDebugFlags
+
+#if GlxUseBuiltInDRIDriver
+#if GlxBuiltInGamma
+DRIVER += gamma
+#endif
+#if GlxBuiltInTdfx
+DRIVER += tdfx
+#endif
+
+SUBDIRS = $(DRIVER)
+#else
+SUBDIRS += gamma
+#if HasGlide3
+SUBDIRS += tdfx
+#endif
+#endif
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+DependTarget()

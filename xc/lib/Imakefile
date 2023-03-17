@@ -1,0 +1,127 @@
+XCOMM $TOG: Imakefile /main/39 1997/02/26 18:09:44 kaleb $
+XCOMM $XFree86: xc/lib/Imakefile,v 3.36 2000/03/01 12:52:01 tsi Exp $
+#define IHaveSubdirs
+#define PassCDebugFlags
+
+#if BuildXaw6
+XAW6LIBDIR = Xaw6
+#endif
+
+#ifndef NeedBerklib
+#define NeedBerklib NO
+#endif
+
+#if NeedBerklib
+BERKDIR = Xbsd
+#endif
+
+#if BuildXKBlib
+XKBLIBDIR = xkbfile
+#endif
+
+#if BuildXKBuilib
+XKBUILIBDIR = xkbui
+#endif
+
+#if BuildThreadStubLibrary
+THRSTUBLIBDIR = XThrStub
+#endif
+
+#if BuildScreenSaverLibrary
+SSLIBDIR = Xss
+#endif
+
+#if BuildXF86MiscLibrary
+XF86MISCLIBDIR = Xxf86misc
+#endif
+
+#if BuildXF86VidModeLibrary
+XF86VMLIBDIR = Xxf86vm
+#endif
+
+#if BuildXF86DGALibrary
+XF86DGALIBDIR = Xxf86dga
+#endif
+
+#if BuildXF86RushLibrary
+XF86RUSHLIBDIR = Xxf86rush
+#endif
+
+#if BuildXvLibrary
+XVLIBDIR = Xv
+#endif
+
+#if BuildXineramaLibrary
+XINERAMADIR=Xinerama
+#endif
+
+#if BuildXantiLibrary
+XANTILIBDIR = Xanti
+#endif
+
+#if BuildGLXLibrary
+GLXLIBDIR = GL
+#endif
+
+#if BuildDPSLibrary
+DPSLIBDIR = dps
+#endif
+
+#if BuildDPSTkLibrary
+DPSTKLIBDIR = dpstk
+#endif
+
+#if BuildPSResLibrary
+PSRESLIBDIR = psres
+#endif
+
+XF86EXTLIBS = $(XF86MISCLIBDIR) $(XF86VMLIBDIR) \
+		$(XF86DGALIBDIR) $(XF86RUSHLIBDIR)
+
+#if BuildLBX
+LBXUTILDIR = lbxutil
+#endif
+
+#if (BuildLBX || GzipFontCompression) && !HasZlib
+ZLIBDIR = zlib
+#endif
+
+#if defined(XFree86Version) && !HasPosixRegex
+REGEXDIR = regex
+#endif
+
+#if BuildXAudio
+XALIBDIR = Xa
+#endif
+
+#if BuildFontCacheLib
+FONTCACHELIBDIR = Xfontcache
+#endif
+
+FONTSUBDIR = font
+
+#if !BuildServersOnly
+LINTSUBDIRS = Xau Xdmcp $(THRSTUBLIBDIR) X11 oldX ICE SM Xext Xt \
+	     $(SSLIBDIR) $(XF86MISCLIBDIR) $(XF86VMLIBDIR) $(XF86DGALIBDIR) \
+	     $(XF86RUSHLIBDIR) Xmu Xpm Xaw $(XAW6LIBDIR) XIE Xi Xtst FS \
+	     PEX5 $(XKBLIBDIR) $(XKBUILIBDIR) $(LBXUTILDIR) $(XALIBDIR) \
+	     Xp $(XVLIBDIR) $(XANTILIBDIR) $(GLXLIBDIR) $(DPSLIBDIR) \
+	     $(DPSTKLIBDIR) $(PSRESLIBDIR) $(XINERAMADIR) \
+	     $(ZLIBDIR) $(REGEXDIR)
+#else
+#if XnestServer || BuildGLXLibrary
+XEXTDIR = Xext
+#endif
+
+LINTSUBDIRS = Xau Xdmcp X11 $(XINERAMADIR) $(XEXTDIR) $(XKBLIBDIR) \
+	      $(XKBUILIBDIR) $(LBXUTILDIR) $(XF86EXTLIBS) $(XVLIBDIR) \
+	      $(GLXLIBDIR) $(ZLIBDIR) $(REGEXDIR)
+#endif
+
+SUBDIRS = $(BERKDIR) xtrans $(LINTSUBDIRS) $(FONTSUBDIR) $(FONTCACHELIBDIR)
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+MakeLintLibSubdirs($(LINTSUBDIRS))
+MakeLintSubdirs($(LINTSUBDIRS),install.ln,install.ln)
+

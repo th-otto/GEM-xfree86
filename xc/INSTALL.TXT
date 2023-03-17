@@ -1,0 +1,791 @@
+
+
+
+
+
+
+
+
+
+                    BBuuiillddiinngg aanndd IInnssttaalllliinngg XX1111RR66..44
+
+
+
+
+
+
+
+
+                           _K_a_l_e_b _S_. _K_E_I_T_H_L_E_Y
+
+                     The Open Group X Project Team
+
+
+
+
+
+
+                            30 January, 1998
+
+
+
+
+
+
+
+
+
+
+Copyright (C) 1998 The Open Group
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the Software),
+to use the Software without restriction, including, without limitation,
+the rights to copy, modify, merge, publish, distribute and sublicense
+the Software, to make, have made, license and distribute derivative
+works thereof, and to permit persons to whom the Software is furnished
+to do so, subject to the following conditions:
+
+The above copyright notice and the following permission notice shall be
+included in all copies of the Software:
+
+THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE WARRANTIES OF MERCHANTABIL-
+ITY, FITNESS FOR A PARTICULAR PURPOSE AND NON- INFRINGEMENT. IN NO EVENT
+SHALL THE OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER USEABILI-
+TIY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF, OR IN CONNNECTION WITH THE SOFTWARE OR THE USE OF OTHER DEALINGS
+IN THE SOFTWARE.
+
+Except as contained in this notice, the name of The Open Group shall not
+be used in advertising or otherwise to promote the use or other dealings
+in this Software without prior written authorization from The Open
+Group.
+
+X Window System is a trademark of The Open Group.
+
+
+_1_.  _E_a_s_y _B_u_i_l_d _I_n_s_t_r_u_c_t_i_o_n_s
+
+This quick summary is no substitute for reading the full build instruc-
+tions later in this document.
+
+Edit xxcc//ccoonnffiigg//ccff//ssiittee..ddeeff for local preferences.  If you want to
+install somewhere other than //uussrr//XX1111RR66..44, change PPrroojjeeccttRRoooott. (Do _n_o_t
+use DDEESSTTDDIIRR.)  If you want to build with _g_c_c uncomment the HHaassGGcccc22 line.
+If you have _g_c_c, but not _c_c, please read the full build instructions.
+
+If some time has elapsed since the initial release of R6.4, check to see
+if any public patches have been released. The source tar files may have
+been updated -- check the patch-level line in the bug-report template.
+If the source in the tar files has not been updated then get all the
+patches and apply them, following the instructions at the top of each
+patch. Ignore the rebuild steps in the patch application instructions.
+
+Check the appropriate vendor-specific ..ccff file in xxcc//ccoonnffiigg//ccff// to make
+sure that _O_S_M_a_j_o_r_V_e_r_s_i_o_n, _O_S_M_i_n_o_r_V_e_r_s_i_o_n, and _O_S_T_e_e_n_y_V_e_r_s_i_o_n are set
+correctly for your system. On most systems imake will figure these out
+automatically; but you may override them in your xxcc//ccoonnffiigg//ccff//ssiittee..ddeeff
+if you want.
+
+See if there is a _B_o_o_t_s_t_r_a_p_C_F_l_a_g_s mentioned in the comments in the ven-
+dor-specific ..ccff file. (Most systems don't have or need one. The Boot-
+strapCFlags in _s_u_n_._c_f is for SunOS 4.0.x, so if you're building on SunOS
+4.1.x or SunOS 5/Solaris 2 then BootstrapCFlags doesn't apply.) If there
+isn't one, _c_d to the xxcc directory and type (in csh):
+
+        % make World >& world.log
+
+
+If there is an applicable BBoooottssttrraappCCFFllaaggss, take its value and type:
+
+        % make World BOOTSTRAPCFLAGS="_v_a_l_u_e" >& world.log
+
+
+Do not call the output file "make.log" when doing "make World".  After a
+successful build, you can install with:
+
+        % make install >& install.log
+
+
+You can install manual pages with:
+
+        % make install.man >& man.log
+
+
+WWhhiillee tthhee ssyysstteemm iiss bbuuiillddiinngg ((oorr iiff tthhiinnggss ffaaiill)),, rreeaadd tthhee rreesstt ooff tthheessee
+iinnssttaallllaattiioonn iinnssttrruuccttiioonnss..
+
+
+
+_2_.  _B_u_i_l_d_i_n_g _a_n_d _I_n_s_t_a_l_l_i_n_g _R_6_._4
+
+
+Historically the MIT X Consortium and The X Consortium, Inc., sample
+implementation releases have always been source-code-only releases, and
+this release is no different.
+
+
+_2_._1_.  _I_n_t_r_o_d_u_c_t_i_o_n
+
+
+Every release of X has been progressively easier to configure, build,
+and install than the preceding releases -- and we believe this release
+is the easiest release to build yet. That not withstanding, if things do
+go amiss during the build we assume that you have the basic skills nec-
+essary, and the willingness, to debug any errors that may occur in the
+build process. When you install, if you're going to use _x_d_m or replace
+your system's old X, we assume you have a basic understanding of your
+system's initialization process. For Remote Execution (RX, embedding) we
+assume you that you understand the fundamentals of HTTP, CGI, and HTML.
+If these assumptions are not correct then you should consider finding
+someone who has proficiency in these areas to do the build and install
+for you.
+
+After the release has been out for a while more up to date information
+about any newly-discovered problems may be found in the _F_r_e_q_u_e_n_t_l_y _A_s_k_e_d
+_Q_u_e_s_t_i_o_n_s posting appearing monthly on the Usenet newsgroup comp.win-
+dows.x and xpert mailing list. The FAQ is also available via anonymous
+FTP from ftp://ftp.x.org/ in the file ftp://ftp.x.org/con-
+trib/faqs/FAQ.Z, or possibly on one of X mirror sites.
+
+
+_2_._2_.  _P_r_e_p_a_r_i_n_g _Y_o_u_r _B_u_i_l_d _S_y_s_t_e_m
+
+
+The source is distributed in four gzip compressed UNIX TTape AARRchive
+(tar) files. You will need about 200 Mb of disk space in order to unpack
+and build the release. Installing requires an additional 30-50 Mb assum-
+ing you have shared libraries (80-100 Mb without).
+
+On non-UNIX systems you'll need a utility that can extract gzip com-
+pressed tar files to extract the sources. There are several to chose
+from, we do not make recommendations about which one you should use.
+
+Release 6.4 sources are distributed among the tar files as follows:
+
+
+        tog-1.tar      contains everything in xc/ that isn't in the other tar files
+        tog-2.tar      contains xc/fonts
+        tog-3.tar      contains xc/doc/specs, xc/util
+        tog-4.tar      contains xc/doc/hardcopy
+
+
+If you define _B_u_i_l_d_F_o_n_t_s to NO in your ssiittee..ddeeff file, then you only need
+to unpack tog-1.tar to build. If you build fonts, then you will also
+need tog-2.tar to build. If you already have the fonts from prior
+releases you can use those instead of downloading them again. We presume
+that you know how to copy or move them from your old source tree to the
+R6.4 source tree.
+
+
+_2_._3_.  _U_n_p_a_c_k_i_n_g _t_h_e _D_i_s_t_r_i_b_u_t_i_o_n
+
+
+Create a directory to hold the sources and _c_d into it:
+
+        % mkdir _s_o_u_r_c_e_d_i_r
+        % cd _s_o_u_r_c_e_d_i_r
+
+Then for each tar file ttoogg--**..ttaarr..ggzz, execute this:
+
+        % gunzip -c _f_t_p_-_d_i_r/tog-_N.tar.gz | tar xf -
+
+
+or if you have GNU's tar (FreeBSD, NetBSD, OpenBSD, or Linux too)
+
+        % tar xzf _f_t_p_-_d_i_r/tog-_N.tar.gz
+
+
+
+_2_._4_.  _A_p_p_l_y_i_n_g _P_a_t_c_h_e_s
+
+
+If some time has elapsed since the initial release of R6.4, check to see
+if any public patches have been released. The source tar files may have
+been updated -- check the patch-level line in the bug-report template.
+If the source in the tar files has not been updated then get all the
+patches and apply them, following the instructions at the top of each
+patch. Ignore the rebuild steps in the patch application instructions.
+
+See the section "Public Patches" later in this document.
+
+Then continue here.
+
+
+_2_._5_.  _C_o_n_f_i_g_u_r_a_t_i_o_n _P_a_r_a_m_e_t_e_r_s _(_I_m_a_k_e _V_a_r_i_a_b_l_e_s_)
+
+
+This release, like all the releases before it, uses _i_m_a_k_e, a utility for
+creating system-specific Makefiles from system-independent Imakefiles.
+Almost every directory in the release contains an IImmaakkeeffiillee. System-spe-
+cific configuration information is located in xxcc//ccoonnffiigg//ccff//, which is
+used by the _i_m_a_k_e program every time a MMaakkeeffiillee is generated in the
+source tree.
+
+Most of the configuration work prior to building the release is to set
+parameters (imake variables) so that _i_m_a_k_e will generate correct Make-
+files. If you're building on one of the supported systems almost no con-
+figuration work should be necessary.
+
+You should define your configuration parameters in xxcc//ccoonn--
+ffiigg//ccff//ssiittee..ddeeff. We provide an empty ssiittee..ddeeff file and a ssiittee..ssaammppllee
+file. The ssiittee..ssaammppllee file is a suggested ssiittee..ddeeff file -- use it at
+your own risk.
+
+Any public patches we release will never patch ssiittee..ddeeff, so you can be
+assured that applying a public-patch will not corrupt your site.def
+file. On rare occasion you may need to make the change in your vendor-
+specific ..ccff file; but you should avoid doing that if at all possible
+because any patch we might release could conceivably patch your vendor-
+specific ..ccff file and your change may be lost or garbled. You can over-
+ride most of the things in your vendor-specific ..ccff file in your
+ssiittee..ddeeff file.  (If you can't, it's a bug -- please file a bug-report.)
+
+On the systems we use here, imake will automatically determine the _O_S_M_a_-
+_j_o_r_V_e_r_s_i_o_n, _O_S_M_i_n_o_r_V_e_r_s_i_o_n, and _O_S_T_e_e_n_y_V_e_r_s_i_o_n for your system. If your
+system isn't one of the systems we build on here, or you want to build
+for a different version of your operating system, then you can override
+them in the appropriate entry in your ssiittee..ddeeff file.
+
+The ssiittee..ddeeff file has two parts, one protected with "#ifdef BeforeVen-
+dorCF" and one with "#ifdef AfterVendorCF".  The file is actually pro-
+cessed twice, once before the ..ccff file and once after. About the only
+thing you need to set in the "before" section is HHaassGGcccc22; just about
+everything else can be set in the "after" section.
+
+The ssiittee..ssaammppllee also has commented out support to include another file,
+hhoosstt..ddeeff. This scheme may be useful if you want to set most parameters
+site-wide, but some parameters vary from machine to machine.  If you use
+a symbolic link tree, you can share ssiittee..ddeeff across all machines, and
+give each machine its own copy of hhoosstt..ddeeff.
+
+The config parameters are listed in xxcc//ccoonnffiigg//ccff//RREEAADDMMEE, but here are
+some of the new or more common parameters that you may wish to set in
+your xxcc//ccoonnffiigg//ccff//ssiittee..ddeeff.
+
+PPrroojjeeccttRRoooott
+     The destination where X will be installed. This variable needs to
+     be set before you build, as some programs that read files at run-
+     time have the installation directory compiled in to them.
+
+HHaassVVaarrDDiirreeccttoorryy
+     Set to NNOO if your system doesn't have /var or you don't want cer-
+     tain files to be installed in _V_a_r_D_i_r_e_c_t_o_r_y.
+
+VVaarrDDiirreeccttoorryy
+     The location of site editable configuration and run-time files.
+     Many sites prefer to install their X binaries on _r_e_a_d_-_o_n_l_y media --
+     either a disk slice (partition) that's mounted _r_e_a_d_-_o_n_l_y for added
+     security, an NFS volume mounted _r_e_a_d_-_o_n_l_y for security and/or
+     improved VM paging characteristics, or from a _l_i_v_e _f_i_l_e_s_y_s_t_e_m on a
+     CD-ROM. In order to simplify things like installing _a_p_p_-_d_e_f_a_u_l_t
+     files for locally built software, and allowing editing of miscella-
+     neous configuration and policy files, and to allow xdm to create
+     its master Xauthority file, some directories under _$_P_r_o_j_e_c_t_-
+     _R_o_o_t//lliibb//XX1111 are actually installed in //vvaarr//XX1111, and _$_P_r_o_j_e_c_t_-
+     _R_o_o_t//lliibb//XX1111 contains symlinks to the directories in //vvaarr//XX1111.
+
+HHaassGGcccc22
+     Set to YYEESS to build with _g_c_c version 2.x instead of your system's
+     default compiler.
+
+BBuuiillddXXIInnppuuttEExxtt
+     Set to YYEESS to build the X Input Extension. This extension requires
+     device-dependent support in the X server, which exists only in _X_h_p
+     and _X_F_8_6___* in the sample implementation.
+
+DDeeffaauullttUUssrrBBiinn
+     This is a directory where programs will be found even if PATH is
+     not set in the environment. It is independent of ProjectRoot and
+     defaults to //uussrr//bbiinn. It is used, for example, when connecting from
+     a remote system via _r_s_h. The _r_s_t_a_r_t program installs its server in
+     this directory.
+
+IInnssttaallllSSeerrvveerrSSeettUUIIDD
+     Some systems require the X server to run as root to access the
+     devices it needs. If you are on such a system and will not be using
+     _x_d_m, you may set this variable to YYEESS to install the X server
+     setuid to root; however the X Project Team strongly recommends that
+     you not install your server suid-root, but that you use xdm
+     instead. Talk to your system manager before setting this variable
+     to YYEESS.
+
+IInnssttaallllXXddmmCCoonnffiigg
+     By default set to NO, which suppresses installing xdm config files
+     over existing ones. Leave it set to NO if your site has customized
+     the files in _$_P_r_o_j_e_c_t_R_o_o_t//lliibb//XX1111//xxddmm, as many sites do.  If you
+     don't install the new files, merge any changes present in the new
+     files.
+
+MMoottiiffBBCC
+     Causes Xlib and Xt to work around some bugs in older versions of
+     Motif.  Set to YYEESS only if you will be linking with Motif version
+     1.1.1, 1.1.2, or 1.1.3.
+
+GGeettVVaalluueessBBCC
+     Setting this variable to YYEESS allows illegal XtGetValues requests
+     with NULL ArgVal to usually succeed, as R5 did. Some applications
+     erroneously rely on this behavior. Support for this will be removed
+     in a future release.
+
+The following vendor-specific ..ccff files are in the release but have not
+been tested recently and hence probably need changes to work: aappoolllloo..ccff,
+bbssdd..ccff, ccoonnvveexx..ccff, DDGGUUXX..ccff, lluunnaa..ccff, mmaaccIIII..ccff, MMiippss..ccff, mmoottoo..ccff, OOkkii..ccff,
+ppeeggaassuuss..ccff, xx338866..ccff.  AAmmooeebbaa..ccff is known to require additional patches.
+
+The file xxcc//lliibb//XXddmmccpp//WWrraapphheellpp..cc, for XDM-AUTHORIZATION-1, is not
+included in this release. See ftp://ftp.x.org/pub/R6.4/xdm-auth/README.
+
+
+_2_._6_.  _S_y_s_t_e_m _B_u_i_l_d _N_o_t_e_s
+
+
+This section contains hints on building X with specific compilers and
+operating systems.
+
+If the build isn't finding things right, make sure you are using a com-
+piler for your operating system. For example, a pre-compiled _g_c_c for a
+different OS (e.g. as a cross-compiler) will not have right symbols
+defined, so _i_m_a_k_e will not work correctly.
+
+
+_2_._6_._1_.  _g_c_c
+
+X will not compile on some systems with _g_c_c version 2.5, 2.5.1, or 2.5.2
+because of an incorrect declaration of memmove() in a gcc fixed include
+file.
+
+If you are using a _g_c_c version prior to 2.7 on Solaris x86, you need to
+specify BBOOOOTTSSTTRRAAPPCCFFLLAAGGSS==""--DDssuunn"" in the "make World" command.
+
+If you're building on a system that has an unbundled compiler, e.g.  So-
+laris 2.x, and you do not have the _c_c compiler, you need to contrive to
+have _c_c in your path in order to bootstrap imake.  One way to do this is
+to create a symlink cc that points to _g_c_c.
+
+        % cd /usr/local/bin; ln -s _p_a_t_h_-_t_o_-_g_c_c cc
+
+Once _i_m_a_k_e has been built all the Makefiles created with it will explic-
+itly use _g_c_c and you can remove the symlink. Another way around this is
+to edit xxcc//ccoonnffiigg//iimmaakkee//MMaakkeeffiillee..iinnii to specify _g_c_c instead of _c_c.
+
+
+_2_._6_._2_.  _O_t_h_e_r _G_N_U _t_o_o_l_s
+
+Use of the GNU BinUtils assembler, _a_s, and linker, _l_d, is not supported
+-- period! If you have them installed on your system you must rename or
+remove them for the duration of the R6.4 build.  (You can restore them
+afterwards.)
+
+The system-supplied _m_a_k_e works just fine for building R6.4 and that's
+what we suggest you use. If you've replaced your system's _m_a_k_e with GNU
+_m_a_k_e then we recommend that you restore the system _m_a_k_e for the duration
+of your R6.4 build. After R6.4 is done building you can revert to GNU
+make. GNU make on most systems (except Linux, where it is the default
+make) is not a supported build configuration. GNU make may work for you,
+and if it does, great; but if it doesn't we do not consider it a bug in
+R6.4. If, after this admonition, you still use GNU make and your build
+fails, reread the above, and retry the build with the system's _m_a_k_e be-
+fore you file a bug-report.
+
+
+_2_._6_._3_.  _I_B_M _A_I_X _4_._x
+
+
+On AIX 4.x, the file lliibb//ffoonntt//TTyyppee11//oobbjjeeccttss..cc must be compiled without
+optimization (--OO) or the X server and fontserver will exit when Type 1
+fonts are used.
+
+
+_2_._6_._4_.  _S_u_n_O_S _4_._0_._x
+
+
+SunOS 4.0 and earlier need BOOTSTRAPCFLAGS=-DNOSTDHDRS because it does
+not have unistd.h and stdlib.h. Do _n_o_t supply a BOOTSTRAPCFLAGS when
+building any SunOS 4.1 or 5.x (Solaris 2) version.
+
+
+_2_._6_._5_.  _L_i_n_u_x
+
+
+On Linux systems imake has preliminary support to automatically deter-
+mine which Linux distribution you're using. At this time it only auto-
+matically detects S.u.S.E. Linux. On other Linux systems you should set
+the LinuxDistribution parameter in your xxcc//ccoonnffiigg//ccff//ssiittee..ddeeff -- see the
+xxcc//ccoonnffiigg//ccff//lliinnuuxx..ccff file for the list of valid values. On Linux sys-
+tems imake will also automatically determine which version of libc and
+binutils your system has. You may override these in your xxcc//ccoonn--
+ffiigg//ccff//ssiittee..ddeeff file.
+
+Many distributions of Linux have poor or no support for ANSI/POSIX/ISO C
+locale support. If your Linux distribution is one of these you should
+make certain that the imake variable _L_i_n_u_x_L_o_c_a_l_e_D_e_f_i_n_e_s is set to
+--DDXX__LLOOCCAALLEE so that compose processing and other internationalization
+features will work correctly. To help decide if you should use -DX_LO-
+CALE, look in /usr/share/locale -- if it's empty, you should probably
+use the -DX_LOCALE define.
+
+
+_2_._6_._6_.  _M_i_c_r_o_s_o_f_t _W_i_n_d_o_w_s _N_T
+
+
+All of the base libraries are supported, including multi-threading in
+Xlib and Xt, but some of the more complicated applications, specifically
+_x_t_e_r_m and _x_d_m, are not supported.
+
+There are also some other rough edges in the implementation, such as
+lack of support for non-socket file descriptors as Xt alternate inputs
+and not using the registry for configurable parameters like the system
+filenames and search paths.
+
+The _X_n_e_s_t server has been made to run on NT; although it still requires
+a real X server for output still. A real X server can not be built from
+these sources -- in order to display X applications on a MS-Windows host
+you will have to acquire a real X Server.
+
+You have several choices for imake's _R_m_T_r_e_e_C_m_d. Look at the possible
+definitions in the xxcc//ccoonnffiigg//ccff//WWiinn3322..ccff file, choose one that's right
+for you, and add it to your xxcc//ccoonnffiigg//ccff//ssiittee..ddeeff file.
+
+
+_2_._7_.  _T_h_e _B_u_i_l_d
+
+
+For all the supported UNIX and UNIX-like systems you can simply type (in
+csh):
+
+        % make World >& world.log
+
+You can call the output file something other than "world.log"; but don't
+call it "make.log" because files with this name are automatically delet-
+ed during the initial "cleaning" stage of the build.
+
+The build can take several hours on older systems, and may take as lit-
+tle as an hour on the faster systems that are available today. On UNIX
+and UNIX-like systems you may want to run it in the background and keep
+a watch on the output. For example:
+
+        % make World >& world.log &
+        % tail -f world.log
+
+
+If something goes wrong, the easiest thing is to correct the problem and
+start over again, i.e. typing "make World".
+
+
+_2_._7_._1_.  _U_N_I_X _a_n_d _U_N_I_X_-_l_i_k_e _s_y_s_t_e_m_s
+
+
+Check your vendor-specific ..ccff file; if it doesn't have BootstrapCFlags
+that apply to your version of the operating system then type (in csh):
+
+        % make World >& world.log
+
+
+Otherwise type (in csh):
+
+        % make World BOOTSTRAPCFLAGS="value" >& world.log
+
+
+None of the _s_u_p_p_o_r_t_e_d operating systems need to use BOOTSTRAPCFLAGS.
+
+
+_2_._7_._2_.  _M_i_c_r_o_s_o_f_t _W_i_n_d_o_w_s _N_T
+
+
+On NT, make certain your Path, Include, and Lib environment variables
+are set accordingly. For example here we use the command line compiler
+in VC++ 4.0 Standard Edition, which is installed in C:MSDEVSTD. To setup
+the environment type:
+
+        > set Path=_o_l_d_-_p_a_t_h;C:\MSDEVSTD\bin;C:\_p_a_t_h_-_t_o_-_R_m_T_r_e_e_C_m_d
+        > set Include=C:\MSDEVSTD\include
+        > set Lib=C:\MSDEVSTD\lib
+
+Then to build, at the prompt, type:
+
+        C:\> nmake World.Win32 > world.log
+
+
+
+_2_._8_.  _I_n_s_t_a_l_l_i_n_g _X
+
+
+After the build has successfully completed you can install the software
+by typing the following as root:
+
+        % make install >& install.log
+
+or on Microsoft Windows NT
+
+        C:\> nmake install > install.log
+
+
+Again, you might want to run this in the background and use _t_a_i_l to
+watch the progress.
+
+You can install the manual pages by typing the following as root:
+
+        % make install.man >& man.log
+
+
+
+_2_._9_.  _S_h_a_r_e_d _L_i_b_r_a_r_i_e_s
+
+
+The version number of some of the the shared libraries has been changed.
+On SunOS 4, which supports minor version numbers for shared libraries,
+programs linked with the R6.4 libraries will use the new libraries with
+no special action required.
+
+On most other modern operating systems the version portion of the li-
+brary name, i.e. "6.1" portion of "libX11.so.6.1" is a string. Even if
+it's only one character long, e.g. "1" (as in libX11.so.1) it's still a
+string. This string uniquely identifies and distinguishes one version of
+the library from another. Even though all the libraries in this release
+are compatible with the libraries from previous releases, and there's
+otherwise no reason to change the version string, we do it to identify
+which source release the libraries were built from.
+
+An old program that was linked with libXext.so.6.3 won't run if you
+delete libXext.so.6.3 and install libXext.so.6.4 in its place. In gener-
+al on these systems you have the following choices:
+
+1.   Keep the old versions of the libraries around.
+
+2.   Relink all applications with the new libraries.
+
+3.   Create a symlink using the old name which points to the new name.
+
+     For example, to have programs that were linked against libX-
+     ext.so.6.3 use libXext.so.6.4, make this symlink:
+
+             % cd _$_P_r_o_j_e_c_t_R_o_o_t/lib
+             % ln -s libXext.so.6.4 libXext.so.6.3
+
+
+On some distributions of Linux the run-time loader is broken -- requir-
+ing that the library's internal SONAME match the _f_i_l_e_n_a_m_e -- and the
+symlink solution won't work. We recommend that you get a new run-time
+loader which is not broken or recompile your run-time loader to not re-
+quire that the SONAME match.
+
+
+_2_._1_0_.  _S_e_t_t_i_n_g _U_p _x_t_e_r_m
+
+
+If your //eettcc//tteerrmmccaapp and //uussrr//lliibb//tteerrmmiinnffoo databases do not have correct
+entries for _x_t_e_r_m, use the sample entries provided in the directory
+xxcc//pprrooggrraammss//xxtteerrmm//. System V users may need to compile and install the
+tteerrmmiinnffoo entry with the _t_i_c utility.
+
+Since each _x_t_e_r_m will need a separate pseudoterminal, you need a reason-
+able number of them for normal execution. You probably will want at
+least 32 on a small, multiuser system. On most systems, each pty has two
+devices, a master and a slave, which are usually named
+/dev/tty[pqrstu][0-f] and /dev/pty[pqrstu][0-f]. If you don't have at
+least the "p" and "q" sets configured (try typing "ls /dev/?ty??"), you
+should have your system administrator add them.  This is commonly done
+by running the _M_A_K_E_D_E_V script in the //ddeevv directory with appropriate ar-
+guments.
+
+
+_2_._1_1_.  _S_t_a_r_t_i_n_g _S_e_r_v_e_r_s _A_u_t_o_m_a_t_i_c_a_l_l_y _a_t _S_y_s_t_e_m _B_o_o_t
+
+
+The _x_f_s and _x_d_m programs are designed to be run automatically at system
+startup. Please read the manual pages for details on setting up configu-
+ration files; reasonable sample files are in xxcc//pprrooggrraammss//xxddmm//ccoonnffiigg// and
+xxcc//pprrooggrraammss//xxffss//.
+
+Since _x_f_s can serve fonts over the network, you do not need to run a
+font server on every machine with an X display. You should start _x_f_s be-
+fore _x_d_m, since _x_d_m may start an X server which is a client of (depen-
+dent on) the font server.
+
+
+_2_._1_1_._1_.  _O_n _B_S_D_-_b_a_s_e_d _s_y_s_t_e_m_s _u_s_i_n_g _/_e_t_c_/_r_c _o_r _/_e_t_c_/_r_c_._l_o_c_a_l
+
+
+If your system uses an //eettcc//rrcc or //eettcc//rrcc..llooccaall file at boot time, you
+can usually enable these programs by placing the following at or near
+the end of the file:
+
+        if [ -f _$_P_r_o_j_e_c_t_R_o_o_t/bin/xfs ]; then
+                _$_P_r_o_j_e_c_t_R_o_o_t/bin/xfs & echo -n ' xfs'
+        fi
+
+        if [ -f _$_P_r_o_j_e_c_t_R_o_o_t/bin/xdm ]; then
+                _$_P_r_o_j_e_c_t_R_o_o_t/bin/xdm; echo -n ' xdm'
+        fi
+
+
+On later versions of FreeBSD the preferred way of doing this is to cre-
+ate the directory _$_P_r_o_j_e_c_t_R_o_o_t/etc/rc.d. Add this directory to the _l_o_-
+_c_a_l___s_t_a_r_t_u_p variable defined in /etc/rc.conf, and then create short
+scripts in this directory to start xfs and xdm.
+
+If you are unsure about how system boot works, or if your system does
+not use //eettcc//rrcc, consult your system administrator for help.
+
+
+_2_._1_1_._2_.  _O_n _L_i_n_u_x _s_y_s_t_e_m_s
+
+
+Most Linux distributions have an /etc/inittab entry specifically for
+xdm. Depending on your distribution this may be _r_u_n_-_l_e_v_e_l three, four,
+or five. To use xdm, edit //eettcc//iinniittttaabb and find the line which contains
+_i_n_i_t_d_e_f_a_u_l_t and change it from 2 to the appropriate run-level
+
+You Linux distribution may already have a script to start xdm at a par-
+ticular run-level. For example on S.u.S.E. Linux 5.0 there is the file
+/sbin/init.d/xdm, and the symlink /sbin/init.d/rc3.d/S30xdm which points
+to /sbin/init.d/xdm. Change /sbin/init.d/xdm to use _$_P_r_o_j_e_c_t_-
+_R_o_o_t_/_b_i_n_/_x_d_m. You can use the xdm script as a model write an xfs script.
+Depending on your Linux distribution you may find these files in
+/etc/init.d instead of /sbin/init.d.
+
+
+_2_._1_1_._3_.  _O_n _D_i_g_i_t_a_l _U_n_i_x_, _H_P_U_X _1_0_, _a_n_d _S_V_R_4 _s_y_s_t_e_m_s
+
+
+Most systems run xdm by default at some particular run-level of the sys-
+tem. There is a master _i_n_i_t_._d file and a run-level symlink _r_c_?_._d that
+points to the master _i_n_i_t_._d file:
+Operating System    rc?.d symlink            init.d file
+
+Digital Unix 4.0    /sbin/rc3.d/S95xlogin    /sbin/init.d/xlogin
+HPUX 10.20          /sbin/rc3.d/S800xdm      /sbin/init.d/xdm
+Solaris 2.[0-4]
+Solaris 2.5         /etc/rc3.d/S99xdm        /etc/init.d/xdm.rc
+Solaris 2.6         /etc/rc2.d/S99dtlogin    /etc/init.d/dtlogin
+IRIX 6.2            /etc/rc2.d/S98xdm        /etc/init.d/xdm
+Unixware            /etc/rc2.d/S69xdm        /etc/init.d/xdm
+
+In general you can edit the _i_n_i_t_._d file to use _$_P_r_o_j_e_c_t_R_o_o_t//bbiinn//xxddmm. You
+can use the xdm file as a model to write an /etc/rc?.d/S??xfs file to
+start xfs. Some systems may already have files to start xfs. Starting in
+Solaris 2.5 Sun uses inetd to start xfs -- you should remove the xfs en-
+tries from /etc/inetd.conf and /etc/services before adding xfs to the
+run-level files.
+
+
+_2_._1_1_._4_.  _O_n _S_y_s_t_e_m_V_-_b_a_s_e_d _s_y_s_t_e_m_s
+
+
+On systems with a //eettcc//iinniittttaabb file, you can edit this file to add the
+lines
+
+        xfs:3:once:_$_P_r_o_j_e_c_t_R_o_o_t/bin/xfs
+        xdm:3:once:_$_P_r_o_j_e_c_t_R_o_o_t/bin/xdm
+
+
+
+
+_2_._1_2_.  _U_s_i_n_g _O_P_E_N _L_O_O_K _a_p_p_l_i_c_a_t_i_o_n_s
+
+
+You can use the X11R6.x Xsun server with OPEN LOOK applications; but you
+must pass the --sswwaappLLkkeeyyss flag to the server on startup, or the OPEN LOOK
+Undo, Copy, Paste, Find, and Cut keys may not work correctly. For exam-
+ple, to run Sun's OpenWindows 3.3 desktop environment with an X11R6
+server, use the command:
+
+        % openwin -server _$_P_r_o_j_e_c_t_R_o_o_t_/_b_i_n_/_X_s_u_n _-_s_w_a_p_L_k_e_y_s
+
+
+The keysyms reported by keys on the numeric keypad have also changed
+since X11R5; if you find that OpenWindows applications do not respond to
+keypad keys and cursor control keys when using an R6 server, you can
+remap the keypad to generate R5 style keysyms using the following
+_x_m_o_d_m_a_p commands:
+
+        keysym Pause = F21
+        keysym Print = F22
+        keysym Break = F23
+        keysym KP_Equal = F24
+        keysym KP_Divide = F25
+        keysym KP_Multiply = F26
+        keysym KP_Home = F27
+        keysym KP_Up = Up
+        keysym KP_Prior = F29
+        keysym KP_Left = Left
+        keycode 100 = F31
+        keysym KP_Right = Right
+        keysym KP_End = F33
+        keysym KP_Down = Down
+        keysym KP_Next = F35
+        keysym KP_Insert = Insert
+        keysym KP_Delete = Delete
+
+
+
+_2_._1_3_.  _R_e_b_u_i_l_d_i_n_g _a_f_t_e_r _P_a_t_c_h_e_s
+
+
+Eventually you are going to make changes to the sources, for example by
+applying any public patches that may be released or to fix any bugs you
+may have found.
+
+If only source files are changed, rebuild by going to the base of your
+source tree xxcc and typing:
+
+        % make >& make.log
+
+
+If there are imake configuration file changes, the best thing to do is
+type:
+
+        % make Everything >& every.log
+
+
+"Everything" is similar to "World" in that it rebuilds every MMaakkeeffiillee,
+but unlike "World" it does not delete the existing objects, libraries,
+and executables, and only rebuilds what is out of date.
+
+
+_2_._1_4_.  _F_o_r_m_a_t_t_i_n_g _t_h_e _D_o_c_u_m_e_n_t_a_t_i_o_n
+
+
+The PostScript files in xxcc//ddoocc//hhaarrddccooppyy can be generated from the
+sources in xxcc//ddoocc//ssppeeccss. Most of the documentation is in troff using the
+-ms macros. The easiest way to format it is to use the Imakefiles pro-
+vided.
+
+Set the name of your local troff program by setting the variable TTrrooff--
+ffCCmmdd in xxcc//ccoonnffiigg//ccff//ssiittee..ddeeff. Then build the Makefiles:
+
+        cd xc/doc
+        make SUBDIRS=specs Makefiles
+
+
+Finally, go to the directory you are interested in and type "make"
+there. This command will generate ..PPSS files. You can also generate text
+files by specifying the document name with a ..ttxxtt extension as a _m_a_k_e
+target, e.g., "make icccm.txt".
+
+
+_3_.  _P_u_b_l_i_c _P_a_t_c_h_e_s
+
+
+The Open Group X Project Team may from time to time issue public patches
+for this release to fix any serious problems that are discovered. Such
+fixes are a subset of fixes available to X Project Team members. Public
+patches are available via anonymous FTP from
+ftp://ftp.x.org/pub/R6.4/fixes, or from your local X mirror site.  Check
+the site closest to you first.
+
+You can determine which public patches have already been applied to your
+source tree by examining the "VERSION" line of xxcc//bbuugg--rreeppoorrtt. The source
+in the tar files you have may already have some patches applied; you on-
+ly need to apply later patches. If you try to apply patches out of order
+or apply patches that are already in your tree, _p_a_t_c_h will tell you that
+you have the wrong version and not apply the patch.
+
+Source for the _p_a_t_c_h program is in xxcc//uuttiill//ppaattcchh//. The _p_a_t_c_h program in-
+cluded on some systems may not support all the options this version has.
+If you have problems applying patches, or if you're otherwise in doubt,
+use this version.
+
+

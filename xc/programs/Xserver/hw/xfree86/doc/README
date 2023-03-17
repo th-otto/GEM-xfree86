@@ -1,0 +1,97 @@
+                         README for XFree86[tm] 4.0
+
+                          The XFree86 Project, Inc
+
+                              26 February 2000
+
+                                  Abstract
+
+     XFree86 is a port of X11R6.4 that supports several UNIX(R) and
+     UNIX-like operating systems on Intel and other platforms.
+
+1.  What is XFree86 4.0?
+
+XFree86 4.0 is the first
+ full release of the new XFree86 4 series.  The road to XFree86 4 began in
+mid 1997, with serious work starting in early 1998.  The first pre-4.0 snap-
+shot was released in mid 1999, and 4.0 was released in early 2000.  A lot has
+been completed in that time, and even more has been started since the "4.0"
+design was drafted.  The result is that this release contains a lot of new
+features, some new drivers, and some significant performance improvements.
+This release contains components in various stages of development, ranging
+from stable and well tested to new and not-so-well tested.  One the other
+side, there are drivers from the 3.3.x series that have not yet been ported
+to XFree86 4.  Most of these are for old hardware.  To find more information
+about which hardware is supported, see the Driver Status document.
+
+XFree86 4 uses a very modular design.  We had hoped to finalise and fully
+document the driver module API/ABI in time for the 4.0 release, but instead
+we are planning to have this done for a subsequent release.  We will try
+where possible to retain backward compatibility with the module interfaces in
+4.0 in future releases, but we can't make guarantees about that until the
+interfaces have been fully documented.
+
+Information on this release's features and their status can be found in the
+Release Notes.
+
+Information about obtaining and installing binary distributions of this
+release can be found in the Installation Document.
+
+Copyright and Licensing information for this release can be found in the
+License Document.
+
+2.  Developers
+
+If you would like to work on the development of XFree86 4, then it is recom-
+mended that you join the XFree86 development team
+<URL:http://www.xfree86.org:/developer.html>.  That way you will have access
+to the latest source and to other developers.
+
+3.  How to get XFree86 4.0
+
+XFree86 4.0 can be found at the XFree86 ftp server
+<URL:ftp://ftp.xfree86.org/pub/XFree86/4.0/>, and at mirrors of this server.
+Information about obtaining and installing binary distributions of this
+release can be found in the Installation Document.  Information about obtain-
+ing the release in source form is given below.
+
+The source for version 4.0 is split into three tarballs: X400src-1.tgz,
+X400src-2.tgz, X400src-3.tgz.  The first contains everything except the fonts
+and general X11 documentation.  It is sufficient for building XFree86 is you
+already have a set of fonts.  The second contains the fonts and the source
+for the general X11 documentation.  The third contains the general X11 docu-
+mentation in hardcopy format.
+
+A source patch relative to version 3.9.18 is also available.  Because of its
+size, it is split into two parts.  The patch files are 3.9.18-4.0.diff1.gz
+and 3.9.18-4.0.diff2.gz.  These patches should be applied to a clean 3.9.18
+source tree, working from the directory containing the xc/ directory.  The
+patches should be applied by running:
+
+     gunzip < 3.9.18-4.0.diff1.gz | patch -p0 -E
+     gunzip < 3.9.18-4.0.diff2.gz | patch -p0 -E
+
+The contrib part of the distribution has now been folded into the main source
+tree, so a separate contrib tarball is no longer required.
+
+To format the XFree86 documentation, the latest version of our doctools pack-
+age.  That is available as doctools-1.1.2.tgz.
+
+4.  Reporting Bugs
+
+Bugs should be reported to <XFree86@XFree86.org>.  Before reporting bugs,
+please check the X server log file, which can be found at
+/var/log/XFree86.0.log on most platforms.  If you can't resolve the problem
+yourself, send the entire log file with your bug report.  Please don't edit
+out what you think might not be important.  The information contained in the
+log file is there to make it easier for the developers to determine what is
+going wrong when there are problems.
+
+If you have patches (bug fixes or enhancements, etc) that you'd like to sub-
+mit for inclusion in a future version of XFree86, please send them to
+<fixes@XFree86.org>.
+
+     Generated from XFree86: xc/programs/Xserver/hw/xfree86/doc/sgml/README.sgml,v 3.103 2000/03/08 20:36:43 dawes Exp $
+
+
+$XFree86: xc/programs/Xserver/hw/xfree86/doc/README,v 3.102 2000/03/08 20:39:21 dawes Exp $

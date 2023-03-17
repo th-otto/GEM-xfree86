@@ -1,0 +1,92 @@
+XCOMM $XFree86: xc/programs/Xserver/fb/Imakefile,v 1.4 2000/02/23 20:29:40 dawes Exp $
+XCOMM 
+XCOMM 
+XCOMM Id: Imakefile,v 1.1 1999/11/02 03:54:44 keithp Exp $
+#define IHaveModule
+#include <Server.tmpl>
+
+#ifdef FbNoPixelAddrCode
+DEFINES=-DFBNOPIXADDR -DFBNO24BIT
+#endif
+  
+#ifdef XFree86Version
+#if DoLoadableServer
+XFMODSRC = fbmodule.c
+XFMODOBJ = fbmodule.o
+#endif
+#endif
+
+SRCS =	$(XFMODSRC) \
+	fballpriv.c \
+	fbbits.c \
+	fbblt.c \
+	fbbltone.c \
+	fbbstore.c \
+	fbcmap.c \
+	fbcopy.c \
+	fbfill.c \
+	fbfillrect.c \
+	fbfillsp.c \
+	fbgc.c \
+	fbgetsp.c \
+	fbglyph.c \
+	fbimage.c \
+	fbline.c \
+	fbpixmap.c \
+	fbpoint.c \
+	fbpush.c \
+	fbscreen.c \
+	fbseg.c \
+	fbsetsp.c \
+	fbsolid.c \
+	fbstipple.c \
+	fbtile.c \
+	fbutil.c \
+	fbwindow.c
+
+OBJS =	$(XFMODOBJ) \
+	fbarc.o \
+	fballpriv.o \
+	fbbits.o \
+	fbblt.o \
+	fbbltone.o \
+	fbbstore.o \
+	fbcmap.o \
+	fbcopy.o \
+	fbfill.o \
+	fbfillrect.o \
+	fbfillsp.o \
+	fbgc.o \
+	fbgetsp.o \
+	fbglyph.o \
+	fbimage.o \
+	fbline.o \
+	fbpixmap.o \
+	fbpoint.o \
+	fbpush.o \
+	fbscreen.o \
+	fbseg.o \
+	fbsetsp.o \
+	fbsolid.o \
+	fbstipple.o \
+	fbtile.o \
+	fbutil.o \
+	fbwindow.o
+	
+   INCLUDES = -I. -I../mi -I../include -I$(XINCLUDESRC) \
+	      -I$(FONTINCSRC) -I$(XF86SRC)/common $(EXTRAINCLUDES)
+   LINTLIBS = ../dix/llib-ldix.ln ../os/llib-los.ln \
+	     ../mi/llib-lmi.ln
+
+NormalLibraryObjectRule()
+NormalLibraryTarget(fb,$(OBJS))
+LintLibraryTarget(fb,$(SRCS))
+
+NormalLintTarget($(SRCS))
+
+InstallLibraryModule(fb,$(MODULEDIR),.)
+
+#ifndef OS2Architecture
+DependTarget()
+#endif
+

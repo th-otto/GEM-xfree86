@@ -1,0 +1,203 @@
+<!DOCTYPE linuxdoc PUBLIC "-//XFree86//DTD linuxdoc//EN" [
+<!ENTITY % defs SYSTEM "defs.ent"> %defs;
+<!ENTITY % onediff 'IGNORE'>	 <!-- patch is a single diff file -->
+<!ENTITY % twodiffs 'INCLUDE'>	 <!-- patch is split into two diff files -->
+<!ENTITY % threediffs 'IGNORE'> <!-- patch is split into three diff files -->
+]>
+
+
+<article>
+
+<title>README for XFree86&tm; &relvers;
+<author>The XFree86 Project, Inc
+<date>26 February 2000
+
+<ident>
+$XFree86: xc/programs/Xserver/hw/xfree86/doc/sgml/README.sgml,v 3.103 2000/03/08 20:36:43 dawes Exp $
+</ident>
+
+<abstract>
+
+XFree86 is a port of X11R6.4 that supports several UNIX(R) and UNIX-like
+operating systems on Intel and other platforms.
+
+</abstract>
+
+<toc>
+
+<sect>What is XFree86 &relvers;?
+<p>
+
+<![ %snapshot [
+XFree86 &relvers; is a ``work in progress'' snapshot of the XFree86 4.0
+development code.  It is <![ %latersnap; [one of]]>
+<![ %firstsnap; [the first in]]>
+a series of snapshot releases leading up the the 4.0 release.  The
+plan is to release a new snapshot every four to six weeks.  The target
+audience for this release is developers and others who are comfortable
+on the bleeding edge.  This release is not targeted at beginners.
+Also, most end users will find life easier using our latest 3.3.x release.
+While we welcome bug reports and feedback about this release, we don't
+have the resources to provide user-level support for it.  If you're not
+comfortable dealing with those sorts of things yourself, then the snapshot
+releases are probably not for you.
+
+This code is very much work in progress.  Many of the interfaces may
+change without notice between now and the 4.0 release.  The
+<htmlurl name="driver design" url="DESIGN.html"> has changed significantly
+compared with the 3.3.x versions, and only a small number of drivers have
+been converted so far.  That means that this release does not support a
+wide range of video hardware.  Some of the drivers and new features are
+well developed and reasonably stable, while others are not.
+]]>
+
+<![ %release [
+XFree86 &relvers; is <![ %firstrel; [the first]]>
+<![ %laterrel; [a]]> full release of the <![ %earlyrel; [new]]> XFree86 4
+series.
+The road to XFree86 4 began in mid 1997, with serious work starting in
+early 1998.  The first pre-4.0 snapshot was released in mid 1999, and
+4.0 was released in early 2000.  A lot has been completed in that time,
+and even more has been started since the "4.0" design was drafted.  The
+result is that this release contains a lot of new features, some new
+drivers, and some significant performance improvements.  This release
+contains components in various stages of development, ranging from stable
+and well tested to new and not-so-well tested.  One the other side,
+there are drivers from the 3.3.x series that have not yet been ported
+to XFree86 4.  Most of these are for old hardware.  To find more
+information about which hardware is supported, see the <htmlurl
+name="Driver Status document" url="Status.html">.
+
+XFree86 4 uses a very modular design.  We had hoped to finalise and fully
+document the driver module API/ABI in time for the 4.0 release, but instead
+we are planning to have this done for a subsequent release.  We will try
+where possible to retain backward compatibility with the module interfaces
+in 4.0 in future releases, but we can't make guarantees about that until
+the interfaces have been fully documented.
+]]>
+
+Information on this release's features and their status can be found in
+the <htmlurl name="Release Notes" url="RELNOTES.html">.
+
+Information about obtaining and installing binary distributions of this
+release can be found in the <htmlurl name="Installation Document"
+url="Install.html">.
+
+Copyright and Licensing information for this release can be found in
+the <htmlurl name="License Document" url="LICENSE.html">.
+
+<![ %snapshot [
+<sect>Redistribution of the Snapshots
+<p>
+
+While the XFree86 <htmlurl name="License" url="LICENSE.html"> doesn't
+prohibit vendors and others redistributing binaries of this release, we
+don't recommend it.  We ask that if you do distribute such binaries,
+you make it clear that people using then should contact you for support
+and not XFree86.
+]]>
+
+<sect>Developers
+<p>
+
+If you would like to work on the development of XFree86 4, then it is
+recommended that you <url name="join the XFree86 development team"
+url="http://www.xfree86.org:/developer.html">.  That way you will have
+access to the latest source and to other developers.
+
+<sect>How to get XFree86 &relvers;
+<p>
+
+<![ %snapshot; [
+XFree86 &relvers; can be found at the <url name="XFree86 ftp server"
+url="ftp://ftp.xfree86.org/pub/XFree86/snapshots/&relvers;/">, and at
+mirrors of this server.  This snapshot is available primarily in source
+form.  Binaries for some platforms may be made available at a later
+time.
+]]>
+
+<![ %release; [
+XFree86 &relvers; can be found at the <url name="XFree86 ftp server"
+url="ftp://ftp.xfree86.org/pub/XFree86/&relvers;/">,
+and at mirrors of this server.  Information about obtaining and installing
+binary distributions of this release can be found in the
+<htmlurl name="Installation Document" url="Install.html">.  Information about
+obtaining the release in source form is given below.
+]]>
+
+The source for version &relvers; is split into three tarballs:
+<tt>X&srcvers;src-1.tgz</tt>, <tt>X&srcvers;src-2.tgz</tt>,
+<tt>X&srcvers;src-3.tgz</tt>.  The first contains everything except the
+fonts and general X11 documentation.  It is sufficient for building
+XFree86 is you already have a set of fonts.  The second contains the
+fonts and the source for the general X11 documentation.  The third
+contains the general X11 documentation in hardcopy format.
+
+<![ %onediff; [
+A source patch relative to version &prevrelvers; is also available.
+The patch file is <tt>&prevrelvers;-&relvers;.diff.gz</tt>.  This patch should
+be applied to a clean &prevrelvers; source tree, working from the directory
+containing the <tt>xc/</tt> directory.  The patch should be applied by
+running:
+
+<tscreen><verb>
+gunzip &lt; &prevrelvers;-&relvers;.diff.gz | patch -p0 -E
+</verb></tscreen>
+]]>
+
+<![ %twodiffs; [
+A source patch relative to version &prevrelvers; is also available.
+Because of its size, it is split into two parts.
+The patch files are <tt>&prevrelvers;-&relvers;.diff1.gz</tt> and
+<tt>&prevrelvers;-&relvers;.diff2.gz</tt>.  These patches should
+be applied to a clean &prevrelvers; source tree, working from the directory
+containing the <tt>xc/</tt> directory.  The patches should be applied by
+running:
+
+<tscreen><verb>
+gunzip &lt; &prevrelvers;-&relvers;.diff1.gz | patch -p0 -E
+gunzip &lt; &prevrelvers;-&relvers;.diff2.gz | patch -p0 -E
+</verb></tscreen>
+]]>
+
+<![ %threediffs; [
+A source patch relative to version &prevrelvers; is also available.
+Because of its size, it is split into three parts.
+The patch files are <tt>&prevrelvers;-&relvers;.diff1.gz</tt>,
+<tt>&prevrelvers;-&relvers;.diff2.gz</tt> and
+<tt>&prevrelvers;-&relvers;.diff3.gz</tt>.  These patches should
+be applied to a clean &prevrelvers; source tree, working from the directory
+containing the <tt>xc/</tt> directory.  The patches should be applied by
+running:
+
+<tscreen><verb>
+gunzip &lt; &prevrelvers;-&relvers;.diff1.gz | patch -p0 -E
+gunzip &lt; &prevrelvers;-&relvers;.diff2.gz | patch -p0 -E
+gunzip &lt; &prevrelvers;-&relvers;.diff3.gz | patch -p0 -E
+</verb></tscreen>
+]]>
+
+The contrib part of the distribution has now been folded into the main
+source tree, so a separate contrib tarball is no longer required.
+
+To format the XFree86 documentation, the latest version of our doctools
+package.  That is available as <tt>doctools-1.1.2.tgz</tt>.
+
+<sect>Reporting Bugs
+<p>
+
+Bugs should be reported to <email>XFree86@XFree86.org</email>.  Before
+reporting bugs, please check the X server log file, which can be found
+at <tt>/var/log/XFree86.0.log</tt> on most platforms.  If you can't resolve
+the problem yourself, send the entire log file with your bug report.  Please
+don't edit out what you think might not be important.  The information
+contained in the log file is there to make it easier for the developers
+to determine what is going wrong when there are problems.
+
+If you have patches (bug fixes or enhancements, etc) that you'd like to
+submit for inclusion in a future version of XFree86, please send them
+to <email>fixes@XFree86.org</email>.
+
+
+
+</article>

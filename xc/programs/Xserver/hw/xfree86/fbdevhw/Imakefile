@@ -1,0 +1,39 @@
+XCOMM $XFree86: xc/programs/Xserver/hw/xfree86/fbdevhw/Imakefile,v 1.6 1999/08/14 10:49:58 dawes Exp $
+
+#define IHaveModules
+#include <Server.tmpl>
+
+#if LinuxFBDevSupport
+SRCS =   fbdevhw.c
+OBJS =   fbdevhw.o
+#else
+SRCS =   fbdevhwstub.c
+OBJS =   fbdevhwstub.o
+#endif
+
+   INCLUDES = -I. -I$(XF86COMSRC) -I$(XF86OSSRC) -I$(SERVERSRC)/Xext \
+	      -I$(SERVERSRC)/cfb -I$(SERVERSRC)/mfb -I$(SERVERSRC)/mi \
+              -I$(SERVERSRC)/include -I$(XINCLUDESRC) \
+              -I$(XF86SRC)/ddc -I$(XF86SRC)/i2c
+
+   LINTLIBS = ../../../dix/llib-ldix.ln ../../../os/llib-los.ln \
+	     ../../mfb/llib-lmfb.ln ../../mi/llib-lmi.ln
+
+ModuleObjectRule()
+LibraryModuleTarget(fbdevhw,$(OBJS))
+NormalLintTarget($(SRCS))
+
+#ifdef LinuxArchitecture
+InstallLibraryModule(fbdevhw,$(MODULEDIR),linux)
+CppManTarget(fbdevhw,)
+InstallModuleManPage(fbdevhw)
+#endif
+
+#ifndef OS2Architecture
+DependTarget()
+#endif
+
+
+InstallDriverSDKLibraryModule(fbdevhw,$(DRIVERSDKMODULEDIR),linux)
+
+InstallDriverSDKNonExecFile(fbdevhw.h,$(DRIVERSDKINCLUDEDIR))

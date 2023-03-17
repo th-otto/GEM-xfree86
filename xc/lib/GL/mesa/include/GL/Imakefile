@@ -1,0 +1,13 @@
+XCOMM $XFree86: xc/lib/GL/mesa/include/GL/Imakefile,v 1.3 2000/03/02 16:07:33 martin Exp $
+
+#define IHaveModules
+#include <Server.tmpl>
+
+      DEFINES = $(GLX_DEFINES)
+
+LinkSourceFile(gl.h, ../../../../../extras/Mesa/include/GL)
+LinkSourceFile(glext.h, ../../../../../extras/Mesa/include/GL)
+LinkSourceFile(glx.h, ../../../../../extras/Mesa/include/GL)
+LinkSourceFile(xmesa.h, ../../../../../extras/Mesa/include/GL)
+LinkSourceFile(xmesa_x.h, ../../../../../extras/Mesa/include/GL)
+LinkSourceFile(xmesa_xf86.h, ../../../../../extras/Mesa/include/GL)
