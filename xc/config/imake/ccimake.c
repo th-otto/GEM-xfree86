@@ -34,8 +34,10 @@ in this Software without prior written authorization from The Open Group .
 #define imake_ccflags "-O"
 #endif
 
+#include <stdio.h>
+
 int main(void)
 {
-	write(1, imake_ccflags, sizeof(imake_ccflags) - 1);
+	fputs(imake_ccflags, stdout);
 	return 0;
 }

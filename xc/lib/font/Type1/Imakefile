@@ -1,11 +1,13 @@
 XCOMM $XConsortium: Imakefile,v 1.5 93/09/04 16:43:32 rws Exp $
 XCOMM $XFree86: xc/lib/font/Type1/Imakefile,v 1.8 1999/05/03 05:58:44 dawes Exp $
 
+#if BuildServer
 #if DoLoadableServer
 #define IHaveSubdirs
 #define NoLibSubdirs
 #define PassCDebugFlags
 SUBDIRS = module
+#endif
 #endif
 
 INCLUDES = -I$(FONTINCSRC) -I../include -I$(XTOP)/include \
@@ -77,9 +79,11 @@ LibraryObjectRule()
 SubdirLibraryRule($(OBJS))
 NormalLintTarget($(SRCS))
 
+#if BuildServer
 #if DoLoadableServer
 MakeSubdirs($(SUBDIRS))
 DependSubdirs($(SUBDIRS))
+#endif
 #endif
 
 DependTarget()

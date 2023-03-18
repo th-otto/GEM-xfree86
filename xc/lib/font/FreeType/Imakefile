@@ -4,11 +4,13 @@ XCOMM Imakefile created for the Freetype TrueType renderer.
 XCOMM Mark Leisher <mleisher@crl.nmsu.edu>
 XCOMM Juliusz Chroboczek <jec@dcs.ed.ac.uk>
 
+#if BuildServer
 #if DoLoadableServer
 #define IHaveSubdirs
 #define NoLibSubdirs
 #define PassCDebugFlags
 SUBDIRS = module
+#endif
 #endif
 
 /*
@@ -48,9 +50,11 @@ NormalLintTarget($(SRCS))
 LinkSourceFile(freetype.c,$(FTSOURCEDIR)/lib/arch/unix)
 LinkSourceFile(ftxcmap.c,$(FTSOURCEDIR)/lib/extend)
 
+#if BuildServer
 #if DoLoadableServer
 MakeSubdirs($(SUBDIRS))
 DependSubdirs($(SUBDIRS))
+#endif
 #endif
 
 DependTarget()

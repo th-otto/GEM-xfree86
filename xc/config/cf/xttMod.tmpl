@@ -33,10 +33,12 @@ InstallDriverSDKLibraryModule($(MODULENAME),$(DRIVERSDKMODULEDIR),codeconv)
 # else
 /* dlopen based code converter */
 
+#if BuildServer
 #if DoLoadableServer
 #define IHaveSubdirs
 #define PassCDebugFlags CDEBUGFLAGS="$(CDEBUGFLAGS)"
 SUBDIRS = module
+#endif
 #endif
 
 #if 0

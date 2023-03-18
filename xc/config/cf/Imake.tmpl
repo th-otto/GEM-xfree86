@@ -368,7 +368,7 @@ XCOMM the platform-specific parameters - edit site.def to change
 #define Krb5Includes -I/krb5/include
 #endif
 #ifndef Krb5Libraries
-#define Krb5Libraries -L/krb5/lib -L/usr/isode/lib -lkrb5 -lcrypto -lisode -lcom_err -ldbm
+#define Krb5Libraries -L/krb5/lib -L/usr/isode/lib -lkrb5 -lcrypto -lisode -lcom_err DBMLibrary
 #endif
 #else
 #undef Krb5Includes
@@ -1027,7 +1027,11 @@ TCLIBDIR = TclLibDir
 #define MathLibrary -lm
 #endif
 #ifndef DBMLibrary
+#if HasNdbm
+#define DBMLibrary -lndbm
+#else
 #define DBMLibrary -ldbm
+#endif
 #endif
 #ifndef DlLibrary
 #define DlLibrary -ldl

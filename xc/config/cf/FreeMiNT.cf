@@ -27,9 +27,9 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define XConfigDir		/etc/X11
 
 #undef DefaultUserPath
-#define DefaultUserPath		/usr/local/bin:/bin:/usr/bin
+#define DefaultUserPath		/usr/local/bin:/bin:/usr/bin:$(BINDIR)
 #undef DefaultSystemPath
-#define DefaultSystemPath	/usr/local/sbin:/sbin:/usr/sbin:/bin:/usr/bin
+#define DefaultSystemPath	/usr/local/sbin:/sbin:/usr/sbin:/bin:/usr/bin:$(BINDIR)
 
 #define ManSuffix		1x
 #define ManDir			$(MANSOURCEPATH)1
@@ -41,6 +41,12 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define BuildXKB		NO
 #define BuildXKBlib		YES
 #define BuildXKBuilib		YES
+/*
+ * Omitting the DPS library does not work,
+ * because it also does not generate the links
+ * for the header files used somewhere else
+ */
+/* #define BuildDPSLibrary                NO */
 
 #define BuildFonts 		YES
 #define BuildCyrillicFonts	YES
@@ -60,8 +66,12 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define ConnectionFlags		-DTCPCONN -DUNIXCONN
 #define Malloc0ReturnsNull	NO
 /* #define SetTtyGroup     	NO */
-#define HasNdbm         	NO
-#define DBMLibrary		-lgdbm
+#define HasNdbm         	YES
+#if HasNdbm
+#define DBMLibrary		-lndbm
+#else
+#define DBMLibrary		-ldbm
+#endif
 #define HasShm          	YES
 /* #define HasWChar32		NO */
 /* #define HasMkstemp		YES */
@@ -93,6 +103,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
  */
 #undef HasGcc
 #define HasGcc			YES
+#undef HasGcc2
 #define HasGcc2			YES
 #ifndef HasGcc2ForCplusplus
 #define HasGcc2ForCplusplus	YES
@@ -127,7 +138,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define GccGasOption 		-DGCCUSESGAS
 #define AsmDefines		-DUSE_GAS
 
-#define ArCmd			m68k-atari-mint-ar clq
+#define ArCmd			m68k-atari-mint-ar rcs
 #define RanlibCmd		m68k-atari-mint-ranlib
 #define LdCmd			m68k-atari-mint-ld
 
@@ -136,7 +147,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define StandardDefines		-Dtypeof=__typeof__ -D_GNU_SOURCE
 
 #define GccWarningOptions	
-#define BootstrapCFlags		
+#define BootstrapCFlags		-D__MINT__
 #define ExtensionOSDefines	
 #define XFree86ServerOSDefines
 
@@ -148,15 +159,15 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 
 #define YaccCmd			bison -y
 #define LexCmd			flex
-#ifndef LexLib
-# define LexLib			-lfl
-#endif
+#undef LexLib
+#define LexLib
 
 #define AvoidNullMakeCommand	YES
 #define DirFailPrefix		-
 
 
 /*-- makedepend needs this --*/
+#undef DefaultGccIncludeDir
 #define DefaultGccIncludeDir $(shell CcCmd -print-file-name=include)
 
 #define InstallDriverSDKNonExecFile(file,dest)				/**/

@@ -65,6 +65,7 @@ aaa.cfg
 
 xc/xmakefile
 xc/config/cf/host.def
+xc/host-tools
 
 #executables
 xc/config/imake/bootstrap/imake
@@ -179,6 +180,7 @@ xc/programs/xdm/xdm
 xc/programs/xkbevd/xkbevd
 xc/programs/xterm/resize
 xc/programs/xterm/xterm
+xc/programs/rgb/rgb
 
 xc/lib/dpstk/libdpstk.so.1.0
 xc/lib/dpstk/libdpstk.so.1.0
@@ -1374,6 +1376,10 @@ xc/fonts/bdf/misc/cu-arabic12.bdf
 xc/fonts/bdf/misc/cu12.bdf
 xc/include/GL/glext.h
 xc/include/GL/gl.h
+xc/programs/xdm/Loginsh.c
+xc/programs/xdm/greetsh.c
+xc/programs/xdm/sessionsh.c
+xc/programs/xdm/verifysh.c
 
 # generated files
 DONE
@@ -2532,3 +2538,5 @@ xc/programs/xkbcomp/keycodes/keycodes.dir
 xc/programs/xkbcomp/keymap/keymap.dir
 xc/programs/xkbcomp/symbols/symbols.dir
 xc/programs/xkbcomp/types/types.dir
+xc/programs/rgb/rgb.dir
+xc/programs/rgb/rgb.pag

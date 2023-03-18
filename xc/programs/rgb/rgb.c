@@ -45,6 +45,7 @@ from The Open Group.
 
 #undef NULL
 #include <stdio.h>
+#include <stdlib.h>
 #include <X11/Xos.h>
 #include "rgb.h"
 #include "site.h"
@@ -64,7 +65,7 @@ char *SysError ()
     return s ? s : "?";
 }
 
-main(argc, argv)
+int main(argc, argv)
     int argc;
     char **argv;
 {

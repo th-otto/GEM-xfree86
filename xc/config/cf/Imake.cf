@@ -758,7 +758,9 @@ XCOMM $XFree86: xc/config/cf/Imake.cf,v 3.53 2000/02/12 20:45:01 dawes Exp $
 # ifdef FreeMiNT
 #  undef FreeMiNT
 # endif
+# undef MacroIncludeFile
 # define MacroIncludeFile <FreeMiNT.cf>
+# undef MacroFile
 # define MacroFile FreeMiNT.cf
 # define mc68000Architecture
 # define MintArchitecture

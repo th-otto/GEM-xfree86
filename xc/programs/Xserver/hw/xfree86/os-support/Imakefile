@@ -128,6 +128,6 @@ ForceSubdirs($(SUBDIRS))
 DependSubdirs($(SUBDIRS))
 
 InstallDriverSDKNonExecFile(xf86_OSproc.h,$(DRIVERSDKINCLUDEDIR))
-InstallDriverSDKNonExecFile(xf86_ansic.h,$(DRIVERSDKINCLUDEDIR))
+InstallDriverSDKNonExecFile($(XPROJECTROOT)/include/xf86_ansic.h,$(DRIVERSDKINCLUDEDIR))
 InstallDriverSDKNonExecFile(xf86_libc.h,$(DRIVERSDKINCLUDEDIR))
 InstallDriverSDKNonExecFile(xf86drm.h,$(DRIVERSDKINCLUDEDIR))

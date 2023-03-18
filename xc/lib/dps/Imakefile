@@ -26,7 +26,12 @@ XCOMM  -DTCPCONN -DUNIXCONN
             AWK = awk
            SORT = sort
       PSWRAPSRC = $(TOP)/config/pswrap
-         PSWRAP = $(PSWRAPSRC)/pswrap
+        PSWRAP = $(PSWRAPSRC)/pswrap
+#if CrossCompiling
+	HOST_PSWRAP = $(TOP)/host-tools/pswrap
+#else
+	HOST_PSWRAP = $(PSWRAP)
+#endif
 
 
 COMMONOBJECTFILES = \
@@ -261,13 +266,13 @@ DERIVED_FILES = $(DPSOPSHEADERFILES) $(PSOPSHEADERFILES) \
 .SUFFIXES: .psw .ah .h
 
 .psw.c : ProgramTargetName($(PSWRAP))
-	RunProgram(PSWRAP,-o $*.c -h $*.h $<)
+	RunProgram(HOST_PSWRAP,-o $*.c -h $*.h $<)
 
 .psw.ah : ProgramTargetName($(PSWRAP))
-	RunProgram(PSWRAP,-a -h $*.ah $< > /dev/null)
+	RunProgram(HOST_PSWRAP,-a -h $*.ah $< > /dev/null)
 
 .psw.h : ProgramTargetName($(PSWRAP))
-	RunProgram(PSWRAP,-h $*.h $< > /dev/null)
+	RunProgram(HOST_PSWRAP,-h $*.h $< > /dev/null)
 
 ProgramTargetName($(PSWRAP)):
 	@echo "checking $@ over in $(PSWRAPSRC) first..."; \

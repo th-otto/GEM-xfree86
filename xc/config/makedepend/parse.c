@@ -598,8 +598,8 @@ find_includes(struct filepointer *filep, struct inclist *file,
 			break;
 		case ERROR:
 		case WARNING:
-		    	warning("%s: %d: %s\n", file_red->i_file,
-				 filep->f_line, line);
+		    	/* warning("%s: %d: %s\n", file_red->i_file,
+				 filep->f_line, line); */
 		    	break;
 		    
 		case PRAGMA:

@@ -1,0 +1,41 @@
+#undef CrossCompiling
+#define CrossCompiling      YES
+
+#define HostCcCmd gcc
+
+XCOMM Special rule ComplexHostProgramTarget needed to compile 
+XCOMM our utilities locally because we are cross-compiling...
+XCOMM
+
+#define ComplexHostProgramTarget(program)			@@\
+           CC=HostCcCmd						@@\
+           STD_INCLUDES =					@@\
+           CFLAGS=$(TOP_INCLUDES) $(INCLUDES) $(BOOTSTRAPCFLAGS)	@@\
+           CCOPTIONS =						@@\
+           EXTRA_LOAD_FLAGS =					@@\
+           PROGRAM = program					@@\
+								@@\
+AllTarget(program)						@@\
+								@@\
+program: $(OBJS) $(DEPLIBS)					@@\
+	RemoveTargetProgram($@)					@@\
+	HostLinkRule($@,$(_NOOP_),$(OBJS),$(DEPLIBS) $(LOCAL_LIBRARIES)) @@\
+								@@\
+DependTarget()							@@\
+								@@\
+clean::								@@\
+	RemoveFile(ProgramTargetName(program))
+
+XCOMM And this rule is again for a host simple host program when cross-compiling.
+XCOMM
+
+#define SimpleHostProgramTarget(program)			@@\
+         OBJS = program.o					@@\
+         SRCS = program.c					@@\
+								@@\
+ComplexHostProgramTarget(program)
+	
+#define HostLinkRule(target,flags,src,libs)			@@\
+	cc -o target src $(ALLINCLUDES)
+
+

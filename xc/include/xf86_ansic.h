@@ -28,9 +28,9 @@
 #define _XF86_ANSIC_H
 
 #ifndef FONTMODULE
-#include "misc.h"
+#include "../programs/Xserver/include/misc.h"
 #endif
-#include "xf86_libc.h"
+#include "../programs/Xserver/hw/xfree86/os-support/xf86_libc.h"
 
 /*
  * The first set of definitions are required both for modules and

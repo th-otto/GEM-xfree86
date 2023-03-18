@@ -1138,9 +1138,13 @@ XCOMM X Window System make variables; these need to be coordinated with rules
      INSTAPPFLAGS = $(INSTDATFLAGS)	/* XXX - this should go away - XXX */
 
 #if UseInstalledX11
-              RGB = $(BINDIR)/rgb
-            FONTC = $(BINDIR)/bdftopcf
-        MKFONTDIR = $(BINDIR)/mkfontdir
+              RGB = rgb
+            FONTC = bdftopcf
+        MKFONTDIR = mkfontdir
+#elif CrossCompiling
+              RGB = $(CLIENTENVSETUP) $(TOP)/host-tools/rgb
+            FONTC = $(CLIENTENVSETUP) $(TOP)/host-tools/bdftopcf
+        MKFONTDIR = $(CLIENTENVSETUP) $(TOP)/host-tools/mkfontdir
 #else
               RGB = $(CLIENTENVSETUP) $(XBUILDBINDIR)/rgb
             FONTC = $(CLIENTENVSETUP) $(XBUILDBINDIR)/bdftopcf
@@ -2108,7 +2112,11 @@ ProjectUnsharedLibReferences(XKBFILE,xkbfile,$(XKBFILELIBSRC),XBuildLibDir)
      XKBCOMPCMD = $(BINDIR)/XkbComp
 #else
      XKBCOMPSRC = $(PROGRAMSRC)/XkbComp
+#if CrossCompiling
+     XKBCOMPCMD = $(CLIENTENVSETUP) $(TOP)/host-tools/XkbComp
+#else
      XKBCOMPCMD = $(CLIENTENVSETUP) $(XBUILDBINDIR)/XkbComp
+#endif
 #endif
 #else /* !BuildXKBlib */
 #ifndef XkbClientDepLibs

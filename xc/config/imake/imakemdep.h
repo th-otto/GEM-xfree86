@@ -194,7 +194,7 @@ in this Software without prior written authorization from The Open Group.
 
 /* >>>>> EEKS >>>>> */
 #ifdef __MINT__
-# define imake_ccflags "-D_GNU_SOURCE"
+# define imake_ccflags "-D_GNU_SOURCE -D__MINT__"
 #endif
 /* <<<<< EEKS <<<<< */
 
@@ -545,7 +545,7 @@ char *cpp_argv[ARGUMENTS] = {
 #ifdef NCR
 	"-DNCR",	/* NCR */
 #endif
-#ifdef linux
+#if defined(linux) && !defined(__MINT__)
         "-Dlinux",
 #endif
 #if defined(Lynx) || defined(__Lynx__)
@@ -642,18 +642,17 @@ char *cpp_argv[ARGUMENTS] = {
 #endif
 
 #ifdef __MINT__   /* >>>>> EEKS >>>>> */
+#ifdef linux
+	"-Ulinux",	/* remove linux symbol when cross-compiling */
+#endif
 	"-traditional",
 	"-D__MINT__",
-# ifdef __mc68000__
 	"-Dmc68000",
 	"-D__mc68000__",
 	"-D__M68000__",
-# endif
-# ifdef __atarist__
 	"-Datarist",
 	"-D__atarist",
 	"-D__atarist__",
-# endif
 #endif   /* <<<<< EEKS <<<<< */
 
 };

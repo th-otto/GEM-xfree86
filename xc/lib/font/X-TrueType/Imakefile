@@ -4,8 +4,10 @@ XCOMM $XFree86: xc/lib/font/X-TrueType/Imakefile,v 1.5 2000/02/13 06:15:24 dawes
 #define IHaveSubdirs
 #define PassCDebugFlags CDEBUGFLAGS="$(CDEBUGFLAGS)"
 
+#if BuildServer
 #if DoLoadableServer
 MODULE_SUBDIRS = module
+#endif
 #endif
 
 INCLUDES = -I. -I$(FONTINCSRC) -I../include -I../fontcache \

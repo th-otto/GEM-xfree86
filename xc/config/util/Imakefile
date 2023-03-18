@@ -64,6 +64,18 @@ CppScriptTarget(gccmakedep,gccmdep.cpp,-DCCCMD='"'"$(GCCCMD)"'"' -DRMCMD='"'"$(R
 #ifndef OpenBSDArchitecture
 #if HasSymLinks
 #if CrossCompiling
+XCOMM cannot mix SimpleHostProgramTarget and SimpleProgramTarget in the same Imakefile
+#undef SimpleHostProgramTarget
+#define SimpleHostProgramTarget(program)			@@\
+AllTarget(program)						@@\
+								@@\
+program: program.c $(DEPLIBS)					@@\
+	RemoveTargetProgram($@)					@@\
+	HostCcCmd -o $@ program.c    				@@\
+								@@\
+clean::								@@\
+	RemoveFile(ProgramTargetName(program))
+
 SimpleHostProgramTarget(lndir)
 #else
 AllTarget($(LNDIR_PROG))

@@ -299,9 +299,15 @@ CenterLoadTarget(debug_src,basename.SRCsuf,NullParameter,$(ALLDEFINES) options)
  * clearmake to wink in the files.  Bug in clearmake 2.0.2?
  */
 
+#if CrossCompiling
+#  define RunMakeStrs $(TOP)/host-tools/makestrs
+#else
+#  define RunMakeStrs $(MAKESTRS)
+#endif
 #ifndef MakeStringsDependency
 # define MakeStringsDependency						@@\
 MAKESTRS = $(CONFIGSRC)/util/makestrs					@@\
+HOST_MAKESTRS = RunMakeStrs          					@@\
 NoCmpScript(ProgramTargetName($(MAKESTRS)) $(MAKESTRS).Osuf)		@@\
 									@@\
 ProgramTargetName($(MAKESTRS)) $(MAKESTRS).Osuf:			@@\
@@ -314,7 +320,7 @@ includes:: ProgramTargetName($(MAKESTRS))
 #  define ToolkitMakeStrings(files,source,options,depends,dest)		@@\
 files: source depends							@@\
 	RemoveFiles(files)						@@\
-	RunProgram(MAKESTRS,options < source > dest)			@@\
+	RunProgram(HOST_MAKESTRS,options < source > dest)		@@\
 									@@\
 AllTarget(files)							@@\
 									@@\
@@ -330,7 +336,7 @@ MakeStringsDependency							@@\
 									@@\
 files: source depends							@@\
 	RemoveFiles(files)						@@\
-	RunProgram(MAKESTRS,options < source > dest)			@@\
+	RunProgram(HOST_MAKESTRS,options < source > dest)		@@\
 									@@\
 AllTarget(files)							@@\
 									@@\

@@ -125,6 +125,7 @@ XCOMM binutils:	(LinuxBinUtilsMajorVersion)
 #ifndef HasLibCrypt
 #define HasLibCrypt		YES
 #endif
+#define HasNdbm         	YES
 /* netscape wraps select but not poll as of communicator 4.72 */
 #ifndef HasPoll
 #define HasPoll			NO
@@ -233,8 +234,10 @@ XCOMM binutils:	(LinuxBinUtilsMajorVersion)
 #define SourceDefines		LinuxSourceDefines
 
 #define BuildLibPathVar		LD_LIBRARY_PATH
-#define HasGcc			YES
-#define HasGcc2			YES
+#undef HasGcc
+#define HasGcc			1
+#undef HasGcc2
+#define HasGcc2			1
 #ifndef HasGcc2ForCplusplus
 # define HasGcc2ForCplusplus	YES
 #endif
@@ -283,6 +286,7 @@ XCOMM binutils:	(LinuxBinUtilsMajorVersion)
 #endif
 
 #define MkdirHierCmd		mkdir -p
+#define HasSharedLibraries    NO
 #if LinuxElfDefault
 #if UseElfFormat
 #ifndef CcCmd

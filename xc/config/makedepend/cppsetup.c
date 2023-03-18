@@ -135,6 +135,7 @@ my_if_errors (IfParser *ip, const char *cp, const char *expecting)
     int prefixlen;
     int i;
 
+    return NULL;
     sprintf (prefix, "\"%s\":%d", filename, lineno);
     prefixlen = strlen(prefix);
     fprintf (stderr, "%s:  %s", prefix, pd->line);

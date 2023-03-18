@@ -47,7 +47,7 @@ XCOMM $XFree86: xc/config/cf/X11.rules,v 1.4 1997/09/09 11:56:20 hohndel Exp $
 
 #if ImportX11
 # define XLdPreLibs	-L$(LIBSRC)
-#elif defined(UseInstalledX11) && defined(X11ProjectRoot)
+#elif UseInstalledX11 && defined(X11ProjectRoot)
 # define XLdPreLibs	-L$(XPROJECTROOT)/lib
 #else
 # define XLdPreLibs	/**/

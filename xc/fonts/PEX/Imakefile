@@ -74,7 +74,7 @@ Roman.phont:	ProgramTargetName(to_wfont)
 Roman_M.phont:	ProgramTargetName(to_wfont)
 
 .src.phont:	ProgramTargetName(to_wfont)
-	RunProgram(TOWFONT,-o $@ $<)
+	RunProgram(HOST_TOWFONT,-o $@ $<)
 
 clean:: 
 	RemoveFiles($(FONTS_BINARY))
