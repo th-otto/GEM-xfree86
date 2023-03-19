@@ -28,6 +28,8 @@ Makefile::  ProgramTargetName(imake)
 
 #if CrossCompiling
 SimpleHostProgramTarget(imake)
+InstallProgram(imake,$(BINDIR))
+InstallManPage(imake,$(MANDIR))
 #else
 SimpleProgramTarget(imake)
 #endif

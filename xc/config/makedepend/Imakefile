@@ -76,6 +76,7 @@ clean::
 #define InstallManPage(file,dest) /* as nothing */
 #if CrossCompiling
 ComplexHostProgramTarget(makedepend)
+InstallProgram(makedepend,$(BINDIR))
 #else
 ComplexProgramTarget(makedepend)
 #endif

@@ -77,6 +77,8 @@ clean::								@@\
 	RemoveFile(ProgramTargetName(program))
 
 SimpleHostProgramTarget(lndir)
+InstallProgram(lndir,$(BINDIR))
+InstallManPage(lndir,$(MANDIR))
 #else
 AllTarget($(LNDIR_PROG))
 SimpleProgramTarget_2(lndir)
