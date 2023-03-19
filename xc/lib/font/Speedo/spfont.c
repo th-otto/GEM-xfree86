@@ -55,17 +55,10 @@ from The Open Group.
 #include	"spint.h"
 #include	"servermd.h"
 #include	"fontutil.h"
-#ifndef FONTMODULE
-#ifdef _XOPEN_SOURCE
-#include <math.h>
-#else
-#define _XOPEN_SOURCE	/* to get prototype for hypot on some systems */
-#include <math.h>
-#undef _XOPEN_SOURCE
-#endif
-#else
+#ifdef FONTMODULE
 #include "xf86_ansic.h"
 #endif
+#include <math.h>
 
 #ifndef M_PI
 #define M_PI 3.14159
@@ -124,6 +117,7 @@ sp_get_glyphs(
     if (!fsd->complete)
 	err = fs_load_glyphs(NULL, pFont, count, itemSize, chars);
 #endif
+	(void)itemSize;
 
     if (err != Successful)
 	return err;
@@ -233,7 +227,6 @@ sp_open_font(
     int         ret;
     specs_t     specs;
     int		xx8, xy8, yx8, yy8;
-    double	sxmult;
 
     /* find a master (create it if necessary) */
     spmf = (SpeedoMasterFontPtr) entry->u.scalable.extra->private;

@@ -16,13 +16,6 @@
 #include <X11/Xos.h>
 #include <string.h>
 #include <stdio.h>
-#ifdef _XOPEN_SOURCE
-#include <math.h>
-#else
-#define _XOPEN_SOURCE   /* to get prototype for hypot on some systems */
-#include <math.h>
-#undef _XOPEN_SOURCE
-#endif
 /* Define if you have the <stdlib.h> header file.  */
 #ifndef X_NOT_STDC_ENV
 #define HAVE_STDLIB_H 1
@@ -33,6 +26,7 @@
 #include "xf86_ansic.h"
 
 #endif /* FONTMODULE */
+#include <math.h>
 
 /* Define to empty if the keyword does not work.  */
 #define const _Xconst           /* defined in Xfuncproto.h */

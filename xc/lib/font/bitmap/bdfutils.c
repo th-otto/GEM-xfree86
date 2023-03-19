@@ -57,11 +57,8 @@ from The Open Group.
 /* use bitmap structure */
 #include "bitmap.h"
 #include "bdfint.h"
-#if NeedVarargsPrototypes
 #include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
+#include <string.h>
 
 int bdfFileLineNum;
 

@@ -172,7 +172,7 @@ StepBezierRecurse(struct bezierinfo *I, /* Region under construction or NULL */
    StepBezierRecurse(I, xABCD, yABCD, xBCD, yBCD, xCD, yCD, xD, yD);
   }
  }
- /*NOTREACHED*/
+ return 0;
 }
  
 /*

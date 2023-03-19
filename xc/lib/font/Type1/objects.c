@@ -340,8 +340,10 @@ t1_Allocate(int size,     /* number of bytes to allocate & initialize     */
        }
  
        if (MemoryDebug > 1) {
+#if 0
                register long *L;
                L = (long *) r;
+#endif
                IfTrace4(TRUE, "Allocating at %x: %x %x %x\n",
                                            L, L[-1], L[0], L[1]);
        }
@@ -370,8 +372,10 @@ Free(pointer objPtr)
        obj->type = INVALIDTYPE;
  
        if (MemoryDebug > 1) {
+#if 0
                register long *L;
                L = (long *) obj;
+#endif
                IfTrace4(TRUE,"Freeing at %x: %x %x %x\n", L, L[-1], L[0], L[1]);
        }
  

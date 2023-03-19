@@ -349,11 +349,9 @@ _fs_clean_aborted_loadglyphs(FontPtr pfont, int num_expected_ranges,
 			     fsRange *expected_ranges)
 {
     register FSFontPtr fsfont;
-    register FSFontDataRec *fsd;
     register int i;
 
     fsfont = (FSFontPtr) pfont->fontPrivate;
-    fsd = (FSFontDataRec *) pfont->fpePrivate;
     if (fsfont->encoding)
     {
 	fsRange full_range[1];
@@ -456,9 +454,10 @@ _fs_get_glyphs(FontPtr pFont, unsigned long count, unsigned char *chars,
 
 
     if (charEncoding == Linear8Bit || charEncoding == TwoD8Bit)
-	itemSize = 1;
+	    itemSize = 1;
     else
-	itemSize = 2;
+	    itemSize = 2;
+	(void)itemSize;
 
     /* In this age of glyph caching, any glyphs gotten through this
        procedure should already be loaded.  If they are not, we are
@@ -577,9 +576,10 @@ _fs_get_metrics(FontPtr pFont, unsigned long count, unsigned char *chars,
     /* XXX - this should be much smarter */
     /* make sure the glyphs are there */
     if (charEncoding == Linear8Bit || charEncoding == TwoD8Bit)
-	itemSize = 1;
+	    itemSize = 1;
     else
-	itemSize = 2;
+	    itemSize = 2;
+	(void)itemSize;
 
     switch (charEncoding) {
 

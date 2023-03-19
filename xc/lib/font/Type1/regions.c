@@ -254,7 +254,7 @@ struct region *
 CopyRegion(struct region *area)        /* region to duplicate                */
 {
         register struct region *r;  /* output region built here              */
-        register struct edgelist *last;  /* loop variable                    */
+        register struct edgelist *last = 0;  /* loop variable                    */
         register struct edgelist *p,*newp;  /* loop variables                */
  
         r = (struct region *)Allocate(sizeof(struct region), area, 0);
@@ -396,7 +396,7 @@ an even number of edges; of course, we abort if we don't.
 static void
 Unwind(struct edgelist *area)   /* input area modified in place              */
 {
-       register struct edgelist *last,*next;  /* struct before and after current one */
+       register struct edgelist *last = 0,*next;  /* struct before and after current one */
        register int y;       /* ymin of current swath                        */
        register int count,newcount;  /* winding count registers              */
  
@@ -727,6 +727,8 @@ ChangeDirection(int type,    /* CD_FIRST, CD_CONTINUE, or CD_LAST            */
                        x_at_ymin = x;
                        ymax = R->firsty;
                        x_at_ymax = R->firstx;
+                       (void)x_at_ymax;
+                       (void)x_at_ymin;
                }
  
                if (ymax < ymin)
@@ -1057,7 +1059,7 @@ swathxsort(struct edgelist *before0,  /* edge before this swath              */
 {
        register struct edgelist *before;
        register struct edgelist *after;
-       register pel y;
+       register pel y = 0;
  
        before = before0;
        after = before->link;

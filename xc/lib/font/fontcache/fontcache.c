@@ -110,8 +110,8 @@ fprintf(stderr, "FontCacheInitialize: initializing cache\n");
 	AllocSize.allocated = AllocSize.used = 0;
 	fc_assign_cache();
 	fc_assign_entry();
-fprintf(stderr, "FontCacheInitialize: hi=%d, lo=%d, bal=%d\n",
-        CacheHiMark, CacheLowMark, CacheBalance);
+fprintf(stderr, "FontCacheInitialize: hi=%ld, lo=%ld, bal=%d\n",
+        (long)CacheHiMark, (long)CacheLowMark, CacheBalance);
 
 	CacheInitialized = 1;
     } else {
@@ -227,7 +227,7 @@ FontCacheOpenCache(void *arg)
     int size, mask;
     int i;
 
-    static sizes[] = { 16, 32, 64, 128, 0 };
+    static int sizes[] = { 16, 32, 64, 128, 0 };
 
     if (!CacheInitialized) {
         FontCacheInitialize();

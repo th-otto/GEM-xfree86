@@ -50,11 +50,10 @@ from The Open Group.
 #include "fntfilst.h"
 #include "fontutil.h"
 #include "spint.h"
-#ifndef FONTMODULE
-#include <math.h>
-#else
+#ifdef FONTMODULE
 #include "xf86_ansic.h"
 #endif
+#include <math.h>
 
 /* percentage of pointsize used to specify ascent & descent */
 #define	STRETCH_FACTOR	120
@@ -232,7 +231,8 @@ sp_compute_bounds(
 	minchar.characterWidth = minchar.attributes = 32767;
     maxchar.ascent = maxchar.descent =
 	maxchar.leftSideBearing = maxchar.rightSideBearing =
-	maxchar.characterWidth = maxchar.attributes = -32767;
+	maxchar.characterWidth = -32767;
+	maxchar.attributes = -32767;
     maxOverlap = -32767;
     *sWidth = 0;
     for (i = 0; i < spmf->num_chars; i++) {
@@ -361,6 +361,7 @@ sp_compute_props(
     }
     bzero(pinfo->isStringProp, (sizeof(char) * nprops));
 
+    ptr1 = NULL;
     ptr2 = fontname;
     for (i = NNAMEPROPS, pp = pinfo->props, fpt = fontNamePropTable,
 	    is_str = pinfo->isStringProp;
@@ -377,14 +378,18 @@ sp_compute_props(
 	switch (fpt->type) {
 	case atom:
 	    *is_str = TRUE;
-	    pp->value = MakeAtom(ptr1, ptr2 - ptr1, TRUE);
+	    if (ptr1)
+	    	pp->value = MakeAtom(ptr1, ptr2 - ptr1, TRUE);
 	    break;
 	case truncate_atom:
 	    *is_str = TRUE;
-	    for (ptr3 = ptr1; *ptr3; ptr3++)
-		if (*ptr3 == '[')
-		    break;
-	    pp->value = MakeAtom(ptr1, ptr3 - ptr1, TRUE);
+	    if (ptr1)
+	    {
+		    for (ptr3 = ptr1; *ptr3; ptr3++)
+			if (*ptr3 == '[')
+			    break;
+		    pp->value = MakeAtom(ptr1, ptr3 - ptr1, TRUE);
+	    }
 	    break;
 	case pixel_size:
 	    pp->value = (int)(spf->vals.pixel_matrix[3] +

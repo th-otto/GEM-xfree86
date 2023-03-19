@@ -32,15 +32,9 @@ from The Open Group.
 #include "fntfilst.h"
 #include "bitmap.h"
 #include "fontutil.h"
-#ifndef FONTMODULE
-#ifdef _XOPEN_SOURCE
 #include <math.h>
-#else
-#define _XOPEN_SOURCE	/* to get prototype for hypot on some systems */
-#include <math.h>
-#undef _XOPEN_SOURCE
-#endif
-#endif
+#include <stdlib.h>
+#include <string.h>
 
 #ifndef MAX
 #define   MAX(a,b)    (((a)>(b)) ? a : b)
@@ -890,12 +884,10 @@ ScaleFont(FontPtr opf,            /* originating font */
                 opci;
     int         nchars = 0;	/* how many characters in the font */
     int         i;
-    int         glyph;
     int		firstCol, lastCol, firstRow, lastRow;
     double	xform[4], inv_xform[4];
     double	xmult, ymult;
     int		totalwidth = 0, totalchars = 0;
-    int		inkindex1, inkindex2;
 #define OLDINDEX(i) (((i)/(lastCol - firstCol + 1) + \
 		      firstRow - opf->info.firstRow) * \
 		     (opf->info.lastCol - opf->info.firstCol + 1) + \
@@ -905,7 +897,6 @@ ScaleFont(FontPtr opf,            /* originating font */
     *sWidth = 0;
 
     opfi = &opf->info;
-    glyph = opf->glyph;
     obitmapFont = (BitmapFontPtr) opf->fontPrivate;
 
     bitmapFont = 0;
@@ -1034,11 +1025,9 @@ ScaleFont(FontPtr opf,            /* originating font */
     /* Compute the transformation and inverse transformation matrices.
        Can fail if the determinant is zero. */
 
-    inkindex1 = 0;
     pci = bitmapFont->metrics;
     for (i = 0; i < nchars; i++)
     {
-        inkindex2 = OLDINDEX(i);
 	if ((opci = ACCESSENCODING(obitmapFont->encoding,OLDINDEX(i))))
 	{
 	    double newlsb, newrsb, newdesc, newasc, point[2];

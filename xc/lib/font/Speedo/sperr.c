@@ -53,6 +53,7 @@ from The Open Group.
 #include	"spint.h"
 
 #include <stdarg.h>
+extern void ErrorF(const char * f, ...);
 
 void
 SpeedoErr(char *str, ...)

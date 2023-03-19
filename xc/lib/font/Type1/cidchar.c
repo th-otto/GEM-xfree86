@@ -22,26 +22,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>
-#ifdef USE_MMAP
-#include <sys/mman.h>
-#ifndef MAP_FAILED
-#define MAP_FAILED ((caddr_t)(-1))
-#endif
-#endif
 #else
 #include "Xmd.h"        /* For INT32 declaration */
 #include "Xdefs.h"      /* For Bool */
 #include "xf86_ansic.h"
 #endif
-#ifndef FONTMODULE
-#ifdef _XOPEN_SOURCE
 #include <math.h>
-#else
-#define _XOPEN_SOURCE
-#include <math.h>
-#undef _XOPEN_SOURCE
-#endif
-#endif
 #include "fntfilst.h"
 #include "objects.h"
 #include "spaces.h"
@@ -51,6 +37,12 @@
 #include "blues.h"
 #include "AFM.h"
 #include "t1intf.h"
+#ifdef USE_MMAP
+#include <sys/mman.h>
+#ifndef MAP_FAILED
+#define MAP_FAILED ((caddr_t)(-1))
+#endif
+#endif
 
 #define BSIZE 4096
 
@@ -496,7 +488,7 @@ CIDGetAFM(FontPtr pFont, unsigned long count, unsigned char *chars, FontEncoding
 
     register CharInfoPtr pci;
     CharInfoPtr pDefault;
-    unsigned int firstRow, firstCol, numRows, code, char_row, char_col;
+    unsigned int firstCol, code, char_row, char_col;
     double sxmult;
 
     cid = (cidglyphs *)pFont->fontPrivate;
@@ -579,8 +571,6 @@ CIDGetAFM(FontPtr pFont, unsigned long count, unsigned char *chars, FontEncoding
         break;
 
     case TwoD16Bit:
-        firstRow = pFont->info.firstRow;
-        numRows = pFont->info.lastRow - firstRow + 1;
         while (count--) {
             char_row = (*chars++);
             char_col = (*chars++);

@@ -101,7 +101,7 @@ FreeTypeOpenFace(TTFFace **facep, char *fileName)
     /* Report initialization errors as an allocation error because X does
      * not provide any other kind of error code related to intialization.
      */
-    if (ftrc=TT_Init_FreeType(&ftypeEngine)) {
+    if ((ftrc=TT_Init_FreeType(&ftypeEngine)) != 0) {
       MUMBLE1("Error initializing ftypeEngine: %d\n", ftrc);
       return AllocError;
     }
@@ -148,14 +148,14 @@ FreeTypeOpenFace(TTFFace **facep, char *fileName)
     xfree(face);
     return BadFontPath;
   }
-  if(ftrc=TT_Get_Face_Properties(face->face, &face->properties)) {
+  if((ftrc=TT_Get_Face_Properties(face->face, &face->properties)) != 0) {
     MUMBLE1("Couldn't get properties: %d\n", ftrc);
     TT_Close_Face(face->face);
     xfree(face->filename);
     xfree(face);
     return BadFontPath;
   }
-  if(ftrc=TT_New_Glyph(face->face, &face->glyph)) {
+  if((ftrc=TT_New_Glyph(face->face, &face->glyph)) != 0) {
     MUMBLE1("Couldn't allocate glyph container: %d\n", ftrc);
     TT_Close_Face(face->face);
     xfree(face->filename);
@@ -302,22 +302,22 @@ FreeTypeOpenInstance(TTFInstance **instancep,
   instance->availableAnti=0;
 #endif
 
-  if(ftrc=TT_New_Instance(instance->face->face, &instance->instance)) {
+  if((ftrc=TT_New_Instance(instance->face->face, &instance->instance)) != 0) {
     MUMBLE("Couldn't create instance\n");
     FreeTypeFreeFace(instance->face);
     xfree(instance);
     return FTtoXReturnCode(ftrc);
   }
-  if(ftrc=TT_Set_Instance_Resolutions(instance->instance, 
-                                      trans->xres, trans->yres)) {
+  if((ftrc=TT_Set_Instance_Resolutions(instance->instance, 
+                                      trans->xres, trans->yres)) != 0) {
     TT_Done_Instance(instance->instance);
     FreeTypeFreeFace(instance->face);
     xfree(instance);
     MUMBLE1("Couldn't set resolution: %d\n:", ftrc);
     return FTtoXReturnCode(ftrc);
   }
-  if(ftrc=TT_Set_Instance_CharSize(instance->instance, 
-                                   (int)(trans->scale*(1<<6)+0.5))) {
+  if((ftrc=TT_Set_Instance_CharSize(instance->instance, 
+                                   (int)(trans->scale*(1<<6)+0.5))) != 0) {
     TT_Done_Instance(instance->instance);
     FreeTypeFreeFace(instance->face);
     xfree(instance);
@@ -336,7 +336,7 @@ FreeTypeOpenInstance(TTFInstance **instancep,
     TT_Set_Instance_Transform_Flags(instance->instance, rotated, stretched);
   }
 
-  if(ftrc=TT_Get_Instance_Metrics(instance->instance, &instance->imetrics)) {
+  if((ftrc=TT_Get_Instance_Metrics(instance->instance, &instance->imetrics)) != 0) {
     TT_Done_Instance(instance->instance);
     FreeTypeFreeFace(instance->face);
     xfree(instance);
@@ -497,8 +497,8 @@ FreeTypeInstanceGetGlyph(unsigned idx, CharInfoPtr *g, TTFInstance *instance,
   }
 
   /* Tough: need to rasterise a new glyph. */
-  if(ftrc=TT_Load_Glyph(instance->instance, instance->face->glyph,
-                        idx, TTLOAD_DEFAULT)) {
+  if((ftrc=TT_Load_Glyph(instance->instance, instance->face->glyph,
+                        idx, TTLOAD_DEFAULT)) != 0) {
     return FTtoXReturnCode(ftrc);
   }
 
@@ -719,12 +719,13 @@ FreeTypeRasteriseGlyph(CharInfoPtr tgp, TTFInstance *instance,
 #endif
           {
             int j,k;
-            char c, *cp=tgp->bits+i*ht*bpr;
+            char 
+            c, *cp=tgp->bits+i*ht*bpr;
             for(j=ht*bpr; j>=0; j-=8, cp+=8)
               for(k=0; k<4; k++) {
                 c=cp[k];
                 cp[k]=cp[7-k];
-                cp[7-k]=cp[k];
+                cp[7-k]=c;
               }
           }
         break;
@@ -780,7 +781,7 @@ FreeTypeFreeXFont(FontPtr pFont, int freeProps)
   TTFFont *tf;
 
   if(pFont) {
-    if(tf=(TTFFont*)pFont->fontPrivate) {
+    if((tf=(TTFFont*)pFont->fontPrivate) != 0) {
       FreeTypeFreeFont(tf);
     }
     if(freeProps && pFont->info.nprops>0) {
@@ -1376,7 +1377,7 @@ FreeTypeLoadXFont(char *fileName,
   face=instance->face;
   properties=&face->properties;
 
-  if(ftrc=TT_Get_Instance_Metrics(instance->instance, &imetrics)) {
+  if((ftrc=TT_Get_Instance_Metrics(instance->instance, &imetrics)) != 0) {
     FreeTypeFreeFont(font);
     return FTtoXReturnCode(ftrc);
   }
@@ -1536,7 +1537,7 @@ FreeTypeGetMetrics(FontPtr pFont, unsigned long count, unsigned char *chars,
                    FontEncoding charEncoding, unsigned long *metricCount,
                    xCharInfo **metrics)
 {
-  unsigned code;
+  unsigned code = 0;
   TTFFont *tf;
   xCharInfo **mp, *m;
 
@@ -1577,7 +1578,7 @@ FreeTypeGetGlyphsAnti(FontPtr pFont, unsigned long count, unsigned char *chars,
                       FontEncoding charEncoding, unsigned long *glyphCount,
                       CharInfoPtr *glyphs, int nlevels)
 {
-  unsigned code;
+  unsigned code = 0;
   TTFFont *tf;
   CharInfoPtr *gp;
   CharInfoPtr g;

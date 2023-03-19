@@ -601,7 +601,7 @@ t1_ClosePath(struct segment *p0, /* path to close                            */
        register struct segment *p,*last,*start;  /* used in looping through path */
        register fractpel x,y;  /* current position in path                   */
        register fractpel firstx,firsty;  /* start position of sub path       */
-       register struct segment *lastnonhint;  /* last non-hint segment in path */
+       register struct segment *lastnonhint = 0;  /* last non-hint segment in path */
  
        IfTrace1((MustTraceCalls),"ClosePath(%z)\n", p0);
        if (p0 != NULL && p0->type == TEXTTYPE)
@@ -1043,7 +1043,7 @@ void
 PathDelta(struct segment *p,       /* input path                             */
 	  struct fractpoint *pt)   /* pointer to x,y to set                  */
 {
-       struct fractpoint mypoint;  /* I pass this to TextDelta               */
+       struct fractpoint mypoint = { 0, 0 };  /* I pass this to TextDelta               */
        register fractpel x,y;  /* working variables for path current point   */
  
        for (x=y=0; p != NULL; p=p->link) {
@@ -1429,7 +1429,6 @@ DumpPath(struct segment *p)
 {
        register fractpel x,y;
        register fractpel lastx,lasty;
-       double roundness;
  
        IfTrace1(TRUE,"Dumping path, anchor=%x:\n", p);
        lastx = lasty = 0;
@@ -1455,9 +1454,10 @@ DumpPath(struct segment *p)
  
                    case CONICTYPE:
                    {
+#if 0
                        register struct conicsegment *cp = (struct conicsegment *) p;
- 
-                       roundness = cp->roundness;
+                       double roundness = cp->roundness;
+#endif
                        IfTrace2(TRUE, ". conic to (%p,%p),",
                                                   x + lastx, y + lasty);
                        IfTrace3(TRUE," M=(%p,%p), r=%f", cp->M.x + lastx,

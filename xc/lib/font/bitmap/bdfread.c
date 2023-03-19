@@ -56,6 +56,8 @@ from The Open Group.
 /* use bitmap structure */
 #include "bitmap.h"
 #include "bdfint.h"
+#include <string.h>
+#include <stdlib.h>
 
 #define INDICES 256
 #define MAXENCODING 0xFFFF
@@ -154,6 +156,7 @@ bdfReadBitmap(CharInfoPtr pCI, FontFilePtr file, int bit, int byte,
 		picture[nextByte++] = 0;
 	}
     }
+    (void)badbits;
 
     if ((line && (!bdfIsPrefix(line, "ENDCHAR"))) || (height == 0))
 	line = bdfGetLine(file, lineBuf, BDFLINELEN);

@@ -55,6 +55,7 @@
 #include "Xdefs.h"	/* For Bool */
 #include "xf86_ansic.h"
 #endif
+#include <string.h>
 #include "t1imager.h"
 #include "util.h"
 #ifdef BUILDCID

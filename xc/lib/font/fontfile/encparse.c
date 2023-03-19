@@ -71,7 +71,7 @@ static void
 skipEndOfLine(FontFilePtr f, int c)
 {
   if(c==0)
-    c==FontFileGetc(f);
+    c=FontFileGetc(f);
   
   for(;;)
     if(c<=0 || c=='\n')
@@ -672,8 +672,10 @@ string_mapping:
   }
 
 done:
-  if(encsize) xfree(enc); encsize=0;
-  if(namsize) xfree(nam); namsize=0; /* don't free entries! */
+  if(encsize) xfree(enc);
+  encsize=0;
+  if(namsize) xfree(nam);
+  namsize=0; /* don't free entries! */
 
   encoding->aliases=NULL;
   if(numaliases) {
@@ -688,7 +690,8 @@ done:
   return encoding;
 
 error:
-  if(encsize) xfree(enc); encsize=0;
+  if(encsize) xfree(enc);
+  encsize=0;
   if(namsize) {
     for(i=first; i<=last; i++)
       if(nam[i])

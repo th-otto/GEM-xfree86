@@ -54,13 +54,6 @@ Notice===
 # include <grp.h>
 # include <limits.h>
   /* # include <locale.h> */
-# ifdef _XOPEN_SOURCE
-#   include <math.h>
-# else
-#   define _XOPEN_SOURCE   /* to get prototype for hypot on some systems */
-#   include <math.h>
-#   undef _XOPEN_SOURCE
-# endif
 # include <pwd.h>
   /* # include <setjmp.h> */
   /* # include <signal.h> */
@@ -91,6 +84,7 @@ Notice===
 # include "xf86_ansic.h"
 
 #endif
+#include <math.h>
 
 #include <freetype.h>
 #include <ftxsbit.h>

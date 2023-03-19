@@ -28,13 +28,7 @@ in this Software without prior written authorization from The Open Group.
  */
 
 #include    "fntfilst.h"
-#ifdef _XOPEN_SOURCE
 #include <math.h>
-#else
-#define _XOPEN_SOURCE	/* to get prototype for hypot on some systems */
-#include <math.h>
-#undef _XOPEN_SOURCE
-#endif
 
 Bool
 FontFileAddScaledInstance (FontEntryPtr entry, FontScalablePtr vals, 
@@ -360,13 +354,13 @@ MatchScalable (FontScalablePtr a, FontScalablePtr b)
 	  a->y == b->y &&
 	  (a->width == b->width || a->width == 0 || b->width == 0 || b->width == -1) &&
 	  (!(b->values_supplied & PIXELSIZE_MASK) ||
-	    (a->values_supplied & PIXELSIZE_MASK) ==
+	    ((a->values_supplied & PIXELSIZE_MASK) ==
 	    (b->values_supplied & PIXELSIZE_MASK) &&
-	    EQUAL(a->pixel_matrix, b->pixel_matrix)) &&
+	    EQUAL(a->pixel_matrix, b->pixel_matrix))) &&
 	  (!(b->values_supplied & POINTSIZE_MASK) ||
-	    (a->values_supplied & POINTSIZE_MASK) ==
+	    ((a->values_supplied & POINTSIZE_MASK) ==
 	    (b->values_supplied & POINTSIZE_MASK) &&
-	    EQUAL(a->point_matrix, b->point_matrix)) &&
+	    EQUAL(a->point_matrix, b->point_matrix))) &&
 	  (a->nranges == 0 || a->nranges == b->nranges)))
       return FALSE;
 

@@ -149,10 +149,10 @@ ufix8 FONTFAR   *pointer;      /* Pointer to character data */
 fix15    no_tracks;    /* Number of kerning tracks in font */
 ufix8    format;       /* Track kerning format byte */
 fix15    i;            /* Track counter */
-fix15    min_pt_size;  /* Minimum point size for track */
-fix15    max_pt_size;  /* Maximum point size for track */
-fix15    min_adj;      /* Adjustment for min point size */
-fix15    max_adj;      /* Adjustment for max point size */
+fix15    min_pt_size = 0;  /* Minimum point size for track */
+fix15    max_pt_size = 0;  /* Maximum point size for track */
+fix15    min_adj = 0;      /* Adjustment for min point size */
+fix15    max_adj = 0;      /* Adjustment for max point size */
 fix31    delta_pt_size;/* Max point size - min point size */
 fix31    delta_adj;    /* Min adjustment - max adjustment */
 fix15    adj = 0;      /* Interpolated adjustment */

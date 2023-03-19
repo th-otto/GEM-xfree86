@@ -64,7 +64,7 @@ char *gettoken(FILE *fd) {
 
 int CIDAFM(FILE *fd, FontInfo **pfi) {
     char *p = 0;
-    int i, j, k, found = 0;
+    int i, j, k = 0, found = 0;
     FontInfo *fi;
 
     if (fd == NULL || pfi == NULL) return(1);

@@ -32,10 +32,10 @@ WITH THE SPEEDO SOFTWARE OR THE BITSTREAM CHARTER OUTLINE FONT.
 
 #include "speedo.h"               /* General definitions for Speedo */
 #ifndef FONTMODULE
-#include <math.h>
 #else
 #include "xf86_ansic.h"
 #endif
+#include <math.h>
 
 #define   DEBUG      0
 

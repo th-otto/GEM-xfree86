@@ -252,8 +252,8 @@ if (y1 > y2)                                   /* Line goes downwards ? */
     if (y2 < sp_globals.y_band.band_min)       /* End point below bottom of band? */
         y2 = sp_globals.y_band.band_min;       /* Adjust end point bottom of band */
 
-	y1 -= sp_globals.y_band.band_min;          /* Translate start point to band origin */
-	y2 -= sp_globals.y_band.band_min;          /* Translate end point to band origin */
+    y1 -= sp_globals.y_band.band_min;          /* Translate start point to band origin */
+    y2 -= sp_globals.y_band.band_min;          /* Translate end point to band origin */
 
 	while (y2 < y1)                            /* At least one intercept left? */
 		{
@@ -267,8 +267,8 @@ else if (y2 > y1)                              /* Line goes upwards ? */
     if (y2 > (sp_globals.y_band.band_max + 1)) /* End point above top of band? */
         y2 = sp_globals.y_band.band_max + 1;   /* Adjust end point to top of band */
 
-	y1 -= sp_globals.y_band.band_min;          /* Translate start point to band origin */
-	y2 -= sp_globals.y_band.band_min;          /* Translate end point to band origin */
+    y1 -= sp_globals.y_band.band_min;          /* Translate start point to band origin */
+    y2 -= sp_globals.y_band.band_min;          /* Translate end point to band origin */
 
 	while (y1 < y2)                            /* At least one intercept left? */
 		{

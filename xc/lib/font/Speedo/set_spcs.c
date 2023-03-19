@@ -402,7 +402,7 @@ fix31   offset;        /* Constant in transformation */
 fix15   i;             /* Loop counter */
 fix15   x, y;          /* Successive corners of bounding box in ORUs */
 fix31   pixval;        /* Successive pixel values multiplied by orus per em */
-fix15   xx, yy;        /* Bounding box corner that produces max pixel value */
+fix15   xx = 0, yy = 0;        /* Bounding box corner that produces max pixel value */
 
 /* Determine numerator and denominator of largest multiplier value */
 mult = sp_globals.pspecs->xxmult >> 16;

@@ -58,7 +58,7 @@ ttf_pick_cmap(char *xlfd, int length, char *filename, TT_Face face,
     tm->mapping=0;
     return 0;
   } else {
-    if(encoding=font_encoding_find(encoding_name, filename)) {
+    if((encoding=font_encoding_find(encoding_name, filename)) != 0) {
       for(mapping=encoding->mappings; mapping; mapping=mapping->next) {
         if(!find_cmap(mapping->type, mapping->pid, mapping->eid, face, 
                       &cmap)) {

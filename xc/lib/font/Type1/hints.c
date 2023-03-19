@@ -495,7 +495,7 @@ FixSubPaths(struct region *R)           /* anchor of region                  */
        register struct edgelist *edge;  /* current edge in region            */
        register struct edgelist *next;  /* next in subpath after 'edge'      */
        register struct edgelist *break1;  /* first break after 'next'        */
-       register struct edgelist *break2;  /* last break before 'edge'        */
+       register struct edgelist *break2 = 0;  /* last break before 'edge'        */
        register struct edgelist *prev;    /* previous edge for fixing links  */
        int left = TRUE;
  

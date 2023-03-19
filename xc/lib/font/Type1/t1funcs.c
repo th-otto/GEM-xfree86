@@ -104,23 +104,17 @@ from The Open Group.
 #include <sys/types.h>
 #include <dirent.h>
 #endif
-#ifdef _XOPEN_SOURCE
-#include <math.h>
-#else
-#define _XOPEN_SOURCE	/* to get prototype for hypot on some systems */
-#include <math.h>
-#undef _XOPEN_SOURCE
-#endif
 #include "X11/Xfuncs.h"
-#ifdef USE_MMAP
-#include <sys/types.h>
-#include <sys/mman.h>
-#endif
 #else
 #include "Xmd.h"
 #include "Xdefs.h"
 #include "os.h"
 #include "xf86_ansic.h"
+#endif
+#include <math.h>
+#ifdef USE_MMAP
+#include <sys/types.h>
+#include <sys/mman.h>
 #endif
 
 #include "fntfilst.h"
@@ -143,6 +137,9 @@ from The Open Group.
 #include "t1intf.h"
 
 
+extern void FatalError(const char* f, ...);
+extern void ErrorF(const char * f, ...);
+ 
 static int Type1GetGlyphs ( FontPtr pFont, unsigned long count,
 			    unsigned char *chars, FontEncoding charEncoding, 
 			    unsigned long *glyphCount, CharInfoPtr *glyphs );
@@ -200,7 +197,6 @@ CIDOpenScalable (FontPathElementPtr fpe,
                 glyph,
                 scan,
                 image;
-    int pad,wordsize;     /* scan & image in bits                         */
     long *pool;           /* memory pool for ximager objects              */
     int size;             /* for memory size calculations                 */
     struct XYspace *S;    /* coordinate space for character               */
@@ -320,9 +316,6 @@ CIDOpenScalable (FontPathElementPtr fpe,
     rc = CheckFSFormat(format, fmask, &bit, &byte, &scan, &glyph, &image);
     if (rc != Successful)
         return rc;
-
-    pad                = glyph * 8;
-    wordsize           = scan * 8;
 
 #define  PAD(bits, pad)  (((bits)+(pad)-1)&-(pad))
 
@@ -508,7 +501,7 @@ Type1OpenScalable (FontPathElementPtr fpe,
        int len, rc, count = 0;
        struct type1font *type1;
        char *p;
-       struct font_encoding *encoding;
+       struct font_encoding *encoding = 0;
        struct font_encoding_mapping *mapping;
        int no_mapping;
        psobj *fontmatrix;
@@ -723,7 +716,7 @@ Type1OpenScalable (FontPathElementPtr fpe,
 		       size = 0;
                        h = w = 0;
                        area->xmin = area->xmax = 0;
-                       area->ymax = area->ymax = 0;
+                       area->xmax = area->ymax = 0;
                }
  
                glyphs[i].metrics.leftSideBearing  = area->xmin;
@@ -953,7 +946,7 @@ CIDGetGlyphs(FontPtr pFont,
 	     unsigned long *glyphCount, /* RETURN */
 	     CharInfoPtr *glyphs)	/* RETURN */
 {
-    unsigned int firstRow, numRows, code, char_row, char_col;
+    unsigned int code, char_row, char_col;
     CharInfoPtr *glyphsBase;
     register unsigned int c;
     CharInfoPtr pci;
@@ -1045,8 +1038,6 @@ CIDGetGlyphs(FontPtr pFont,
         break;
 
     case TwoD16Bit:
-        firstRow = pFont->info.firstRow;
-        numRows = pFont->info.lastRow - firstRow + 1;
         while (count--) {
             char_row = (*chars++);
             char_col = (*chars++);
@@ -1621,7 +1612,7 @@ CIDRenderGlyph(FontPtr pFont, psobj *charstringP, psobj *subarrayP,
                size = 0;
                h = w = 0;
                area->xmin = area->xmax = 0;
-               area->ymax = area->ymax = 0;
+               area->xmax = area->ymax = 0;
                glyphs[0].bits = NULL;
        }
 

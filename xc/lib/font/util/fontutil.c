@@ -230,7 +230,7 @@ add_range(fsRange *newrange,
 {
     int first, last, middle;
     unsigned long keymin, keymax;
-    unsigned long ptrmin, ptrmax;
+    unsigned long ptrmin = 0, ptrmax;
     fsRange *ptr, *ptr1, *ptr2, *endptr;
 
     /* There are two different ways to treat ranges:

@@ -33,6 +33,7 @@ from The Open Group.
 #include "fntfilst.h"
 #include "bitmap.h"
 #include "pcf.h"
+#include <string.h>
 
 /* Write PCF font files */
 
@@ -348,8 +349,8 @@ pcfWriteFont(FontPtr pFont, FontFilePtr file)
 	    cur_table < ntables;
 	    cur_table++, table++) {
 	if (current_position > table->offset) {
-	    printf("can't go backwards... %d > %d\n",
-		   current_position, table->offset);
+	    printf("can't go backwards... %d > %ld\n",
+		   current_position, (long)table->offset);
 	    return BadFontName;
 	}
 	while (current_position < table->offset)

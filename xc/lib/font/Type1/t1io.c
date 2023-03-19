@@ -317,7 +317,7 @@ STATIC int
 T1Decrypt(unsigned char *p, int len)
 {
   int n;
-  int H, L;
+  int H = 0, L;
   unsigned char *inp = p;
   unsigned char *tblP;
  

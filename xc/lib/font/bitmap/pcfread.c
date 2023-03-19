@@ -32,6 +32,7 @@ from The Open Group.
 #include "fntfilst.h"
 #include "bitmap.h"
 #include "pcf.h"
+#include <string.h>
 #ifndef MAX
 #define   MAX(a,b)    (((a)>(b)) ? a : b)
 #endif
@@ -803,14 +804,14 @@ pmfReadFont(FontPtr pFont, FontFilePtr file,
 	    pFont->info.allExist = FALSE;
 	    encoding[i] = 0;
 	} else
-            if(!encoding[SEGMENT_MAJOR(i)]) {
-                encoding[SEGMENT_MAJOR(i)]=
+        if(!encoding[SEGMENT_MAJOR(i)]) {
+            encoding[SEGMENT_MAJOR(i)]=
                     (CharInfoPtr*)xcalloc(BITMAP_FONT_SEGMENT_SIZE,
                                           sizeof(CharInfoPtr));
                 if(!encoding[SEGMENT_MAJOR(i)])
                     goto Bail;
-            }
-	    ACCESSENCODINGL(encoding, i) = metrics + encodingOffset;
+        }
+	ACCESSENCODINGL(encoding, i) = metrics + encodingOffset;
     }
 
     /* BDF style accelerators (i.e. bounds based on encoded glyphs) */

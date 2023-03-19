@@ -571,7 +571,7 @@ FontFileAddFontFile (FontDirectoryPtr dir, char *fontName, char *fileName)
     FontRendererPtr	    renderer;
     FontEntryPtr	    existing;
     FontScalableExtraPtr    extra;
-    FontEntryPtr	    bitmap, scalable;
+    FontEntryPtr	    bitmap = 0, scalable;
     Bool		    isscale;
 
     renderer = FontFileMatchRenderer (fileName);

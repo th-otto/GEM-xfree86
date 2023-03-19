@@ -48,6 +48,7 @@ This module is responsible for handling the TYPE1IMAGER "XYspace" object.
 #include "X11/Xos.h"
 #include "os.h"
 #endif
+#include <string.h>
 #include "objects.h"
 #include "spaces.h"
 #include "paths.h"
@@ -336,6 +337,7 @@ ConsiderContext(struct xobject *obj,  /* object to be transformed            */
                context = S->context;
        }
        else if (obj->type == PICTURETYPE) {
+               context = NULLCONTEXT;
 
        }
        else

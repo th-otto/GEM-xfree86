@@ -66,12 +66,12 @@
 /******************/
 #ifndef FONTMODULE
 #include  <stdio.h>          /* a system-dependent include, usually */
-#include  <math.h>
 #else
 #include  "Xdefs.h"
 #include  "Xmd.h"
 #include  "xf86_ansic.h"
 #endif
+#include  <math.h>
 #include  "objects.h"
 #include  "spaces.h"
 #include  "paths.h"

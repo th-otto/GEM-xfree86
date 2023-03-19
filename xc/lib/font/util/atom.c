@@ -135,7 +135,7 @@ MakeAtom(char *string, unsigned len, int makeit)
 {
     AtomListPtr	a;
     int		hash;
-    int		h;
+    int		h = 0;
     int		r;
 
     hash = Hash (string, len);

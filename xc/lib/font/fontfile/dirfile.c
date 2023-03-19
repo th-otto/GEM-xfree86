@@ -386,6 +386,9 @@ lexAlias(FILE *file, char **lexToken)
 		break;
 	    case Comment:
 		continue;
+	    case Normal:
+	    case Quoted:
+	        break;
 	    }
 	    *t++ = c;
 	    ++count;

@@ -54,6 +54,7 @@ from The Open Group.
 #include "fntfilst.h"
 #include "bitmap.h"
 #include "snfstr.h"
+#include <string.h>
 
 static void snfUnloadFont(FontPtr pFont);
 

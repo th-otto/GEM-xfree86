@@ -101,24 +101,13 @@ from The Open Group.
 #include "fontutil.h"
 #ifndef FONTMODULE
 #include <stdio.h> 
-#ifndef BUILDCID
-#include <math.h>
-#endif
 #else
-#include "xf86_ansic.h"
+#include "../../include/xf86_ansic.h"
 #endif
+#include <math.h>
 #include "FSproto.h"
 
 #ifdef BUILDCID
-#ifndef FONTMODULE
-#ifdef _XOPEN_SOURCE
-#include <math.h>
-#else
-#define _XOPEN_SOURCE
-#include <math.h>
-#undef _XOPEN_SOURCE
-#endif
-#endif
 #include "objects.h"
 #include "spaces.h"
 #include "range.h"
@@ -280,7 +269,8 @@ ComputeBounds(FontInfoPtr pInfo, CharInfoPtr pChars, FontScalablePtr Vals)
         minchar.characterWidth = minchar.attributes = 32767;
     maxchar.ascent = maxchar.descent =
         maxchar.leftSideBearing = maxchar.rightSideBearing =
-        maxchar.characterWidth = maxchar.attributes = -32767;
+        maxchar.characterWidth = -32767;
+        maxchar.attributes = -32767;
  
     maxlap = -32767;
     totchars = pInfo->lastCol - pInfo->firstCol + 1;
@@ -369,7 +359,8 @@ ComputeBoundsAllChars(FontPtr pFont, char *cfmfilename, double sxmult)
         minchar.characterWidth = minchar.attributes = 32767;
     maxchar.ascent = maxchar.descent =
         maxchar.leftSideBearing = maxchar.rightSideBearing =
-        maxchar.characterWidth = maxchar.attributes = -32767;
+        maxchar.characterWidth = -32767;
+    maxchar.attributes = -32767;
 
     maxlap = -32767;
     cfmp->alle = 1;
@@ -488,7 +479,8 @@ ComputeBoundsAll(FontPtr pFont)
         minchar.characterWidth = minchar.attributes = 32767;
     maxchar.ascent = maxchar.descent =
         maxchar.leftSideBearing = maxchar.rightSideBearing =
-        maxchar.characterWidth = maxchar.attributes = -32767;
+        maxchar.characterWidth = -32767;
+        maxchar.attributes = -32767;
 
     maxlap = -32767;
     pInfo->allExist = 1;
@@ -502,7 +494,7 @@ ComputeBoundsAll(FontPtr pFont)
           ccode[0] = (k >> 8) & 0xff;
           ccode[1] = k & 0xff;
           ret = CIDGetMetrics(pFont, 1, ccode, 2, &ccount, (xCharInfo **)cinfo);
-          if (ret != Successful || cinfo == NULL)
+          if (ret != Successful || cinfo[0] == NULL)
               continue;
           pmetrics = &cinfo[0]->metrics;
           total_width += pmetrics->attributes;
@@ -627,6 +619,7 @@ CIDComputeStdProps(FontInfoPtr pInfo, FontScalablePtr Vals,
     }
     bzero(pInfo->isStringProp, (sizeof(char) * nprops));
 
+    ptr1 = NULL;
     ptr2 = scaledName;
     for (i = NNAMEPROPS, pp = pInfo->props, fpt = fontNamePropTable, is_str = pInfo->isStringProp;
             i;
@@ -642,14 +635,18 @@ CIDComputeStdProps(FontInfoPtr pInfo, FontScalablePtr Vals,
         switch (fpt->type) {
          case atom:  /* Just copy info from scaledName */
             *is_str = TRUE;
-            pp->value = MakeAtom(ptr1, ptr2 - ptr1, TRUE);
+            if (ptr1)
+	            pp->value = MakeAtom(ptr1, ptr2 - ptr1, TRUE);
             break;
         case truncate_atom:
             *is_str = TRUE;
-            for (ptr3 = ptr1; *ptr3; ptr3++)
-                if (*ptr3 == '[')
-                    break;
-            pp->value = MakeAtom(ptr1, ptr3 - ptr1, TRUE);
+            if (ptr1)
+            {
+	            for (ptr3 = ptr1; *ptr3; ptr3++)
+	                if (*ptr3 == '[')
+	                    break;
+	            pp->value = MakeAtom(ptr1, ptr3 - ptr1, TRUE);
+	    }
             break;
          case pixel_size:
             pp->value = (int)(fabs(Vals->pixel_matrix[3]) + .5);
@@ -765,6 +762,7 @@ ComputeStdProps(FontInfoPtr pInfo, FontScalablePtr Vals,
     }
     bzero(pInfo->isStringProp, (sizeof(char) * nprops));
  
+    ptr1 = NULL;
     ptr2 = scaledName;
     for (i = NNAMEPROPS, pp = pInfo->props, fpt = fontNamePropTable, is_str = pInfo->isStringProp;
             i;
@@ -780,14 +778,18 @@ ComputeStdProps(FontInfoPtr pInfo, FontScalablePtr Vals,
         switch (fpt->type) {
          case atom:  /* Just copy info from scaledName */
             *is_str = TRUE;
-            pp->value = MakeAtom(ptr1, ptr2 - ptr1, TRUE);
+            if (ptr1)
+	            pp->value = MakeAtom(ptr1, ptr2 - ptr1, TRUE);
             break;
 	case truncate_atom:
             *is_str = TRUE;
-	    for (ptr3 = ptr1; *ptr3; ptr3++)
-		if (*ptr3 == '[')
-		    break;
-	    pp->value = MakeAtom(ptr1, ptr3 - ptr1, TRUE);
+            if (ptr1)
+            {
+		    for (ptr3 = ptr1; *ptr3; ptr3++)
+			if (*ptr3 == '[')
+			    break;
+		    pp->value = MakeAtom(ptr1, ptr3 - ptr1, TRUE);
+	    }
 	    break;
          case pixel_size:
             pp->value = (int)(fabs(Vals->pixel_matrix[3]) + .5);
@@ -1042,7 +1044,7 @@ T1FillFontInfo(FontPtr pFont, FontScalablePtr Vals,
 {
     FontInfoPtr         pInfo = &pFont->info;
     struct type1font *p = (struct type1font *)pFont->fontPrivate;
-    long sAscent, sDescent;	/* Scalable 1000-pixel values */
+    long sAscent = 0, sDescent = 0;	/* Scalable 1000-pixel values */
  
     FillHeader(pInfo, Vals);
  

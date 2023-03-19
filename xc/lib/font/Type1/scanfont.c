@@ -60,6 +60,7 @@
 #ifdef BUILDCID
 #include "range.h"
 #endif
+#include <string.h>
 #include "objects.h"
 #include "spaces.h"
 #include "fontfcn.h"

@@ -128,8 +128,9 @@ intsize[6] = 2;
 intsize[7] = 0;
 intsize[8] = 0;
 
-n = ((format & BIT6)? (fix15)NEXT_BYTE(pointer): 0) +
-    ((format & BIT7)? (fix15)NEXT_BYTE(pointer): 0);
+n = 0;
+if (format & BIT6) n += (fix15)NEXT_BYTE(pointer);
+if (format & BIT7) n += (fix15)NEXT_BYTE(pointer);
 for (i = 0; i < n; i++)          /* For each entry in int table ... */
     {
     format = NEXT_BYTE(pointer); /* Read format byte */
@@ -163,7 +164,7 @@ for (i = 0; i < n; i++)          /* For each entry in control table ... */
         pointer += 2;            /* Skip FROM and TO fields */
     /* skip constraints field */
     constr = NEXT_BYTES (pointer, tmpufix16);
-
+    (void)constr;
     }
 return pointer;
 }
@@ -1002,6 +1003,8 @@ em_bot_pix = ((fix15)(((fix31)EM_BOT * yppo0) >>
 em_top_pix = ((fix15)(((fix31)EM_TOP * yppo0) >> 
 	     sp_globals.mpshift) + sp_globals.pixrnd) & sp_globals.pixfix;
 #endif
+(void)xppo0;
+(void)yppo0;
 
 #if INCL_ISW
 /* convert to pixels */
@@ -1172,10 +1175,10 @@ ufix8    edge_org;
 ufix8    edge;
 ufix16   adj_factor;
 fix15    adj_orus;
-fix15    end_orus;
+fix15    end_orus = 0;
 fix31    zone_orus;
 fix15    start_pix;
-fix15    end_pix;
+fix15    end_pix = 0;
 
 
 #if INCL_PLAID_OUT               /* Plaid data monitoring included? */

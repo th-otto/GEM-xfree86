@@ -1504,7 +1504,6 @@ fs_send_open_font(pointer client, FontPathElementPtr fpe, Mask flags,
     FSBlockDataPtr	    blockrec = NULL;
     FSBlockedFontPtr	    bfont;
     FSFontDataPtr	    fsd;
-    FSFontPtr		    fsfont;
     fsOpenBitmapFontReq	    openreq;
     fsQueryXInfoReq	    inforeq;
     fsQueryXExtents16Req    extreq;
@@ -1528,7 +1527,6 @@ fs_send_open_font(pointer client, FontPathElementPtr fpe, Mask flags,
 
 	font = *ppfont;
 	fsd = (FSFontDataPtr)font->fpePrivate;
-	fsfont = (FSFontPtr)font->fontPrivate;
 	/* This is an attempt to reopen a font.  Did the font have a
 	   NAME property? */
 	if ((nameatom = MakeAtom("FONT", 4, 0)) != None)
@@ -1556,7 +1554,6 @@ fs_send_open_font(pointer client, FontPathElementPtr fpe, Mask flags,
 	    return AllocError;
 	
 	fsd = (FSFontDataPtr)font->fpePrivate;
-	fsfont = (FSFontPtr)font->fontPrivate;
     }
     
     /* make a new block record, and add it to the end of the list */
@@ -2297,7 +2294,6 @@ fs_list_fonts(pointer client, FontPathElementPtr fpe,
 {
     FSFpePtr		conn = (FSFpePtr) fpe->private;
     FSBlockDataPtr	blockrec;
-    FSBlockedListPtr	blockedlist;
     int			err;
 
     /* see if the result is already there */
@@ -2308,7 +2304,6 @@ fs_list_fonts(pointer client, FontPathElementPtr fpe,
 	    err = blockrec->errcode;
 	    if (err == StillWorking)
 		return Suspended;
-	    blockedlist = (FSBlockedListPtr) blockrec->data;
 	    _fs_remove_block_rec(conn, blockrec);
 	    return err;
 	}
@@ -2751,7 +2746,7 @@ _fs_send_conn_client_prefix (FSFpePtr conn)
 static int
 _fs_recv_conn_setup (FSFpePtr conn)
 {
-    int			ret;
+    int			ret = 0;
     fsConnSetup		*setup;
     FSFpeAltPtr		alts;
     int			i, alt_len;
@@ -2987,7 +2982,7 @@ _fs_close_server (FSFpePtr conn)
 static int
 _fs_do_setup_connection (FSFpePtr conn)
 {
-    int	    ret;
+    int	    ret = 0;
     
     do
     {
