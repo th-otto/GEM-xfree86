@@ -132,15 +132,18 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 
 #define CcCmd			m68k-atari-mint-gcc
 #define CplusplusCmd		m68k-atari-mint-g++
-#define DefaultCCOptions	-O2 -fomit-frame-pointer GccWarningOptions
+#ifndef CpuOption
+#define CpuOption -m68000
+#endif
+#define DefaultCCOptions	-O2 -fomit-frame-pointer CpuOption GccWarningOptions
 
-#define AsCmd			m68k-atari-mint-as
+#define AsCmd			m68k-atari-mint-as CpuOption
 #define GccGasOption 		-DGCCUSESGAS
 #define AsmDefines		-DUSE_GAS
 
 #define ArCmd			m68k-atari-mint-ar rcs
 #define RanlibCmd		m68k-atari-mint-ranlib
-#define LdCmd			m68k-atari-mint-ld
+#define LdCmd			m68k-atari-mint-ld CpuOption
 
 #define OptimizedCDebugFlags	
 #define ServerOSDefines		XFree86ServerOSDefines -DDDXTIME
