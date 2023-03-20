@@ -2850,7 +2850,7 @@ clean::									@@\
 dst::	src deplist							@@\
 	RemoveFile($@)							@@\
 	ClearmakeOSName \
-	$(CPP) CppNoLineInfoOption defs <src | CppSedMagic >$@		@@\
+	$(CPP) CppNoLineInfoOption defs src | CppSedMagic >$@		@@\
 	chmod a+x $@							@@\
 									@@\
 clean::									@@\

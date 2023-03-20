@@ -32,7 +32,7 @@ xmkmf \- create a Makefile from an Imakefile
 The
 .I xmkmf
 command is the normal way to create a
-.I Makefile 
+.I Makefile
 from an
 .I Imakefile
 shipped with third-party software.
@@ -43,7 +43,7 @@ the
 .I imake
 program is run with arguments appropriate for your system
 (configured into
-.I xmkmf
+.I imake
 when X was built) and generates a
 .I Makefile.
 .PP
@@ -77,6 +77,13 @@ If a
 is given,
 .I xmkmf
 assumes nothing is installed on your system and looks for files in
-the build tree instead of using the installed versions.
+the build tree instead of using the installed versions.  Optionally,
+.I curdir
+may be specified as a relative pathname from the top of the build
+tree to the current directory.  It is necessary to supply
+.I curdir
+if the current directory has subdirectories, or the
+.I Makefile
+will not be able to build the subdirectories.
 .SH "SEE ALSO"
 imake(1)

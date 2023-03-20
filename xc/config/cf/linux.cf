@@ -299,7 +299,7 @@ XCOMM binutils:	(LinuxBinUtilsMajorVersion)
 #define LdCmd			ld -m elf_i386
 #endif
 #define AsmDefines		-D__ELF__
-#define CplusplusCmd		c++
+#define CplusplusCmd		c++ -m32
 #ifndef LinuxUsesNcurses
 #if 1
 #define LinuxUsesNcurses	YES
@@ -396,7 +396,7 @@ XCOMM binutils:	(LinuxBinUtilsMajorVersion)
 #define DoLoadableServer	YES
 #endif
 #endif
-#define CppCmd			/lib/cpp
+#define CppCmd			cpp
 /* Some Linux distributions have yacc, some don't. All have bison. */
 #define YaccCmd			bison -y
 #define LexCmd			flex -l
