@@ -119,6 +119,10 @@ catch (int sig)
 #define USGISH
 #endif
 
+#ifndef PATH_MAX
+#define PATH_MAX 1024
+#endif
+
 #ifndef USGISH
 #ifdef X_NOT_POSIX
 #define sigaction sigvec
@@ -340,7 +344,31 @@ main(int argc, char *argv[])
 #ifdef PREINCDIR
 	    if (incp >= includedirs + MAXDIRS)
 		fatalerr("Too many -I flags.\n");
+#if 0
 	    *incp++ = PREINCDIR;
+#else
+      {
+      FILE* gccproc;
+      static char buf[PATH_MAX];
+      char cmd[PATH_MAX];
+      const char *cc;
+      char *ptr;
+      cc = getenv("CC");
+      if (cc == NULL)
+        cc = "gcc";
+      sprintf(cmd, "%s -print-file-name=include", cc);
+      if ((gccproc = popen (cmd, "r")) != NULL) {
+	   if (fgets (buf, PATH_MAX, gccproc) != NULL && buf[0] == '/')
+	   {
+	   	  ptr = strchr(buf, '\n');
+	   	  if (ptr != NULL)
+	   	    *ptr = '\0';
+	      *incp++ = buf;
+	   }
+	   (void) pclose (gccproc);
+	  }
+	  }
+#endif
 #endif
 #ifdef __EMX__
 	    {
@@ -361,15 +389,41 @@ main(int argc, char *argv[])
 		}
 	    }
 #else /* !__EMX__, does not use INCLUDEDIR at all */
+#ifdef INCLUDEDIR
 	    if (incp >= includedirs + MAXDIRS)
 		fatalerr("Too many -I flags.\n");
 	    *incp++ = INCLUDEDIR;
+#endif
 #endif
 
 #ifdef POSTINCDIR
 	    if (incp >= includedirs + MAXDIRS)
 		fatalerr("Too many -I flags.\n");
+#if 0
 	    *incp++ = POSTINCDIR;
+#else
+      {
+      FILE* gccproc;
+      static char buf[PATH_MAX];
+      char cmd[PATH_MAX];
+      const char *cc;
+      char *ptr;
+      cc = getenv("CC");
+      if (cc == NULL)
+        cc = "gcc";
+      sprintf(cmd, "%s -print-file-name=include", cc);
+      if ((gccproc = popen (cmd, "r")) != NULL) {
+	   if (fgets (buf, PATH_MAX, gccproc) != NULL && buf[0] == '/')
+	   {
+	   	  ptr = strchr(buf, '\n');
+	   	  if (ptr != NULL)
+	   	    *ptr = '\0';
+	      *incp++ = buf;
+	   }
+	   (void) pclose (gccproc);
+	  }
+	  }
+#endif
 #endif
 	} else if (*defincdir) {
 	    if (incp >= includedirs + MAXDIRS)

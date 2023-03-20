@@ -23,7 +23,7 @@ in this Software without prior written authorization from The Open Group.
 /* $XFree86: xc/config/imake/imakemdep.h,v 3.36 1999/12/30 02:09:25 robin Exp $ */
 
 
-/* 
+/*
  * This file contains machine-dependent constants for the imake utility.
  * When porting imake, read each of the steps below and add in any necessary
  * definitions.  In general you should *not* edit ccimake.c or imake.c!
@@ -36,211 +36,236 @@ in this Software without prior written authorization from The Open Group.
  *     These will be passed to the compile along with the contents of the
  *     make variable BOOTSTRAPCFLAGS.
  */
-#if defined(clipper) || defined(__clipper__)
-#define imake_ccflags "-O -DSYSV -DBOOTSTRAPCFLAGS=-DSYSV"
-#endif
+# if defined(clipper) || defined(__clipper__)
+#  define imake_ccflags "-O -DSYSV -DBOOTSTRAPCFLAGS=-DSYSV"
+# endif
 
-#ifdef hpux
-#ifdef hp9000s800
-#define imake_ccflags "-DSYSV"
-#else
-#define imake_ccflags "-Wc,-Nd4000,-Ns3000 -DSYSV"
-#endif
-#endif
+# ifdef hpux
+#  ifdef hp9000s800
+#   define imake_ccflags "-DSYSV"
+#  else
+#   define imake_ccflags "-Wc,-Nd4000,-Ns3000 -DSYSV"
+#  endif
+# endif
 
-#if defined(macII) || defined(_AUX_SOURCE)
-#define imake_ccflags "-DmacII -DSYSV"
-#endif
+# if defined(macII) || defined(_AUX_SOURCE)
+#  define imake_ccflags "-DmacII -DSYSV"
+# endif
 
-#ifdef stellar
-#define imake_ccflags "-DSYSV"
-#endif
+# ifdef stellar
+#  define imake_ccflags "-DSYSV"
+# endif
 
-#if defined(USL) || defined(__USLC__) || defined(Oki) || defined(NCR)
-#define imake_ccflags "-Xa -DSVR4"
-#endif
+/*
+ * SCO UnixWare and OpenServer 6 are both System V Release 5 based OSes.
+ * The native C compiler doesn't assert __UNIXWARE__ but gcc does, so
+ * we don't redefine it if we are using gcc (as it sets it to a specific
+ * value). On OpenServer 6, which is a multi-ABI world, if you attempt
+ * to build with -Kosr, then the C compiler will assert __OPENSERVER__
+ * and set it to the value 507.  That indicates an OSR5 compile, and
+ * is handled below.
+ */
+
+# if defined(__UNIXWARE__) || defined(__USLC__) || defined(Oki) || defined(NCR)
+#  ifdef imake_ccflags
+#   undef imake_ccflags
+#  endif
+#  ifdef __UNIXWARE__
+#   ifndef __GNUC__
+#    define imake_ccflags "-Xa -DSVR4 -DSVR5 -D__UNIXWARE__"
+#   else
+#    define imake_ccflags "-Xa -DSVR4 -DSVR5"
+#   endif
+#  else
+#   define imake_ccflags "-Xa -DSVR4"
+#  endif
+# endif
 
 /* SCO may define __USLC__ so put this after the USL check */
-#if defined(M_UNIX) || defined(_SCO_DS)
-#ifdef imake_ccflags
-#undef imake_ccflags
-#endif
-#define imake_ccflags "-Dsco -DSYSV"
-#endif
-
-#ifdef sony
-#if defined(SYSTYPE_SYSV) || defined(_SYSTYPE_SYSV)
-#define imake_ccflags "-DSVR4"
-#else
-#include <sys/param.h>
-#if NEWSOS < 41
-#define imake_ccflags "-Dbsd43 -DNOSTDHDRS"
-#else
-#if NEWSOS < 42
-#define imake_ccflags "-Dbsd43"
-#endif
-#endif
-#endif
-#endif
-
-#ifdef _CRAY
-#define imake_ccflags "-DSYSV -DUSG"
-#endif
-
-#if defined(_IBMR2) || defined(aix)
-#define imake_ccflags "-Daix -DSYSV"
-#endif
-
-#ifdef Mips
-#  if defined(SYSTYPE_BSD) || defined(BSD) || defined(BSD43)
-#    define imake_ccflags "-DBSD43"
-#  else 
-#    define imake_ccflags "-DSYSV"
+# if defined(M_UNIX) || defined(_SCO_DS) || defined(__OPENSERVER__)
+#  ifdef imake_ccflags
+#   undef imake_ccflags
 #  endif
-#endif 
+#  define imake_ccflags "-Dsco -DSYSV"
+# endif
 
-#ifdef is68k
-#define imake_ccflags "-Dluna -Duniosb"
-#endif
+# ifdef sony
+#  if defined(SYSTYPE_SYSV) || defined(_SYSTYPE_SYSV)
+#   define imake_ccflags "-DSVR4"
+#  else
+#   include <sys/param.h>
+#   if NEWSOS < 41
+#    define imake_ccflags "-Dbsd43 -DNOSTDHDRS"
+#   else
+#    if NEWSOS < 42
+#     define imake_ccflags "-Dbsd43"
+#    endif
+#   endif
+#  endif
+# endif
 
-#ifdef SYSV386
+# ifdef _CRAY
+#  define imake_ccflags "-DSYSV -DUSG"
+# endif
+
+# if defined(_IBMR2) || defined(aix)
+#  define imake_ccflags "-Daix -DSYSV"
+# endif
+
+# ifdef Mips
+#  if defined(SYSTYPE_BSD) || defined(BSD) || defined(BSD43)
+#   define imake_ccflags "-DBSD43"
+#  else
+#   define imake_ccflags "-DSYSV"
+#  endif
+# endif
+
+# ifdef is68k
+#  define imake_ccflags "-Dluna -Duniosb"
+# endif
+
+# ifdef SYSV386
+#  ifdef SVR4
+#   define imake_ccflags "-Xa -DSVR4"
+#  else
+#   define imake_ccflags "-DSYSV"
+#  endif
+# endif
+
 # ifdef SVR4
-#  define imake_ccflags "-Xa -DSVR4"
-# else
+#  ifdef i386
+#   define imake_ccflags "-Xa -DSVR4"
+#  endif
+# endif
+
+# ifdef SYSV
+#  ifdef i386
+#   define imake_ccflags "-DSYSV"
+#  endif
+# endif
+
+# if defined(Lynx) || defined(__Lynx__)
+#  define imake_ccflags "-DLynx"
+# endif /* Lynx */
+
+# ifdef __convex__
+#  define imake_ccflags "-fn -tm c1"
+# endif
+
+# ifdef apollo
+#  define imake_ccflags "-DX_NOT_POSIX"
+# endif
+
+# ifdef WIN32
+#  ifdef __GNUC__
+#   define imake_ccflags "-D__STDC__"
+#  else
+#   if _MSC_VER < 1000
+#    define imake_ccflags "-nologo -batch -D__STDC__"
+#   else
+#    define imake_ccflags "-nologo -D__STDC__"
+#   endif
+#  endif
+# endif
+
+# ifdef __uxp__
+#  define imake_ccflags "-DSVR4 -DANSICPP"
+# endif
+
+# ifdef __sxg__
+#  define imake_ccflags "-DSYSV -DUSG -DNOSTDHDRS"
+# endif
+
+# ifdef sequent
+#  define imake_ccflags "-DX_NOT_STDC_ENV -DX_NOT_POSIX"
+# endif
+
+# ifdef _SEQUENT_
+#  define imake_ccflags "-DSYSV -DUSG"
+# endif
+
+# if defined(SX) || defined(PC_UX)
 #  define imake_ccflags "-DSYSV"
 # endif
-#endif
 
-#ifdef SVR4
-# ifdef i386
-#  define imake_ccflags "-Xa -DSVR4"
+# ifdef nec_ews_svr2
+#  define imake_ccflags "-DUSG"
 # endif
-#endif
 
-#ifdef SYSV
-# ifdef i386
-#  define imake_ccflags "-DSYSV"
+# if defined(nec_ews_svr4) || defined(_nec_ews_svr4) || defined(_nec_up) || defined(_nec_ft)
+#  define imake_ccflags "-DSVR4"
 # endif
-#endif
 
-#if defined(Lynx) || defined(__Lynx__)
-#define imake_ccflags "-DLynx"
-#endif /* Lynx */
-
-#ifdef __convex__
-#define imake_ccflags "-fn -tm c1"
-#endif
-
-#ifdef apollo
-#define imake_ccflags "-DX_NOT_POSIX"
-#endif
-
-#ifdef WIN32
-#if _MSC_VER < 1000
-#define imake_ccflags "-nologo -batch -D__STDC__"
-#else
-#define imake_ccflags "-nologo -D__STDC__"
-#endif
-#endif
-
-#ifdef __uxp__
-#define imake_ccflags "-DSVR4 -DANSICPP"
-#endif
-
-#ifdef __sxg__
-#define imake_ccflags "-DSYSV -DUSG -DNOSTDHDRS"
-#endif
-
-#ifdef sequent
-#define imake_ccflags "-DX_NOT_STDC_ENV -DX_NOT_POSIX"
-#endif
-
-#ifdef _SEQUENT_
-#define imake_ccflags "-DSYSV -DUSG"
-#endif
-
-#if defined(SX) || defined(PC_UX)
-#define imake_ccflags "-DSYSV"
-#endif
-
-#ifdef nec_ews_svr2
-#define imake_ccflags "-DUSG"
-#endif
-
-#if defined(nec_ews_svr4) || defined(_nec_ews_svr4) || defined(_nec_up) || defined(_nec_ft)
-#define imake_ccflags "-DSVR4"
-#endif
-
-#ifdef  MACH
-#ifdef __GNU__
-#define imake_ccflags ""
-#else
-#define imake_ccflags "-DNOSTDHDRS"
-#endif
-#endif
+# ifdef  MACH
+#  ifdef __GNU__
+#   define imake_ccflags ""
+#  else
+#   define imake_ccflags "-DNOSTDHDRS"
+#  endif
+# endif
 
 /* this is for OS/2 under EMX. This won't work with DOS */
-#if defined(__EMX__)
-#define imake_ccflags "-DBSD43"
-#endif
+# if defined(__EMX__)
+#  define imake_ccflags "-DBSD43"
+# endif
 
-#if defined(__QNX__) && !defined(__QNXNTO__)
-#define imake_ccflags "-D__QNX__ -D_i386"
-#endif
+# if defined(__QNX__) && !defined(__QNXNTO__)
+#  define imake_ccflags "-D__QNX__ -D_i386"
+# endif
 
-#if defined(__QNXNTO__)
-#define imake_ccflags "-D__QNXNTO__"
-#endif
+# if defined(__QNXNTO__)
+#  define imake_ccflags "-D__QNXNTO__"
+# endif
 
 /* >>>>> EEKS >>>>> */
-#ifdef __MINT__
-# define imake_ccflags "-D_GNU_SOURCE -D__MINT__"
-#endif
+# ifdef __MINT__
+#  define imake_ccflags "-D_GNU_SOURCE -D__MINT__"
+# endif
 /* <<<<< EEKS <<<<< */
 
 #else /* not CCIMAKE */
-#ifndef MAKEDEPEND
+# ifndef MAKEDEPEND
 /*
  * Step 2:  dup2
  *     If your OS doesn't have a dup2() system call to duplicate one file
  *     descriptor onto another, define such a mechanism here (if you don't
  *     already fall under the existing category(ies).
  */
-#if defined(SYSV) && !defined(_CRAY) && !defined(Mips) && !defined(_SEQUENT_) && !defined(sco)
-#define	dup2(fd1,fd2)	((fd1 == fd2) ? fd1 : (close(fd2), \
+#  if defined(SYSV) && !defined(_CRAY) && !defined(Mips) && !defined(_SEQUENT_) && !defined(__SCO__)
+#   define	dup2(fd1,fd2)	((fd1 == fd2) ? fd1 : (close(fd2), \
 					       fcntl(fd1, F_DUPFD, fd2)))
-#endif
+#  endif
 
 
 /*
  * Step 3:  FIXUP_CPP_WHITESPACE
- *     If your cpp collapses tabs macro expansions into a single space and
+ *     If your cpp collapses tabs in macro expansions into a single space and
  *     replaces escaped newlines with a space, define this symbol.  This will
  *     cause imake to attempt to patch up the generated Makefile by looking
  *     for lines that have colons in them (this is why the rules file escapes
  *     all colons).  One way to tell if you need this is to see whether or not
  *     your Makefiles have no tabs in them and lots of @@ strings.
  */
-#if defined(sun) || defined(SYSV) || defined(SVR4) || defined(hcx) || defined(WIN32) || defined(sco) || (defined(AMOEBA) && defined(CROSS_COMPILE)) || defined(__QNX__)
-#define FIXUP_CPP_WHITESPACE
-#endif
-#ifdef WIN32
-#define REMOVE_CPP_LEADSPACE
-#define INLINE_SYNTAX
-#define MAGIC_MAKE_VARS
-#endif
-#ifdef __minix_vmd
-#define FIXUP_CPP_WHITESPACE
-#endif
+#  if defined(sun) || defined(SYSV) || defined(SVR4) || defined(hcx) || defined(WIN32) || defined(__SCO__) || (defined(AMOEBA) && defined(CROSS_COMPILE)) || defined(__QNX__) || defined(__sgi) || defined(__UNIXWARE__) || defined(__LCC__)
+#   define FIXUP_CPP_WHITESPACE
+#  endif
+#  ifdef WIN32
+#   define REMOVE_CPP_LEADSPACE
+#   define INLINE_SYNTAX
+#   define MAGIC_MAKE_VARS
+#  endif
+#  ifdef __minix_vmd
+#   define FIXUP_CPP_WHITESPACE
+#  endif
 
-#if defined(Lynx)
+#  if defined(Lynx)
 /* On LynxOS 2.4.0 imake gets built with the old "legacy"
  * /bin/cc which has a rather pedantic builtin preprocessor.
  * Using a macro which is not #defined (as in Step 5
  * below) flags an *error*
  */
-#define __NetBSD_Version__ 0
-#endif
+#   define __NetBSD_Version__ 0
+#  endif
 
 /*
  * Step 4:  USE_CC_E, DEFAULT_CC, DEFAULT_CPP
@@ -248,287 +273,327 @@ in this Software without prior written authorization from The Open Group.
  *     If use cc -E but want a different compiler, define DEFAULT_CC.
  *     If the cpp you need is not in /lib/cpp, define DEFAULT_CPP.
  */
-#if defined(Lynx) || defined(__Lynx__)
-#define DEFAULT_CC "gcc"
-#define USE_CC_E
-#endif
-#ifdef hpux
-#define USE_CC_E
-#endif
-#ifdef WIN32
-#define USE_CC_E
-#define DEFAULT_CC "cl"
-#endif
-#ifdef apollo
-#define DEFAULT_CPP "/usr/lib/cpp"
-#endif
-#if defined(clipper) || defined(__clipper__)
-#define DEFAULT_CPP "/usr/lib/cpp"
-#endif
-#if defined(_IBMR2) && !defined(DEFAULT_CPP)
-#define DEFAULT_CPP "/usr/ccs/lib/cpp"
-#endif
-#if defined(sun) && (defined(SVR4) || defined(__svr4__) || defined(__SVR4) || defined(__sol__))
-#define DEFAULT_CPP "/usr/ccs/lib/cpp"
-#endif
-#ifdef __bsdi__
-#define DEFAULT_CPP "/usr/bin/cpp"
-#endif
-#ifdef __uxp__
-#define DEFAULT_CPP "/usr/ccs/lib/cpp"
-#endif
-#ifdef __sxg__
-#define DEFAULT_CPP "/usr/lib/cpp"
-#endif
-#ifdef _CRAY
-#define DEFAULT_CPP "/lib/pcpp"
-#endif
-#if defined(__386BSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
-#define DEFAULT_CPP "/usr/libexec/cpp"
-#endif
-#if defined(__FreeBSD__)
-#define USE_CC_E
-#endif
-#if defined(__sgi) && defined(__ANSI_CPP__)
-#define USE_CC_E
-#endif
-#ifdef  MACH
-#define USE_CC_E
-#endif
-#ifdef __minix_vmd
-#define DEFAULT_CPP "/usr/lib/cpp"
-#endif
-#if defined(__EMX__)
+#  if defined(__APPLE__)
+#   define DEFAULT_CPP "/usr/bin/cpp"
+#   define DEFAULT_CC "cc"
+#  endif
+#  if defined(Lynx) || defined(__Lynx__)
+#   define DEFAULT_CC "gcc"
+#   define USE_CC_E
+#  endif
+#  ifdef hpux
+#   define USE_CC_E
+#  endif
+#  ifdef WIN32
+#   define USE_CC_E
+#   ifdef __GNUC__
+#    define DEFAULT_CC "gcc"
+#   else
+#    define DEFAULT_CC "cl"
+#   endif
+#  endif
+#  ifdef apollo
+#   define DEFAULT_CPP "/usr/lib/cpp"
+#  endif
+#  if defined(clipper) || defined(__clipper__)
+#   define DEFAULT_CPP "/usr/lib/cpp"
+#  endif
+#  if defined(_IBMR2) && !defined(DEFAULT_CPP)
+#   define DEFAULT_CPP "/usr/ccs/lib/cpp"
+#  endif
+#  if defined(sun) && (defined(SVR4) || defined(__svr4__) || defined(__SVR4) || defined(__sol__))
+#   define DEFAULT_CPP "/usr/ccs/lib/cpp"
+#  endif
+#  ifdef __bsdi__
+#   define DEFAULT_CPP "/usr/bin/cpp"
+#  endif
+#  ifdef __uxp__
+#   define DEFAULT_CPP "/usr/ccs/lib/cpp"
+#  endif
+#  ifdef __sxg__
+#   define DEFAULT_CPP "/usr/lib/cpp"
+#  endif
+#  ifdef _CRAY
+#   define DEFAULT_CPP "/lib/pcpp"
+#  endif
+#  if defined(__386BSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
+#   define DEFAULT_CPP "/usr/libexec/cpp"
+#  endif
+#  if defined(__FreeBSD__)
+#   define USE_CC_E
+#  endif
+#  if defined(__sgi) && defined(__ANSI_CPP__)
+#   define USE_CC_E
+#  endif
+#  if defined(MACH) && !defined(__GNU__)
+#   define USE_CC_E
+#  endif
+#  ifdef __minix_vmd
+#   define DEFAULT_CPP "/usr/lib/cpp"
+#  endif
+#  ifdef __CYGWIN__
+#   define DEFAULT_CC "gcc"
+#   define DEFAULT_CPP "/usr/bin/cpp"
+#  endif
+#  if defined(__EMX__)
 /* expects cpp in PATH */
-#define DEFAULT_CPP "cpp"
-#endif
-#if defined(__GNU__)
-#define USE_CC_E
-#endif
-#if defined (__QNX__)
-#define DEFAULT_CPP "/usr/X11R6/bin/cpp"
-#endif
+#    define DEFAULT_CPP "cpp"
+#  endif
+#  if defined(__GNU__)
+#   define USE_CC_E
+#  endif
+#  if defined (__QNX__)
+#   ifdef __QNXNTO__
+#    define DEFAULT_CPP "/usr/bin/cpp"
+#   else
+#    define DEFAULT_CPP "/usr/X11R6/bin/cpp"
+#   endif
+#  endif
+#  if defined(__GNUC__) && !defined(USE_CC_E)
+#   define USE_CC_E
+#   ifndef DEFAULT_CC
+#    define DEFAULT_CC "gcc"
+#   endif
+#  endif
 
 #ifdef __MINT__   /* >>>>> EEKS >>>>> */
-# define DEFAULT_CPP "/usr/bin/cpp"
+#  define DEFAULT_CPP "/usr/bin/cpp"
 #endif   /* <<<<< EEKS <<<<< */
 
 /*
  * Step 5:  cpp_argv
  *     The following table contains the flags that should be passed
- *     whenever a Makefile is being generated.  If your preprocessor 
+ *     whenever a Makefile is being generated.  If your preprocessor
  *     doesn't predefine any unique symbols, choose one and add it to the
  *     end of this table.  Then, do the following:
- * 
- *         a.  Use this symbol in Imake.tmpl when setting MacroFile.
+ *
+ *         a.  Use this symbol in Imake.cf when setting MacroFile.
  *         b.  Put this symbol in the definition of BootstrapCFlags in your
  *             <platform>.cf file.
- *         c.  When doing a make World, always add "BOOTSTRAPCFLAGS=-Dsymbol" 
+ *         c.  When doing a make World, always add "BOOTSTRAPCFLAGS=-Dsymbol"
  *             to the end of the command line.
- * 
- *     Note that you may define more than one symbol (useful for platforms 
+ *
+ *     Note that you may define more than one symbol (useful for platforms
  *     that support multiple operating systems).
  */
 
-#define	ARGUMENTS 50	/* number of arguments in various arrays */
+#  define ARGUMENTS 50	/* number of arguments in various arrays */
 char *cpp_argv[ARGUMENTS] = {
-	"cc",		/* replaced by the actual program to exec */
-	"-I.",		/* add current directory to include path */
-#if !defined(__NetBSD_Version__) || __NetBSD_Version__ < 103080000
-#ifdef unix
-	"-Uunix",	/* remove unix symbol so that filename unix.c okay */
-#endif
-#endif
-#if defined(__386BSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(MACH) || defined(linux) || defined(__GNU__)
-# ifdef __i386__
-	"-D__i386__",
-# endif
-# ifdef __alpha__
-	"-D__alpha__",
-# endif
-# ifdef __sparc__
-	"-D__sparc__",
-# endif
-# ifdef __m68k__
-	"-D__m68k__",
-# endif
-# ifdef __GNUC__
-	"-traditional",
-# endif
-#endif
-#ifdef M4330
-	"-DM4330",	/* Tektronix */
-#endif
-#ifdef M4310
-	"-DM4310",	/* Tektronix */
-#endif
-#if defined(macII) || defined(_AUX_SOURCE)
-	"-DmacII",	/* Apple A/UX */
-#endif
-#if defined(USL) || defined(__USLC__)
-	"-DUSL",	/* USL */
-#endif
-#ifdef sony
-	"-Dsony",	/* Sony */
-#if !defined(SYSTYPE_SYSV) && !defined(_SYSTYPE_SYSV) && NEWSOS < 42
-	"-Dbsd43",
-#endif
-#endif
-#ifdef _IBMR2
-	"-D_IBMR2",	/* IBM RS-6000 (we ensured that aix is defined above */
-#ifndef aix
-#define aix		/* allow BOOTSTRAPCFLAGS="-D_IBMR2" */
-#endif
-#endif /* _IBMR2 */
-#ifdef aix
-	"-Daix",	/* AIX instead of AOS */
-#ifndef ibm
-#define ibm		/* allow BOOTSTRAPCFLAGS="-Daix" */
-#endif
-#endif /* aix */
-#ifdef ibm
-	"-Dibm",	/* IBM PS/2 and RT under both AOS and AIX */
-#endif
-#ifdef luna
-	"-Dluna",	/* OMRON luna 68K and 88K */
-#ifdef luna1
-	"-Dluna1",
-#endif
-#ifdef luna88k		/* need not on UniOS-Mach Vers. 1.13 */
-	"-traditional", /* for some older version            */
-#endif			/* instead of "-DXCOMM=\\#"          */
-#ifdef uniosb
-	"-Duniosb",
-#endif
-#ifdef uniosu
-	"-Duniosu",
-#endif
-#endif /* luna */
-#ifdef _CRAY		/* Cray */
-	"-Ucray",
-#endif
-#ifdef Mips
-	"-DMips",	/* Define and use Mips for Mips Co. OS/mach. */
-# if defined(SYSTYPE_BSD) || defined(BSD) || defined(BSD43)
-	"-DBSD43",	/* Mips RISCOS supports two environments */
-# else
-	"-DSYSV",	/* System V environment is the default */
-# endif
-#endif /* Mips */
-#ifdef MOTOROLA
-	"-DMOTOROLA",    /* Motorola Delta Systems */
-# ifdef SYSV
-	"-DSYSV", 
-# endif
-# ifdef SVR4
-	"-DSVR4",
-# endif
-#endif /* MOTOROLA */
-#if defined(M_UNIX) || defined(sco)
-	"-Dsco",
-	"-DSYSV",
-#endif
-#ifdef i386
-	"-Di386",
-# ifdef SVR4
-	"-DSVR4",
-# endif
-# ifdef SYSV
-	"-DSYSV",
-#  ifdef ISC
-	"-DISC",
-#   ifdef ISC40
-	"-DISC40",       /* ISC 4.0 */
+    "cc",		/* replaced by the actual program to exec */
+    "-I.",		/* add current directory to include path */
+#  if !defined(__NetBSD_Version__) || __NetBSD_Version__ < 103080000
+#   ifdef unix
+     "-Uunix",	/* remove unix symbol so that filename unix.c okay */
+#   endif
+#  endif
+
+#  if defined(__386BSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(MACH) || defined(linux) || defined(__GNU__)
+#   ifdef __i386__
+     "-D__i386__",
+#   endif
+#   ifdef __alpha__
+     "-D__alpha__",
+#   endif
+#   ifdef __sparc__
+     "-D__sparc__",
+#   endif
+#   ifdef __m68k__
+     "-D__m68k__",
+#   endif
+#   ifdef __GNUC__
+     "-traditional",
+#   endif
+#  endif
+
+#  ifdef M4330
+    "-DM4330",	/* Tektronix */
+#  endif
+
+#  ifdef M4310
+    "-DM4310",	/* Tektronix */
+#  endif
+
+#  if defined(macII) || defined(_AUX_SOURCE)
+    "-DmacII",	/* Apple A/UX */
+#  endif
+
+#  if defined(USL) || defined(__USLC__)
+    "-DUSL",	/* USL */
+#  endif
+
+#  ifdef sony
+    "-Dsony",	/* Sony */
+#   if !defined(SYSTYPE_SYSV) && !defined(_SYSTYPE_SYSV) && NEWSOS < 42
+     "-Dbsd43",
+#   endif
+#  endif
+
+#  ifdef _IBMR2
+    "-D_IBMR2",	/* IBM RS-6000 (we ensured that aix is defined above */
+#   ifndef aix
+#    define aix		/* allow BOOTSTRAPCFLAGS="-D_IBMR2" */
+#   endif
+#  endif /* _IBMR2 */
+
+#  ifdef aix
+    "-Daix",	/* AIX instead of AOS */
+#   ifndef ibm
+#    define ibm	/* allow BOOTSTRAPCFLAGS="-Daix" */
+#   endif
+#  endif /* aix */
+
+#  ifdef ibm
+    "-Dibm",	/* IBM PS/2 and RT under both AOS and AIX */
+#  endif
+
+#  ifdef luna
+    "-Dluna",	/* OMRON luna 68K and 88K */
+#   ifdef luna1
+     "-Dluna1",
+#   endif
+#   ifdef luna88k	/* need not on UniOS-Mach Vers. 1.13 */
+     "-traditional", /* for some older version            */
+#   endif			/* instead of "-DXCOMM=\\#"          */
+#   ifdef uniosb
+     "-Duniosb",
+#   endif
+#   ifdef uniosu
+     "-Duniosu",
+#   endif
+#  endif /* luna */
+
+#  ifdef _CRAY		/* Cray */
+    "-Ucray",
+#  endif
+#  ifdef Mips
+    "-DMips",	/* Define and use Mips for Mips Co. OS/mach. */
+#   if defined(SYSTYPE_BSD) || defined(BSD) || defined(BSD43)
+     "-DBSD43",	/* Mips RISCOS supports two environments */
 #   else
-#    ifdef ISC202
-	"-DISC202",      /* ISC 2.0.2 */
-#    else
-#     ifdef ISC30
-	"-DISC30",       /* ISC 3.0 */
-#     else
-	"-DISC22",       /* ISC 2.2.1 */
+     "-DSYSV",	/* System V environment is the default */
+#   endif
+#  endif /* Mips */
+
+#  ifdef MOTOROLA
+    "-DMOTOROLA",    /* Motorola Delta Systems */
+#   ifdef SYSV
+     "-DSYSV", 
+#   endif
+#   ifdef SVR4
+     "-DSVR4",
+#   endif
+#  endif /* MOTOROLA */
+
+#  if defined(M_UNIX) || defined(sco)
+    "-Dsco",
+    "-DSYSV",
+#  endif
+
+#  ifdef i386
+    "-Di386",
+#   ifdef SVR4
+     "-DSVR4",
+#   endif
+#   ifdef SYSV
+     "-DSYSV",
+#    ifdef ISC
+      "-DISC",
+#      ifdef ISC40
+        "-DISC40",       /* ISC 4.0 */
+#      else
+#       ifdef ISC202
+         "-DISC202",      /* ISC 2.0.2 */
+#       else
+#        ifdef ISC30
+          "-DISC30",       /* ISC 3.0 */
+#        else
+          "-DISC22",       /* ISC 2.2.1 */
+#       endif
+#      endif
+#     endif
+#    endif
+#    ifdef SCO
+      "-DSCO",
+#     ifdef _SCO_DS
+       "-DSCO325 -DSVR4",
 #     endif
 #    endif
 #   endif
-#  endif
-#  ifdef SCO
-	"-DSCO",
-#   ifdef _SCO_DS
-    "-DSCO325 -DSVR4",
+#   ifdef ESIX
+     "-DESIX",
+#   endif
+#   ifdef ATT
+     "-DATT",
+#   endif
+#   ifdef DELL
+     "-DDELL",
 #   endif
 #  endif
-# endif
-# ifdef ESIX
-	"-DESIX",
-# endif
-# ifdef ATT
-	"-DATT",
-# endif
-# ifdef DELL
-	"-DDELL",
-# endif
-#endif
-#ifdef SYSV386           /* System V/386 folks, obsolete */
-	"-Di386",
-# ifdef SVR4
-	"-DSVR4",
-# endif
-# ifdef ISC
-	"-DISC",
-#  ifdef ISC40
-	"-DISC40",       /* ISC 4.0 */
-#  else
-#   ifdef ISC202
-	"-DISC202",      /* ISC 2.0.2 */
-#   else
-#    ifdef ISC30
-	"-DISC30",       /* ISC 3.0 */
+
+#  ifdef SYSV386           /* System V/386 folks, obsolete */
+    "-Di386",
+#   ifdef SVR4
+     "-DSVR4",
+#   endif
+#   ifdef ISC
+     "-DISC",
+#    ifdef ISC40
+      "-DISC40",       /* ISC 4.0 */
 #    else
-	"-DISC22",       /* ISC 2.2.1 */
+#     ifdef ISC202
+       "-DISC202",      /* ISC 2.0.2 */
+#     else
+#      ifdef ISC30
+        "-DISC30",       /* ISC 3.0 */
+#      else
+        "-DISC22",       /* ISC 2.2.1 */
+#      endif
+#     endif
 #    endif
 #   endif
+#   ifdef SCO
+     "-DSCO",
+#    ifdef _SCO_DS
+      "-DSCO325 -DSVR4",
+#    endif
+#   endif
+#   ifdef ESIX
+     "-DESIX",
+#   endif
+#   ifdef ATT
+     "-DATT",
+#   endif
+#   ifdef DELL
+     "-DDELL",
+#   endif
 #  endif
-# endif
-# ifdef SCO
-	"-DSCO",
-#  ifdef _SCO_DS
-	"-DSCO325 -DSVR4",
+
+#  ifdef __osf__
+    "-D__osf__",
+#   ifdef __mips__
+     "-D__mips__",
+#   endif
+#   ifdef __alpha
+     "-D__alpha",
+#   endif
+#   ifdef __amiga__
+     "-D__amiga__",
+#   endif
+#   ifdef __alpha__
+     "-D__alpha__",
+#   endif
+#   ifdef __i386__
+     "-D__i386__",
+#   endif
+#   ifdef __GNUC__
+     "-traditional",
+#   endif
 #  endif
-# endif
-# ifdef ESIX
-	"-DESIX",
-# endif
-# ifdef ATT
-	"-DATT",
-# endif
-# ifdef DELL
-	"-DDELL",
-# endif
-#endif
-#ifdef __osf__
-	"-D__osf__",
-# ifdef __mips__
-	"-D__mips__",
-# endif
-# ifdef __alpha
-	"-D__alpha",
-# endif
-# ifdef __amiga__
-	"-D__amiga__",
-# endif
-# ifdef __alpha__
-	"-D__alpha__",
-# endif
-# ifdef __i386__
-	"-D__i386__",
-# endif
-# ifdef __GNUC__
-	"-traditional",
-# endif
-#endif
-#ifdef Oki
-	"-DOki",
-#endif
+
+#  ifdef Oki
+    "-DOki",
+#  endif
+
 #ifdef sun
 #if defined(SVR4) || defined(__svr4__) || defined(__SVR4) || defined(__sol__)
 	"-DSVR4",
@@ -654,6 +719,15 @@ char *cpp_argv[ARGUMENTS] = {
 	"-D__atarist",
 	"-D__atarist__",
 #endif   /* <<<<< EEKS <<<<< */
+#ifdef DependCmd
+	"-DDependCmd=" DependCmd,
+#endif
+#ifdef ImakeCmd
+	"-DImakeCmd=" ImakeCmd,
+#endif
+#ifdef ProjectRoot
+	"-DProjectRoot=" ProjectRoot,
+#endif
 
 };
 

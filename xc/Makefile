@@ -23,10 +23,11 @@ IMAKE_CMD = $(IMAKE) -I$(IRULESRC) $(IMAKE_DEFINES)
 MAKE_OPTS = -f xmakefile
 MAKE_CMD = $(MAKE) $(MAKE_OPTS)
 FLAGS = $(MFLAGS) -f Makefile.ini BOOTSTRAPCFLAGS="$(BOOTSTRAPCFLAGS)" CC="$(CC)"
+-include cpuoption.mk
 
 all:
 	@$(MAKE_CMD) xmakefile-exists || $(MAKE) all-initial
-	@$(MAKE_CMD) $@
+	@$(MAKE_CMD) CPUOPTION="$(CPUOPTION)" $@
 
 all-initial:
 	@echo Please use make World, or on NT use nmake World.Win32.
@@ -100,13 +101,13 @@ imake.bootstrap: $(IMAKESRC)/Makefile.proto
 	-@if [ -f xmakefile ]; then set -x; \
 	  $(RM) xmakefile.bak; $(MV) xmakefile xmakefile.bak; \
 	  else exit 0; fi
-	$(MAKE) $(MFLAGS) xmakefile
+	$(MAKE) $(MFLAGS) CPUOPTION="$(CPUOPTION)" xmakefile
 
 Makefile::
-	$(MAKE) $(MFLAGS) xmakefile
+	$(MAKE) $(MFLAGS) CPUOPTION="$(CPUOPTION)" xmakefile
 
 xmakefile: Imakefile
-	$(IMAKE_CMD) -s xmakefile -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT_DIR)
+	$(IMAKE_CMD) -s xmakefile -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT_DIR) "$(CPUOPTION)"
 
 World.Win32:
 	@echo :
@@ -171,7 +172,7 @@ dangerous_strip_clean:
 depend:
 	    $(MAKE_CMD) $@
 Everything:
-	    $(MAKE_CMD) $@
+	    $(MAKE_CMD) CPUOPTION="$(CPUOPTION)" $@
 external.ln:
 	    $(MAKE_CMD) $@
 includes:
@@ -185,7 +186,7 @@ install.man:
 install:
 	    $(MAKE_CMD) $@
 Makefiles:
-	    $(MAKE_CMD) $@
+	    $(MAKE_CMD) CPUOPTION="$(CPUOPTION)" $@
 man_keywords:
 	    $(MAKE_CMD) $@
 tags:

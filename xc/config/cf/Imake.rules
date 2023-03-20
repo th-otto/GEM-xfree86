@@ -1656,13 +1656,13 @@ depend:: DependFileName							@@\
 									@@\
 DependFileName::							@@\
 	RemoveFile($@)							@@\
-	RunProgram(DEPEND,-f- $(DEPENDFLAGS) -- $(ALLDEFINES) $(DEPEND_DEFINES) -- $(SRCS)) > $@
+	CC=$(CC) RunProgram(DEPEND,-f- $(DEPENDFLAGS) -- $(ALLDEFINES) $(DEPEND_DEFINES) -- $(SRCS)) > $@
 #else /* HasMakefileSafeInclude */
 #define	DependTarget()							@@\
 DependDependency()							@@\
 									@@\
 depend::								@@\
-	RunProgram(DEPEND,$(DEPENDFLAGS) -- $(ALLDEFINES) $(DEPEND_DEFINES) -- $(SRCS))
+	CC=$(CC) RunProgram(DEPEND,$(DEPENDFLAGS) -- $(ALLDEFINES) $(DEPEND_DEFINES) -- $(SRCS))
 #endif /* HasMakefileSafeInclude else */
 #endif /* DependTarget */
 
@@ -1678,17 +1678,17 @@ depend:: DependFileName							@@\
 									@@\
 DependFileName::							@@\
 	RemoveFile($@)							@@\
-	RunProgram(DEPEND,-f- $(DEPENDFLAGS) -- $(ALLDEFINES) $(DEPEND_DEFINES) -- srcs1) > $@	@@\
-	RunProgram(DEPEND,-f- $(DEPENDFLAGS) -- $(ALLDEFINES) $(DEPEND_DEFINES) -- srcs2) >> $@	@@\
-	RunProgram(DEPEND,-f- $(DEPENDFLAGS) -- $(ALLDEFINES) $(DEPEND_DEFINES) -- srcs3) >> $@
+	CC=$(CC) RunProgram(DEPEND,-f- $(DEPENDFLAGS) -- $(ALLDEFINES) $(DEPEND_DEFINES) -- srcs1) > $@	@@\
+	CC=$(CC) RunProgram(DEPEND,-f- $(DEPENDFLAGS) -- $(ALLDEFINES) $(DEPEND_DEFINES) -- srcs2) >> $@	@@\
+	CC=$(CC) RunProgram(DEPEND,-f- $(DEPENDFLAGS) -- $(ALLDEFINES) $(DEPEND_DEFINES) -- srcs3) >> $@
 #else /* HasMakefileSafeInclude */
 #define	DependTarget3(srcs1,srcs2,srcs3)				@@\
 DependDependency()							@@\
 									@@\
 depend::								@@\
-	RunProgram(DEPEND,$(DEPENDFLAGS) -- $(ALLDEFINES) $(DEPEND_DEFINES) -- srcs1)	@@\
-	RunProgram(DEPEND,-a $(DEPENDFLAGS) -- $(ALLDEFINES) $(DEPEND_DEFINES) -- srcs2)	@@\
-	RunProgram(DEPEND,-a $(DEPENDFLAGS) -- $(ALLDEFINES) $(DEPEND_DEFINES) -- srcs3)
+	CC=$(CC) RunProgram(DEPEND,$(DEPENDFLAGS) -- $(ALLDEFINES) $(DEPEND_DEFINES) -- srcs1)	@@\
+	CC=$(CC) RunProgram(DEPEND,-a $(DEPENDFLAGS) -- $(ALLDEFINES) $(DEPEND_DEFINES) -- srcs2)	@@\
+	CC=$(CC) RunProgram(DEPEND,-a $(DEPENDFLAGS) -- $(ALLDEFINES) $(DEPEND_DEFINES) -- srcs3)
 #endif /* HasMakefileSafeInclude else */
 #endif /* DependTarget3 */
 
@@ -1752,7 +1752,7 @@ ImakeDependency(Makefile)						@@\
 									@@\
 Makefile:: 								@@\
 	RMoveToBakFile(Makefile)					@@\
-	$(IMAKE_CMD) -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT_DIR) imakeflags
+	$(IMAKE_CMD) -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT_DIR) $(CPUOPTION) imakeflags
 
 #endif /* BuildMakefileTarget */
 
@@ -2743,7 +2743,7 @@ $(ONESUBDIR)/Makefile:							@@\
 	@MakeFlagsToShellFlags(n,executeit="no"); \			@@\
 	cd $(ONESUBDIR) && \						@@\
 	if [ "$$executeit" != "no" ]; then \				@@\
-		ImakeSubCmdHelper -DTOPDIR=$(IMAKETOP) -DCURDIR=$(ONECURDIR)$(ONESUBDIR); \ @@\
+		ImakeSubCmdHelper -DTOPDIR=$(IMAKETOP) -DCURDIR=$(ONECURDIR)$(ONESUBDIR) $(CPUOPTION); \ @@\
 	fi;								@@\
 									@@\
 target::								@@\
@@ -2792,7 +2792,7 @@ target::								@@\
 				$(MV) $$i/Makefile $$i/Makefile.bak; \	@@\
 			fi; \						@@\
 		fi; \							@@\
-		$(MAKE) $(MFLAGS) $(MAKE_OPTS) ONESUBDIR=$$i ONECURDIR=$$curdir IMAKETOP=$$imaketop IMAKEPREFIX=$$imakeprefix $$i/Makefile; \	@@\
+		$(MAKE) $(MFLAGS) $(MAKE_OPTS) ONESUBDIR=$$i ONECURDIR=$$curdir IMAKETOP=$$imaketop IMAKEPREFIX=$$imakeprefix CPUOPTION="$(CPUOPTION)" $$i/Makefile; \	@@\
 		if [ -d $$i ] ; then \					@@\
 			cd $$i; \					@@\
 			$(MAKE) $(MFLAGS) Makefiles; \			@@\

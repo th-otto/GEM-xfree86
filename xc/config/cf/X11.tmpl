@@ -1006,10 +1006,10 @@ FCHOWN_DEFINES = -DHAS_FCHOWN
 #define XPrintDir ServerConfigDir
 #endif
 #ifndef VarDirectory
-#define VarDirectory /var/X11
+#define VarDirectory Concat(ProjectVar,/X11)
 #endif
 #ifndef EtcX11Directory
-#define EtcX11Directory /etc/X11
+#define EtcX11Directory Concat(ProjectRoot,/../../etc/X11)
 #endif
 #ifndef InstallSecurityConfig
 #define InstallSecurityConfig YES	/* Install sample security policy */

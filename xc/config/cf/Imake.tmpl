@@ -553,12 +553,11 @@ TCLIBDIR = TclLibDir
 #define AlternateUsrLibDir YES
 #endif
 #endif
-#ifndef VarLibDir
-#ifdef ProjectVar
-#define VarLibDir Concat(ProjectVar,/lib)
-#else
-#define VarLibDir /var/lib
+#ifndef ProjectVar
+#define ProjectVar Concat(ProjectRoot,/../../var)
 #endif
+#ifndef VarLibDir
+#define VarLibDir Concat(ProjectVar,/lib)
 #endif
 
 #ifndef ShLibDir
@@ -634,7 +633,7 @@ TCLIBDIR = TclLibDir
 
 #ifndef LogDirectory
 #if HasVarDirectory
-#define LogDirectory /var/log
+#define LogDirectory Concat(ProjectVar,/log)
 #else
 #define LogDirectory /usr/adm
 #endif
@@ -646,7 +645,7 @@ TCLIBDIR = TclLibDir
 
 #ifndef VarRunDirectory
 #if HasVarRun
-#define VarRunDirectory /var/run
+#define VarRunDirectory Concat(ProjectVar,/run)
 #endif
 #endif
 
@@ -656,7 +655,7 @@ TCLIBDIR = TclLibDir
 
 #ifndef VarDbDirectory
 #if HasVarDb
-#define VarDbDirectory /var/db
+#define VarDbDirectory Concat(ProjectVar,/db)
 #endif
 #endif
 
@@ -1532,14 +1531,17 @@ XCOMM Not sure this belongs here
 
         MACROFILE = MacroFile
            RM_CMD = $(RM)
+#ifdef CpuOption
+        CPUOPTION = -DCpuOption=CpuOption
+#endif
 
     IMAKE_DEFINES = /* leave blank, for command line use only */
 #ifdef UseInstalled
          IRULESRC = $(CONFIGDIR)	/* used in rules file */
-        IMAKE_CMD = $(IMAKE) -DUseInstalled -I$(IRULESRC) $(IMAKE_DEFINES)
+        IMAKE_CMD = $(IMAKE) -DUseInstalled -I$(IRULESRC) $(IMAKE_DEFINES) "$(CPUOPTION)"
 #else
          IRULESRC = $(CONFIGSRC)/cf
-        IMAKE_CMD = $(IMAKE) -I$(IRULESRC) $(IMAKE_DEFINES)
+        IMAKE_CMD = $(IMAKE) -I$(IRULESRC) $(IMAKE_DEFINES) "$(CPUOPTION)"
 #endif
 #if !HasClearmake
      /* clearmake records relevant defines and flags in the build script,

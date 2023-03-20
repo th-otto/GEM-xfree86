@@ -1120,6 +1120,7 @@ get_sun_compiler_versions (FILE *inFile)
 static void
 get_gcc_incdir(FILE *inFile)
 {
+#if 0
   static char* gcc_path[] = {
 #if defined(linux) || defined(__OpenBSD__)
     "/usr/bin/cc",	/* for Linux PostIncDir */
@@ -1151,6 +1152,9 @@ get_gcc_incdir(FILE *inFile)
   }
   if (buf[0])
     fprintf (inFile, "#define DefaultGccIncludeDir %s\n", buf);
+#else
+  fprintf (inFile, "#define DefaultGccIncludeDir $(shell $(CC) -print-file-name=include)\n");
+#endif
 }
 #endif
 

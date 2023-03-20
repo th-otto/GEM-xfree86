@@ -13,7 +13,7 @@ XCOMM not exist.  Since BUILDLIBDIR may not exist yet suppress its use.
          LDPRELIB =
         LDPRELIBS =
 
-#if HasGcc && !defined(PreIncDir)
+#if HasGcc && !defined(PreIncDir) && 0
 #define PreIncDir /usr/local/lib/gcc-include
 #endif
 #ifdef PreIncDir

@@ -402,6 +402,8 @@ XCOMM binutils:	(LinuxBinUtilsMajorVersion)
 #define LexCmd			flex -l
 #define LexLib			
 #define PreProcessCmd		CcCmd -E
+#undef DefaultGccIncludeDir
+#define DefaultGccIncludeDir    $(shell $(CC) -print-file-name=include)
 #define PostIncDir		DefaultGccIncludeDir
 #define LdCombineFlags		-r
 #ifndef LdPostLib

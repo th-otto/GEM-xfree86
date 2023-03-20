@@ -28,6 +28,10 @@ RELEASE = "Release 6.4"
 #endif
 #endif
 
+#ifdef CpuOption
+        CPUOPTION = -DCpuOption=CpuOption
+#endif
+
 MakeSubdirs($(SUBDIRS))
 
 MakeLintSubdirs($(LNINSTALLDIRS),install.ln,install.ln)
@@ -75,9 +79,9 @@ Everything::
 	@date
 	@echo ""
 	cd $(IMAKESRC) && if [ -f Makefile ]; then \
-	    $(MAKE) $(MFLAGS) BOOTSTRAPCFLAGS="$(BOOTSTRAPCFLAGS)"; \
+	    $(MAKE) $(MFLAGS) BOOTSTRAPCFLAGS="$(BOOTSTRAPCFLAGS)" CPUOPTION="$(CPUOPTION)"; \
 	else \
-	    $(MAKE) $(MFLAGS) -f Makefile.ini BOOTSTRAPCFLAGS="$(BOOTSTRAPCFLAGS)"; \
+	    $(MAKE) $(MFLAGS) -f Makefile.ini BOOTSTRAPCFLAGS="$(BOOTSTRAPCFLAGS)" CPUOPTION="$(CPUOPTION)"; \
 	fi
 	-$(RM) xmakefile.bak; $(MV) xmakefile xmakefile.bak
 	$(MAKE) $(MFLAGS) xmakefile

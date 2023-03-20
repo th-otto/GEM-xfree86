@@ -18,25 +18,40 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 
 #define HasXServer		NO
 
+#ifndef ProjectRoot
 #define ProjectRoot		/usr/X11R6
-#define AdmDir			/var/log
-#define LbxproxyDir		/etc/X11/lbxproxy
-#define ProxyManagerDir		/etc/X11/proxymngr
-#define ServerConfigDir		/etc/X11/xserver
-#define XdmDir			/etc/X11/xdm
-#define XConfigDir		/etc/X11
+#endif
+#define AdmDir			Concat(ProjectVar,/log)
+#define LbxproxyDir		Concat(EtcX11Directory,/lbxproxy)
+#define ProxyManagerDir		Concat(EtcX11Directory,/proxymngr)
+#define ServerConfigDir		Concat(EtcX11Directory,/xserver)
+#define XdmDir			Concat(EtcX11Directory,/xdm)
+#define XConfigDir		EtcX11Directory
 
 #undef DefaultUserPath
 #define DefaultUserPath		/usr/local/bin:/bin:/usr/bin:$(BINDIR)
 #undef DefaultSystemPath
 #define DefaultSystemPath	/usr/local/sbin:/sbin:/usr/sbin:/bin:/usr/bin:$(BINDIR)
 
+/* Some of these man page defaults may be overriden by user Imakefiles */
+#ifndef ManSuffix
 #define ManSuffix		1x
+#endif
+#ifndef ManDir
 #define ManDir			$(MANSOURCEPATH)1
+#endif
+#ifndef LibManSuffix
 #define LibManSuffix		3x
+#endif
+#ifndef LibmanDir
 #define LibmanDir		$(MANSOURCEPATH)3
+#endif
+#ifndef FileManSuffix
 #define FileManSuffix		5x
+#endif
+#ifndef FileManDir
 #define FileManDir		$(MANSOURCEPATH)5
+#endif
 
 #define BuildXKB		NO
 #define BuildXKBlib		YES
@@ -53,7 +68,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define CompressAllFonts	YES
 #define GzipFontCompression	YES
 #define StripInstalledPrograms	YES
-
+#define InstPgmFlags            -s --strip-program=m68k-atari-mint-strip -m 0755
 
 /*
  * C library features
@@ -97,6 +112,22 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define HasLibCrypt		NO
 #endif
 
+/*
+ * set LdPrelib to empty, so -L$(USERLIBDIR) is *not* passed when linking.
+ * We arrange for the libraries to be available as links in /usr/lib,
+ * so multi-lib support works
+ */
+#define LdPreLib /**/
+/* similar for TkLibrary if we ever have it */
+#define TkLibrary Concat(-l,$(TKLIBNAME))
+/* similar for TclLibrary if we ever have it */
+#define TclLibrary Concat(-l,$(TCLLIBNAME))
+#ifndef TkLibName
+#define TkLibName               tk
+#endif
+#ifndef TclLibName
+#define TclLibName              tcl
+#endif
 
 /*
  * Compiler Features
@@ -135,7 +166,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #ifndef CpuOption
 #define CpuOption -m68000
 #endif
-#define DefaultCCOptions	-O2 -fomit-frame-pointer CpuOption GccWarningOptions
+#define DefaultCCOptions	-O2 -fomit-frame-pointer -fno-strict-aliasing CpuOption GccWarningOptions
 
 #define AsCmd			m68k-atari-mint-as CpuOption
 #define GccGasOption 		-DGCCUSESGAS
@@ -171,7 +202,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 
 /*-- makedepend needs this --*/
 #undef DefaultGccIncludeDir
-#define DefaultGccIncludeDir $(shell CcCmd -print-file-name=include)
+#define DefaultGccIncludeDir $(shell $(CC) -print-file-name=include)
 
 #define InstallDriverSDKNonExecFile(file,dest)				/**/
 #define InstallDriverSDKLibrary(libname,dest)				/**/

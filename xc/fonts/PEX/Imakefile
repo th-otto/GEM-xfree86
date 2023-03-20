@@ -56,6 +56,11 @@ FONTS_BINARY = Roman.phont Roman_M.phont
        OBJS = to_wfont.o lex.o
 
     TOWFONT = ./to_wfont
+#if CrossCompiling
+	HOST_TOWFONT = $(TOP)/host-tools/to_wfont
+#else
+	HOST_TOWFONT = $(TOWFONT)
+#endif
 
 all:: ProgramTargetName(to_wfont) $(FONTS_BINARY)
 

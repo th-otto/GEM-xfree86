@@ -66,6 +66,7 @@ aaa.cfg
 xc/xmakefile
 xc/config/cf/host.def
 xc/host-tools
+xc/cpuoption.mk
 
 #executables
 xc/config/imake/bootstrap/imake
